@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using RealEstateAPI.DbContexts;
 
 namespace RealEstateAPI
 {
@@ -14,6 +16,13 @@ namespace RealEstateAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            //Add Connection String (Make sure you have this in appsettings.json)
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+            //Register DbContext with SQLite
+            builder.Services.AddDbContext<RealEstateDbContext>(options =>
+                options.UseSqlite(connectionString));
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -26,7 +35,6 @@ namespace RealEstateAPI
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
