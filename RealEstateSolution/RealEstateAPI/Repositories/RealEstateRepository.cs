@@ -28,5 +28,21 @@ namespace RealEstateAPI.Repositories
                           .Select(EstateMapper.ToEstateDto())
                           .FirstOrDefaultAsync();
         }
+
+        public async Task<bool> DeleteEstateAsync(int estateId)
+        {
+            var estate = await _context.Estates.FirstOrDefaultAsync(e => e.Id == estateId);
+            if (estate == null)
+            {
+                return false;
+            };
+            _context.Estates.Remove(estate);
+            return true;
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync() >= 0);
+        }
     }
 }
