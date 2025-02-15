@@ -30,6 +30,13 @@ namespace RealEstateAPI.Repositories
                           .FirstOrDefaultAsync();
         }
 
+        public async Task<Estate?> GetEstateEntityAsync(int estateId)
+        {
+            return await _context.Estates
+                          .Where(x => x.Id == estateId)
+                          .FirstOrDefaultAsync();
+        }
+
         public async Task<bool> DeleteEstateAsync(int estateId)
         {
             var estate = await _context.Estates.FirstOrDefaultAsync(e => e.Id == estateId);
