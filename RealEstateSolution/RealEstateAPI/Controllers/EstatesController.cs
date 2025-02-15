@@ -18,8 +18,8 @@ namespace RealEstateAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Estate>>> GetEstates()
         {
-            var estateEntities = await _realEstateRepository.GetEstatesAsync();
-            return Ok(estateEntities);
+            var estateDtos = await _realEstateRepository.GetEstatesAsync();
+            return Ok(estateDtos);
         }
     }
 }
