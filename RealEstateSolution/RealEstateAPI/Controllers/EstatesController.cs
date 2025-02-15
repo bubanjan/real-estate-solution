@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RealEstateAPI.Entities;
+using RealEstateAPI.Models;
 using RealEstateAPI.Repositories;
 
 namespace RealEstateAPI.Controllers
@@ -16,7 +16,7 @@ namespace RealEstateAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Estate>>> GetEstates()
+        public async Task<ActionResult<IEnumerable<EstateDto>>> GetEstates()
         {
             var estateDtos = await _realEstateRepository.GetEstatesAsync();
             return Ok(estateDtos);
