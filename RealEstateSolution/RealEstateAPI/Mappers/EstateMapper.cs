@@ -40,5 +40,14 @@ namespace RealEstateAPI.Mappers
                 EstateCategory = estateForCreationDto.EstateCategory,
             };
         }
+
+        public static void UpdateEstate(Estate estate, EstateForUpdateDto estateUpdateData)
+        {
+            estate.Description = estateUpdateData.Description ?? estate.Description;
+            estate.Price = estateUpdateData.Price ?? estate.Price;
+            estate.EstateCategory = estateUpdateData.EstateCategory;
+            estate.SellerContact = estateUpdateData.SellerContact ?? estate.SellerContact;
+            estate.Size = estateUpdateData?.Size ?? 0;
+        }
     }
 }

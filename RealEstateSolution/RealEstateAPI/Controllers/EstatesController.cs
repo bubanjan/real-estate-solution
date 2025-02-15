@@ -60,5 +60,27 @@ namespace RealEstateAPI.Controllers
 
             return CreatedAtRoute("GetEstate", new { id = estateToReturn.Id }, estateToReturn);
         }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateEstate(int id, EstateForUpdateDto estateData)
+        {
+            if (estateData == null)
+            {
+                return BadRequest("Estate update data cannot be null.");
+            }
+
+            var estateEntity = await _realEstateRepository.GetEstateEntityAsync(id);
+
+            if (estateEntity == null)
+            {
+                return NotFound();
+            }
+
+            EstateMapper.UpdateEstate(estateEntity, estateData);
+
+            await _realEstateRepository.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }
