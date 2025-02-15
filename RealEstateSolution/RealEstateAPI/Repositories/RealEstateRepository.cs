@@ -20,5 +20,13 @@ namespace RealEstateAPI.Repositories
                           .Select(EstateMapper.ToEstateDto())
                           .ToListAsync();
         }
+
+        public async Task<EstateDto?> GetEstateAsync(int estateId)
+        {
+            return await _context.Estates
+                          .Where(x => x.Id == estateId)
+                          .Select(EstateMapper.ToEstateDto())
+                          .FirstOrDefaultAsync();
+        }
     }
 }
