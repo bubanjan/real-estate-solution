@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RealEstateAPI.DbContexts;
-using RealEstateAPI.Entities;
+using RealEstateAPI.Mappers;
+using RealEstateAPI.Models;
 
 namespace RealEstateAPI.Repositories
 {
@@ -13,9 +14,11 @@ namespace RealEstateAPI.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Estate>> GetEstatesAsync()
+        public async Task<IEnumerable<EstateDto>> GetEstatesAsync()
         {
-            return await _context.Estates.ToListAsync();
+            return await _context.Estates
+                          .Select(EstateMapper.ToEstateDto())
+                          .ToListAsync();
         }
     }
 }

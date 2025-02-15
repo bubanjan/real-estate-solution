@@ -1,9 +1,9 @@
-﻿using RealEstateAPI.Entities;
+﻿using RealEstateAPI.Models;
 
 namespace RealEstateAPI.Repositories
 {
     public interface IRealEstateRepository
     {
-        Task<IEnumerable<Estate>> GetEstatesAsync();
+        Task<IEnumerable<EstateDto>> GetEstatesAsync();
     }
 }
