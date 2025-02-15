@@ -33,5 +33,19 @@ namespace RealEstateAPI.Controllers
 
             return Ok(estateDto);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteEstate(int id)
+        {
+            var isDeleted = await _realEstateRepository.DeleteEstateAsync(id);
+
+            if (isDeleted == false)
+            {
+                return NotFound();
+            }
+
+            await _realEstateRepository.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }
