@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RealEstateAPI.DbContexts;
+using RealEstateAPI.Repositories;
 
 namespace RealEstateAPI
 {
@@ -22,6 +23,8 @@ namespace RealEstateAPI
             //Register DbContext with SQLite
             builder.Services.AddDbContext<RealEstateDbContext>(options =>
                 options.UseSqlite(connectionString));
+
+            builder.Services.AddScoped<IRealEstateRepository, RealEstateRepository>();
 
             var app = builder.Build();
 
