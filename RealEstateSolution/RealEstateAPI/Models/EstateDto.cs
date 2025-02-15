@@ -1,17 +1,13 @@
 ﻿using RealEstateAPI.Enums;
-using System.ComponentModel.DataAnnotations;
 
-namespace RealEstateAPI.Entities
+namespace RealEstateAPI.Models
 {
-    public class Estate
+    public class EstateDto
     {
-        [Key]
         public int Id { get; set; }
-
         public string? Description { get; set; }
         public int? Price { get; set; }
         public int Size { get; set; }
         public EstateType EstateCategory { get; set; }
-        public string? SellerContact { get; set; }
     }
 }
