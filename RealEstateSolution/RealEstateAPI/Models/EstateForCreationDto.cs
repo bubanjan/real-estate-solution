@@ -9,7 +9,8 @@ namespace RealEstateAPI.Models
         public int? Price { get; set; }
 
         [Required(ErrorMessage = "You should provide size value")]
-        public int Size { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Size must be greater than 0.")]
+        public int? Size { get; set; }
 
         public EstateType EstateCategory { get; set; }
         public string? SellerContact { get; set; }

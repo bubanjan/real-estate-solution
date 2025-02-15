@@ -36,7 +36,7 @@ namespace RealEstateAPI.Mappers
             {
                 Description = estateForCreationDto.Description,
                 Price = estateForCreationDto.Price,
-                Size = estateForCreationDto.Size,
+                Size = estateForCreationDto.Size ?? 0,
                 EstateCategory = estateForCreationDto.EstateCategory,
             };
         }
