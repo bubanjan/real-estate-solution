@@ -1,4 +1,5 @@
-﻿using RealEstateAPI.Models;
+﻿using RealEstateAPI.Entities;
+using RealEstateAPI.Models;
 
 namespace RealEstateAPI.Repositories
 {
@@ -11,5 +12,7 @@ namespace RealEstateAPI.Repositories
         Task<bool> SaveChangesAsync();
 
         Task<bool> DeleteEstateAsync(int estateId);
+
+        Task AddEstateAsync(Estate estate);
     }
 }

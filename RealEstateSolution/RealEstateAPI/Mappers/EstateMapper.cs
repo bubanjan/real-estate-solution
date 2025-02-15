@@ -17,5 +17,28 @@ namespace RealEstateAPI.Mappers
                 Size = o.Size,
             };
         }
+
+        public static EstateDto MapToEstateDto(Estate estateForCreationDto)
+        {
+            return new EstateDto
+            {
+                Id = estateForCreationDto.Id,
+                Description = estateForCreationDto.Description,
+                Price = estateForCreationDto.Price,
+                Size = estateForCreationDto.Size,
+                EstateCategory = estateForCreationDto.EstateCategory,
+            };
+        }
+
+        public static Estate MapToEstate(EstateForCreationDto estateForCreationDto)
+        {
+            return new Estate
+            {
+                Description = estateForCreationDto.Description,
+                Price = estateForCreationDto.Price,
+                Size = estateForCreationDto.Size,
+                EstateCategory = estateForCreationDto.EstateCategory,
+            };
+        }
     }
 }

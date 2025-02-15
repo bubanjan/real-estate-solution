@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RealEstateAPI.DbContexts;
+using RealEstateAPI.Entities;
 using RealEstateAPI.Mappers;
 using RealEstateAPI.Models;
 
@@ -43,6 +44,11 @@ namespace RealEstateAPI.Repositories
         public async Task<bool> SaveChangesAsync()
         {
             return (await _context.SaveChangesAsync() >= 0);
+        }
+
+        public async Task AddEstateAsync(Estate estate)
+        {
+            await _context.Estates.AddAsync(estate);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RealEstateAPI.Mappers;
 using RealEstateAPI.Models;
 using RealEstateAPI.Repositories;
 
@@ -22,7 +23,7 @@ namespace RealEstateAPI.Controllers
             return Ok(estateDtos);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetEstate")]
         public async Task<ActionResult<EstateDto>> GetEstate(int id)
         {
             var estateDto = await _realEstateRepository.GetEstateAsync(id);
@@ -46,6 +47,18 @@ namespace RealEstateAPI.Controllers
 
             await _realEstateRepository.SaveChangesAsync();
             return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<EstateDto>> CreateEstate(EstateForCreationDto estateForCreation)
+        {
+            var estate = EstateMapper.MapToEstate(estateForCreation);
+            await _realEstateRepository.AddEstateAsync(estate);
+            await _realEstateRepository.SaveChangesAsync();
+
+            var estateToReturn = EstateMapper.MapToEstateDto(estate);
+
+            return CreatedAtRoute("GetEstate", new { id = estateToReturn.Id }, estateToReturn);
         }
     }
 }
