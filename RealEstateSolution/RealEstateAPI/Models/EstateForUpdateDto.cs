@@ -6,6 +6,9 @@ namespace RealEstateAPI.Models
     public class EstateForUpdateDto
     {
         public string? Description { get; set; }
+
+        [Required]
+        public string Title { get; set; }
         public int? Price { get; set; }
 
         [Required(ErrorMessage = "You should provide size value")]
@@ -14,5 +17,7 @@ namespace RealEstateAPI.Models
 
         public EstateType EstateCategory { get; set; }
         public string? SellerContact { get; set; }
+
+        public City City { get; set; }
     }
 }
