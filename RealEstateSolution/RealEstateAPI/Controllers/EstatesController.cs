@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RealEstateAPI.Enums;
 using RealEstateAPI.Mappers;
 using RealEstateAPI.Models;
 using RealEstateAPI.Repositories;
+using System.Text.Json;
 
 namespace RealEstateAPI.Controllers
 {
@@ -10,6 +12,7 @@ namespace RealEstateAPI.Controllers
     public class EstatesController : ControllerBase
     {
         private readonly IRealEstateRepository _realEstateRepository;
+        private const int maxPageSize = 20;
 
         public EstatesController(IRealEstateRepository realEstateRepository)
         {
@@ -17,10 +20,31 @@ namespace RealEstateAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EstateDto>>> GetEstates()
+        public async Task<ActionResult<IEnumerable<EstateDto>>> GetEstates(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber = 1, int pageSize = 10)
         {
-            var estateDtos = await _realEstateRepository.GetEstatesAsync();
-            return Ok(estateDtos);
+            if (pageNumber < 1 || pageSize < 1)
+            {
+                return BadRequest("Page number and page size must be positeve numbers.");
+            }
+
+            if (pageSize > maxPageSize)
+            {
+                pageSize = maxPageSize;
+            }
+
+            try
+            {
+                var (estateDtos, paginationMetadata) = await _realEstateRepository.GetEstatesAsync(estateCategory, city, minPrice, maxPrice, minSize, maxSize, pageNumber, pageSize);
+
+                Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
+
+                return Ok(estateDtos);
+            }
+            catch (Exception ex)
+            {
+                //TO DO:_logger.LogError(ex, "An unexpected error occured in GetEstates.")
+                return StatusCode(500, "An unexpected error occured.Please try again later.");
+            }
         }
 
         [HttpGet("{id}", Name = "GetEstate")]

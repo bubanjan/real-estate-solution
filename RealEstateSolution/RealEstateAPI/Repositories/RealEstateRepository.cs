@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RealEstateAPI.DbContexts;
 using RealEstateAPI.Entities;
+using RealEstateAPI.Enums;
 using RealEstateAPI.Mappers;
 using RealEstateAPI.Models;
 
@@ -15,11 +16,51 @@ namespace RealEstateAPI.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<EstateDto>> GetEstatesAsync()
+        public async Task<(IEnumerable<EstateDto>, PaginationMetadata)> GetEstatesAsync(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber, int pageSize)
         {
-            return await _context.Estates
-                          .Select(EstateMapper.ToEstateDto())
-                          .ToListAsync();
+            var collection = _context.Estates.AsQueryable();
+
+            if (estateCategory != null)
+            {
+                collection = collection.Where(x => x.EstateCategory == estateCategory);
+            }
+
+            if (city != null)
+            {
+                collection = collection.Where(x => x.City == city);
+            }
+
+            if (minPrice != null)
+            {
+                collection = collection.Where(x => x.Price >= minPrice);
+            }
+
+            if (maxPrice != null)
+            {
+                collection = collection.Where(x => x.Price <= maxPrice);
+            }
+
+            if (minSize != null)
+            {
+                collection = collection.Where(x => x.Size >= minSize);
+            }
+
+            if (maxSize != null)
+            {
+                collection = collection.Where(x => x.Size <= maxSize);
+            }
+
+            var totalItemsCount = await collection.CountAsync();
+
+            var paginationMetaData = new PaginationMetadata(totalItemsCount, pageSize, pageNumber);
+
+            var collectionToReturn = await collection.OrderBy(o => o.Price)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .Select(EstateMapper.ToEstateDto())
+                .ToListAsync();
+
+            return (collectionToReturn, paginationMetaData);
         }
 
         public async Task<EstateDto?> GetEstateAsync(int estateId)
