@@ -46,7 +46,7 @@ namespace RealEstateAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Estates");
+                    b.ToTable("Estates", (string)null);
                 });
 #pragma warning restore 612, 618
         }
