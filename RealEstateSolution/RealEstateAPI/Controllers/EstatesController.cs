@@ -50,39 +50,64 @@ namespace RealEstateAPI.Controllers
         [HttpGet("{id}", Name = "GetEstate")]
         public async Task<ActionResult<EstateDto>> GetEstate(int id)
         {
-            var estateDto = await _realEstateRepository.GetEstateAsync(id);
-            if (estateDto == null)
+            // try { } catch (Exception ex) { }
+            try
             {
-                return NotFound();
-            }
+                var estateDto = await _realEstateRepository.GetEstateAsync(id);
+                if (estateDto == null)
+                {
+                    return NotFound();
+                }
 
-            return Ok(estateDto);
+                return Ok(estateDto);
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, "Error in GetEstate for ID {EstateId}", id);
+                return StatusCode(500, "An unexpected error occured. Please try again later.");
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteEstate(int id)
         {
-            var isDeleted = await _realEstateRepository.DeleteEstateAsync(id);
-
-            if (isDeleted == false)
+            try
             {
-                return NotFound();
-            }
+                var isDeleted = await _realEstateRepository.DeleteEstateAsync(id);
 
-            await _realEstateRepository.SaveChangesAsync();
-            return NoContent();
+                if (isDeleted == false)
+                {
+                    return NotFound();
+                }
+
+                await _realEstateRepository.SaveChangesAsync();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, "Error in DeleteEstate for ID {EstateId}", id);
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult<EstateDto>> CreateEstate(EstateForCreationDto estateForCreation)
         {
-            var estate = EstateMapper.MapToEstate(estateForCreation);
-            await _realEstateRepository.AddEstateAsync(estate);
-            await _realEstateRepository.SaveChangesAsync();
+            try
+            {
+                var estate = EstateMapper.MapToEstate(estateForCreation);
+                await _realEstateRepository.AddEstateAsync(estate);
+                await _realEstateRepository.SaveChangesAsync();
 
-            var estateToReturn = EstateMapper.MapToEstateDto(estate);
+                var estateToReturn = EstateMapper.MapToEstateDto(estate);
 
-            return CreatedAtRoute("GetEstate", new { id = estateToReturn.Id }, estateToReturn);
+                return CreatedAtRoute("GetEstate", new { id = estateToReturn.Id }, estateToReturn);
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, "Error in CreateEstate");
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+            }
         }
 
         [HttpPut("{id}")]
@@ -93,18 +118,25 @@ namespace RealEstateAPI.Controllers
                 return BadRequest("Estate update data cannot be null.");
             }
 
-            var estateEntity = await _realEstateRepository.GetEstateEntityAsync(id);
-
-            if (estateEntity == null)
+            try
             {
-                return NotFound();
+                var estateEntity = await _realEstateRepository.GetEstateEntityAsync(id);
+
+                if (estateEntity == null)
+                {
+                    return NotFound();
+                }
+
+                EstateMapper.UpdateEstate(estateEntity, estateData);
+                await _realEstateRepository.SaveChangesAsync();
+
+                return NoContent();
             }
-
-            EstateMapper.UpdateEstate(estateEntity, estateData);
-
-            await _realEstateRepository.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, "Error in UpdateEstate for ID {EstateId}", id);
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+            }
         }
     }
 }
