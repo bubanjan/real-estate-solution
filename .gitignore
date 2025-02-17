@@ -11,6 +11,10 @@ ProjectPlan.txt
 realestate.db
 realestate.db-shm
 realestate.db-wal
+*.sqlite
+*.sqlite3
+*.db
+*.db3
 
 # User-specific files
 *.rsuser
