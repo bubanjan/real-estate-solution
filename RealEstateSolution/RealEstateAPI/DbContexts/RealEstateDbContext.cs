@@ -10,5 +10,6 @@ namespace RealEstateAPI.DbContexts
         }
 
         public DbSet<Estate> Estates { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
