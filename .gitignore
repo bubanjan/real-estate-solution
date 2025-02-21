@@ -6,6 +6,10 @@
 
 #Project plan txt
 ProjectPlan.txt
+# app settings
+appsettings.Development.json
+appsettings.*.json
+
 
 #Sql light database files
 realestate.db
