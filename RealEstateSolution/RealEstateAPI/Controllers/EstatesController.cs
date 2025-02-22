@@ -13,11 +13,13 @@ namespace RealEstateAPI.Controllers
     public class EstatesController : ControllerBase
     {
         private readonly IRealEstateRepository _realEstateRepository;
+        private readonly ILogger<EstatesController> _logger;
         private const int maxPageSize = 20;
 
-        public EstatesController(IRealEstateRepository realEstateRepository)
+        public EstatesController(IRealEstateRepository realEstateRepository, ILogger<EstatesController> logger)
         {
             _realEstateRepository = realEstateRepository;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -43,7 +45,7 @@ namespace RealEstateAPI.Controllers
             }
             catch (Exception ex)
             {
-                //TO DO:_logger.LogError(ex, "An unexpected error occured in GetEstates.")
+                _logger.LogError(ex, "An unexpected error occured in GetEstates.");
                 return StatusCode(500, "An unexpected error occured.Please try again later.");
             }
         }
@@ -51,7 +53,6 @@ namespace RealEstateAPI.Controllers
         [HttpGet("{id}", Name = "GetEstate")]
         public async Task<ActionResult<EstateDto>> GetEstate(int id)
         {
-            // try { } catch (Exception ex) { }
             try
             {
                 var estateDto = await _realEstateRepository.GetEstateAsync(id);
@@ -64,7 +65,7 @@ namespace RealEstateAPI.Controllers
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, "Error in GetEstate for ID {EstateId}", id);
+                _logger.LogError(ex, "Error in GetEstate for ID {EstateId}", id);
                 return StatusCode(500, "An unexpected error occured. Please try again later.");
             }
         }
@@ -87,7 +88,7 @@ namespace RealEstateAPI.Controllers
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, "Error in DeleteEstate for ID {EstateId}", id);
+                _logger.LogError(ex, "Error in DeleteEstate for ID {EstateId}", id);
                 return StatusCode(500, "An unexpected error occurred. Please try again later.");
             }
         }
@@ -108,7 +109,7 @@ namespace RealEstateAPI.Controllers
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, "Error in CreateEstate");
+                _logger.LogError(ex, "Error in CreateEstate");
                 return StatusCode(500, "An unexpected error occurred. Please try again later.");
             }
         }
@@ -138,7 +139,7 @@ namespace RealEstateAPI.Controllers
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, "Error in UpdateEstate for ID {EstateId}", id);
+                _logger.LogError(ex, "Error in UpdateEstate for ID {EstateId}", id);
                 return StatusCode(500, "An unexpected error occurred. Please try again later.");
             }
         }
