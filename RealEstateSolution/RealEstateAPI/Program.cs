@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RealEstateAPI.DbContexts;
 using RealEstateAPI.Repositories;
+using Serilog;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -14,101 +15,117 @@ namespace RealEstateAPI
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day,
+                               outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}")
+                .CreateLogger();
 
-            builder.Services.AddControllers()
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                });
-
-            builder.Services.AddCors(options =>
+            try
             {
-                options.AddPolicy("AllowLocalhost3000", builder =>
-                {
-                    builder.WithOrigins("http://localhost:3000")
-                           .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                           .WithHeaders("Content-Type", "Authorization")
-                           .AllowCredentials();
-                });
-            });
+                var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
+                builder.Host.UseSerilog();
+
+                builder.Services.AddControllers()
+                    .AddJsonOptions(options =>
                     {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = builder.Configuration["Authentication:Issuer"],
-                        ValidAudience = builder.Configuration["Authentication:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.ASCII.GetBytes(builder.Configuration["Authentication:SecretForKey"]))
-                    };
-                });
+                        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    });
 
-            builder.Services.AddEndpointsApiExplorer();
-
-            builder.Services.AddSwaggerGen(setupAction =>
-            {
-                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
-
-                setupAction.AddSecurityDefinition("RealEstateApiBearerAuth", new OpenApiSecurityScheme()
+                builder.Services.AddCors(options =>
                 {
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "Bearer",
-                    Description = "Input a valid token to access this API"
-                });
-
-                setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
+                    options.AddPolicy("AllowLocalhost3000", builder =>
                     {
-                        new OpenApiSecurityScheme
+                        builder.WithOrigins("http://localhost:3000")
+                               .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                               .WithHeaders("Content-Type", "Authorization")
+                               .AllowCredentials();
+                    });
+                });
+
+                builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.TokenValidationParameters = new TokenValidationParameters
                         {
-                            Reference = new OpenApiReference
+                            ValidateIssuer = true,
+                            ValidateAudience = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidIssuer = builder.Configuration["Authentication:Issuer"],
+                            ValidAudience = builder.Configuration["Authentication:Audience"],
+                            IssuerSigningKey = new SymmetricSecurityKey(
+                                Encoding.ASCII.GetBytes(builder.Configuration["Authentication:SecretForKey"]))
+                        };
+                    });
+
+                builder.Services.AddEndpointsApiExplorer();
+
+                builder.Services.AddSwaggerGen(setupAction =>
+                {
+                    var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+
+                    setupAction.AddSecurityDefinition("RealEstateApiBearerAuth", new OpenApiSecurityScheme()
+                    {
+                        Type = SecuritySchemeType.Http,
+                        Scheme = "Bearer",
+                        Description = "Input a valid token to access this API"
+                    });
+
+                    setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
                             {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "RealEstateApiBearerAuth"
-                            }
-                        },
-                        new List<string>()
-                    }
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "RealEstateApiBearerAuth"
+                                }
+                            },
+                            new List<string>()
+                        }
+                    });
                 });
-            });
 
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-            // Register DbContext with SQLite
-            builder.Services.AddDbContext<RealEstateDbContext>(options =>
-                options.UseSqlite(connectionString));
+                builder.Services.AddDbContext<RealEstateDbContext>(options =>
+                    options.UseSqlite(connectionString));
 
-            // Register Repositories
-            builder.Services.AddScoped<IRealEstateRepository, RealEstateRepository>();
-            builder.Services.AddScoped<IUserRepository, UserRepository>(); // Added user repository for authentication
+                builder.Services.AddScoped<IRealEstateRepository, RealEstateRepository>();
+                builder.Services.AddScoped<IUserRepository, UserRepository>(); // Added user repository for authentication
 
-            var app = builder.Build();
+                var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSerilogRequestLogging();
+
+                if (app.Environment.IsDevelopment())
+                {
+                    app.UseSwagger();
+                    app.UseSwaggerUI();
+                }
+
+                app.UseHttpsRedirection();
+
+                app.UseCors("AllowLocalhost3000");
+
+                app.UseAuthentication();
+                app.UseAuthorization();
+
+                app.MapControllers();
+
+                app.Run();
             }
-
-            app.UseHttpsRedirection();
-
-            // Enable CORS
-            app.UseCors("AllowLocalhost3000");
-
-            // Enable Authentication & Authorization Middleware
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.MapControllers();
-
-            app.Run();
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Application startup failed!");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
     }
 }
