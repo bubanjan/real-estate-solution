@@ -9,7 +9,7 @@ using System.Text;
 
 namespace RealEstateAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/authentication")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
