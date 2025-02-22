@@ -8,7 +8,6 @@ using System.Text.Json;
 
 namespace RealEstateAPI.Controllers
 {
-    [Authorize]
     [Route("api/estates")]
     [ApiController]
     public class EstatesController : ControllerBase
@@ -70,6 +69,7 @@ namespace RealEstateAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteEstate(int id)
         {
@@ -92,6 +92,7 @@ namespace RealEstateAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<EstateDto>> CreateEstate(EstateForCreationDto estateForCreation)
         {
@@ -112,6 +113,7 @@ namespace RealEstateAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateEstate(int id, EstateForUpdateDto estateData)
         {
