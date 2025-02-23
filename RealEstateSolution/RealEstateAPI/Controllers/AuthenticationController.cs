@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RealEstateAPI.Entities;
 using RealEstateAPI.Models;
@@ -30,8 +31,7 @@ namespace RealEstateAPI.Controllers
         }
 
         [HttpPost("authenticate")]
-        public async Task<ActionResult<string>> Authenticate(
-            AuthenticationRequestBody authenticationRequestBody)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticationRequestBody authenticationRequestBody)
         {
             var user = await ValidateUserCredentials(
                 authenticationRequestBody.UserName,
@@ -47,25 +47,58 @@ namespace RealEstateAPI.Controllers
             var signingCredentials = new SigningCredentials(
                 securityKey, SecurityAlgorithms.HmacSha256);
 
-            var claimsForToken = new List<Claim>();
-            claimsForToken.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-            claimsForToken.Add(new Claim("id", user.Id.ToString()));
-            claimsForToken.Add(new Claim("username", user.UserName));
-            claimsForToken.Add(new Claim("email", user.Email)); // You may want to include email
+            var claimsForToken = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim("id", user.Id.ToString()),
+                new Claim("username", user.UserName),
+                new Claim("email", user.Email)
+            };
 
             var jwtSecurityToken = new JwtSecurityToken(
                 _configuration["Authentication:Issuer"],
                 _configuration["Authentication:Audience"],
                 claimsForToken,
-                DateTime.UtcNow,
-                DateTime.UtcNow.AddMonths(6),
-                signingCredentials);
+                expires: DateTime.UtcNow.AddMonths(6),
+                signingCredentials: signingCredentials);
 
-            var tokenToReturn = new JwtSecurityTokenHandler()
-               .WriteToken(jwtSecurityToken);
+            var tokenToReturn = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
-            return Ok(tokenToReturn);
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true, //HTTPS
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddMonths(6)
+            };
+
+            Response.Cookies.Append("jwt215ho", tokenToReturn, cookieOptions);
+
+            return Ok(new { message = "Authenticated successfully" });
         }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("jwt215ho");
+            return Ok(new { message = "Logged out successfully" });
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public IActionResult GetUserInfo()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var username = identity?.FindFirst("username")?.Value;
+
+            if (username == null)
+            {
+                return Unauthorized(new { message = "Not authenticated" });
+            }
+
+            return Ok(new { username });
+        }
+
 
         [HttpPost("register")]
         public async Task<ActionResult> RegisterUser(UserForCreationDto createUserModel)

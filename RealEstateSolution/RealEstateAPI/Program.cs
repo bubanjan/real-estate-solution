@@ -35,11 +35,11 @@ namespace RealEstateAPI
 
                 builder.Services.AddCors(options =>
                 {
-                    options.AddPolicy("AllowLocalhost3000", builder =>
+                    options.AddPolicy("AllowLocalHosts", builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000")
-                               .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                               .WithHeaders("Content-Type", "Authorization")
+                        builder.WithOrigins("http://localhost:5173", "https://localhost:7209", "http://localhost:8000/")
+                               .AllowAnyMethod()
+                               .AllowAnyHeader()
                                .AllowCredentials();
                     });
                 });
@@ -47,15 +47,28 @@ namespace RealEstateAPI
                 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
+                        options.Events = new JwtBearerEvents
+                        {
+                            OnMessageReceived = context =>
+                            {
+                                if (context.Request.Cookies.ContainsKey("jwt215ho"))
+                                {
+                                    context.Token = context.Request.Cookies["jwt215ho"];
+                                }
+                                return Task.CompletedTask;
+                            }
+                        };
+
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
                             ValidateIssuer = true,
                             ValidateAudience = true,
+                            ValidateLifetime = true,
                             ValidateIssuerSigningKey = true,
                             ValidIssuer = builder.Configuration["Authentication:Issuer"],
                             ValidAudience = builder.Configuration["Authentication:Audience"],
                             IssuerSigningKey = new SymmetricSecurityKey(
-                                Encoding.ASCII.GetBytes(builder.Configuration["Authentication:SecretForKey"]))
+                                Encoding.UTF8.GetBytes(builder.Configuration["Authentication:SecretForKey"]))
                         };
                     });
 
@@ -109,7 +122,7 @@ namespace RealEstateAPI
 
                 app.UseHttpsRedirection();
 
-                app.UseCors("AllowLocalhost3000");
+                app.UseCors("AllowLocalHosts");
 
                 app.UseAuthentication();
                 app.UseAuthorization();
