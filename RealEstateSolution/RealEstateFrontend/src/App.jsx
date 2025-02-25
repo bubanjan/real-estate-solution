@@ -1,4 +1,13 @@
 import React, { useState, useEffect } from "react";
+import {
+    Container,
+    Typography,
+    Button,
+    TextField,
+    Box,
+    Paper,
+    Stack,
+} from "@mui/material";
 
 function App() {
     const [username, setUsername] = useState("");
@@ -9,13 +18,57 @@ function App() {
     const [logFileName, setLogFileName] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const styles = {
+        container: {
+            bgcolor: "black",
+            color: "lightGreen",
+            p: 2,
+            fontFamily: "Courier New, monospace",
+            minHeight: "100vh",
+        },
+        title: {
+            color: "lightGreen",
+        },
+        loading: {
+            color: "yellow",
+        },
+        inputField: {
+            input: { color: "green" },
+            bgcolor: "black",
+            borderColor: "lightGreen",
+            fieldset: { borderColor: "green" },
+        },
+        loginButton: {
+            bgcolor: "green",
+            color: "black",
+        },
+        fetchLogsButton: {
+            bgcolor: "lightGreen",
+            color: "black",
+            m: 1,
+        },
+        logoutButton: {
+            color: "orange",
+            borderColor: "orange",
+        },
+        paper: {
+            bgcolor: "black",
+            color: "lightGreen",
+            p: 2,
+            mt: 2,
+            fontSize: "18px",
+        },
+    };
+
     useEffect(() => {
         const checkAuth = async () => {
             setLoading(true);
             try {
                 const response = await fetch(
                     "https://localhost:7209/api/authentication/me",
-                    { credentials: "include" }
+                    {
+                        credentials: "include",
+                    }
                 );
 
                 if (!response.ok) throw new Error("Not authenticated");
@@ -52,7 +105,6 @@ function App() {
 
             if (!response.ok) throw new Error("Invalid username or password");
 
-            alert("Login successful!");
             setIsAuthenticated(true);
         } catch (error) {
             console.error("Login error:", error);
@@ -90,49 +142,73 @@ function App() {
     const handleLogout = () => {
         setIsAuthenticated(false);
         setLogs("");
-        alert("Logged out successfully!");
     };
 
     return (
-        <div style={{ padding: "20px" }}>
-            <h1>Application Logs monitor</h1>
-            {loading && <p>Loading...</p>}
+        <Stack maxWidth="md" sx={styles.container}>
+            <Typography variant="h4" sx={styles.title}>
+                Application Logs Monitor
+            </Typography>
+            {loading && <Typography sx={styles.loading}>Loading...</Typography>}
             {!isAuthenticated ? (
                 <form onSubmit={handleLogin}>
-                    <div>
-                        <label>Username:</label>
-                        <input
-                            type="text"
+                    <Box mb={2}>
+                        <TextField
+                            fullWidth
+                            label="Username"
+                            variant="outlined"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            required
+                            sx={styles.inputField}
                         />
-                    </div>
-                    <div>
-                        <label>Password:</label>
-                        <input
+                    </Box>
+                    <Box mb={2}>
+                        <TextField
+                            fullWidth
+                            label="Password"
                             type="password"
+                            variant="outlined"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            required
+                            sx={styles.inputField}
                         />
-                    </div>
-                    <button type="submit" disabled={loading}>
+                    </Box>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        sx={styles.loginButton}
+                        disabled={loading}
+                    >
                         Login
-                    </button>
+                    </Button>
                 </form>
             ) : (
-                <div>
-                    <h2>Welcome! You are logged in as {loggedInUserName}.</h2>
-                    <button onClick={handleFetchLogs} disabled={loading}>
+                <Box>
+                    <Typography variant="h6">
+                        Welcome! You are logged in as {loggedInUserName}
+                    </Typography>
+                    <Button
+                        onClick={handleFetchLogs}
+                        variant="contained"
+                        sx={styles.fetchLogsButton}
+                        disabled={loading}
+                    >
                         Fetch Logs
-                    </button>
-                    <button onClick={handleLogout}>Logout</button>
-                    <h2>{logFileName}</h2>
-                    <pre>{logs}</pre>
-                </div>
+                    </Button>
+                    <Button
+                        onClick={handleLogout}
+                        variant="outlined"
+                        sx={styles.logoutButton}
+                    >
+                        Logout
+                    </Button>
+                    <Box sx={styles.paper}>
+                        <Typography variant="h6">{logFileName}</Typography>
+                        <pre>{logs}</pre>
+                    </Box>
+                </Box>
             )}
-        </div>
+        </Stack>
     );
 }
 
