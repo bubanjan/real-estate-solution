@@ -139,9 +139,28 @@ function App() {
         }
     };
 
-    const handleLogout = () => {
-        setIsAuthenticated(false);
-        setLogs("");
+    const handleLogout = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch(
+                "https://localhost:7209/api/authentication/logout",
+                {
+                    method: "POST",
+                    credentials: "include",
+                }
+            );
+
+            if (!response.ok) throw new Error("Logout failed");
+
+            setIsAuthenticated(false);
+            setLoggedInUserName("");
+            setLogs("");
+        } catch (error) {
+            console.error("Logout error:", error);
+            alert("Failed to log out.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
