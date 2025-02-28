@@ -65,7 +65,7 @@ function App() {
             setLoading(true);
             try {
                 const response = await fetch(
-                    "https://localhost:7209/api/authentication/me",
+                    "https://localhost:7209/api/authentication/check-user",
                     {
                         credentials: "include",
                     }

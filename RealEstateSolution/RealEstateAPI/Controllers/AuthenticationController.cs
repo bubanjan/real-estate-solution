@@ -85,7 +85,7 @@ namespace RealEstateAPI.Controllers
         }
 
         [Authorize]
-        [HttpGet("me")]
+        [HttpGet("check-user")]
         public IActionResult GetUserInfo()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
