@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Typography, Button, TextField, Box, Stack } from "@mui/material";
+import Navbar from "./components/Navbar";
 import { checkAuth, loginUser, fetchLogs, logoutUser } from "./api";
+import Estates from "./pages/Estates";
+import EstateDetails from "./pages/EstateDetails";
+import CreateEstate from "./pages/CreateEstate";
+import Logs from "./pages/Logs";
 
 function App() {
     const [username, setUsername] = useState("");
@@ -61,113 +67,88 @@ function App() {
         setLoading(false);
     };
 
-    const styles = {
-        container: {
-            bgcolor: "black",
-            color: "lightGreen",
-            p: 2,
-            fontFamily: "Courier New, monospace",
-            minHeight: "100vh",
-        },
-        title: {
-            color: "lightGreen",
-        },
-        loading: {
-            color: "yellow",
-        },
-        inputField: {
-            input: { color: "green" },
-            bgcolor: "black",
-            borderColor: "lightGreen",
-            fieldset: { borderColor: "green" },
-        },
-        loginButton: {
-            bgcolor: "green",
-            color: "black",
-        },
-        fetchLogsButton: {
-            bgcolor: "lightGreen",
-            color: "black",
-            m: 1,
-        },
-        logoutButton: {
-            color: "orange",
-            borderColor: "orange",
-        },
-        paper: {
-            bgcolor: "black",
-            color: "lightGreen",
-            p: 2,
-            mt: 2,
-            fontSize: "18px",
-        },
-    };
-
     return (
-        <Stack maxWidth="md" sx={styles.container}>
-            <Typography variant="h4" sx={styles.title}>
-                Application Logs Monitor
-            </Typography>
-            {loading && <Typography sx={styles.loading}>Loading...</Typography>}
-            {!isAuthenticated ? (
-                <form onSubmit={handleLogin}>
-                    <Box mb={2}>
-                        <TextField
-                            fullWidth
-                            label="Username"
-                            variant="outlined"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            sx={styles.inputField}
-                        />
-                    </Box>
-                    <Box mb={2}>
-                        <TextField
-                            fullWidth
-                            label="Password"
-                            type="password"
-                            variant="outlined"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            sx={styles.inputField}
-                        />
-                    </Box>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        sx={styles.loginButton}
-                        disabled={loading}
-                    >
-                        Login
-                    </Button>
-                </form>
-            ) : (
-                <Box>
-                    <Typography variant="h6">
-                        Welcome! You are logged in as {loggedInUserName}
-                    </Typography>
-                    <Button
-                        onClick={handleFetchLogs}
-                        variant="contained"
-                        sx={styles.fetchLogsButton}
-                        disabled={loading}
-                    >
-                        Fetch Logs
-                    </Button>
-                    <Button
-                        onClick={handleLogout}
-                        variant="outlined"
-                        sx={styles.logoutButton}
-                    >
-                        Logout
-                    </Button>
-                    <Box sx={styles.paper}>
-                        <Typography variant="h6">{logFileName}</Typography>
-                        <pre>{logs}</pre>
-                    </Box>
-                </Box>
-            )}
-        </Stack>
+        <Router>
+            <Navbar
+                isAuthenticated={isAuthenticated}
+                handleLogout={handleLogout}
+            />
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        isAuthenticated ? (
+                            <Stack maxWidth="md">
+                                <Typography variant="h4">
+                                    Welcome, {loggedInUserName}!
+                                </Typography>
+                                <Button
+                                    onClick={handleFetchLogs}
+                                    variant="contained"
+                                >
+                                    Fetch Logs
+                                </Button>
+                                <Box>
+                                    <Typography variant="h6">
+                                        {logFileName}
+                                    </Typography>
+                                    <pre>{logs}</pre>
+                                </Box>
+                            </Stack>
+                        ) : (
+                            <Stack maxWidth="md">
+                                <Typography variant="h4">Login</Typography>
+                                <form onSubmit={handleLogin}>
+                                    <Box mb={2}>
+                                        <TextField
+                                            fullWidth
+                                            label="Username"
+                                            variant="outlined"
+                                            value={username}
+                                            onChange={(e) =>
+                                                setUsername(e.target.value)
+                                            }
+                                        />
+                                    </Box>
+                                    <Box mb={2}>
+                                        <TextField
+                                            fullWidth
+                                            label="Password"
+                                            type="password"
+                                            variant="outlined"
+                                            value={password}
+                                            onChange={(e) =>
+                                                setPassword(e.target.value)
+                                            }
+                                        />
+                                    </Box>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        disabled={loading}
+                                    >
+                                        Login
+                                    </Button>
+                                </form>
+                            </Stack>
+                        )
+                    }
+                />
+                <Route path="/logs" element={<Logs />} />
+                <Route path="/estates" element={<Estates />} />
+                <Route path="/estate/:id" element={<EstateDetails />} />
+                <Route
+                    path="/create-estate"
+                    element={
+                        isAuthenticated ? (
+                            <CreateEstate />
+                        ) : (
+                            <Typography>Login required</Typography>
+                        )
+                    }
+                />
+            </Routes>
+        </Router>
     );
 }
 
