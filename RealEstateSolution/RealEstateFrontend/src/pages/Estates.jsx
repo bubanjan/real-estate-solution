@@ -36,7 +36,7 @@ const Estates = () => {
                                         Category: {estate.estateCategory}
                                     </Typography>
                                     <Typography>
-                                        Price: $
+                                        Price: €
                                         {estate.price ? estate.price : "N/A"}
                                     </Typography>
                                     <Typography>
