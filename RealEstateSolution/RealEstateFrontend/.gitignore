@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#Sql light database files
+realestate.db
+realestate.db-shm
+realestate.db-wal
+*.sqlite
+*.sqlite3
+*.db
+*.db3
