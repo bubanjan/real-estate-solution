@@ -17,5 +17,7 @@ namespace RealEstateAPI.Entities
         public EstateType EstateCategory { get; set; }
         public string? SellerContact { get; set; }
         public City City { get; set; }
+
+        public ICollection<Tag> Tags { get; set; } = new List<Tag>();
     }
 }
