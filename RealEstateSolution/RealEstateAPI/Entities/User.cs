@@ -15,5 +15,8 @@ namespace RealEstateAPI.Entities
 
         public string PasswordSalt { get; set; }
         public string PasswordHash { get; set; }
+
+        [Required]
+        public string Role { get; set; }
     }
 }
