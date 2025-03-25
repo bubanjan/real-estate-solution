@@ -100,7 +100,7 @@ namespace RealEstateAPI.Controllers
             return Ok(new { username });
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost("register")]
         public async Task<ActionResult> RegisterUser(UserForCreationDto createUserModel)
         {
