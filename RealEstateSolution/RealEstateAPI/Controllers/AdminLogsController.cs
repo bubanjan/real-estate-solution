@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RealEstateAPI.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [Route("api/admin/logs")]
     [ApiController]
     public class AdminLogsController : ControllerBase
