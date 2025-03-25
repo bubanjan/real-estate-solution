@@ -93,7 +93,7 @@ namespace RealEstateAPI.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Seller")]
+        [Authorize(Roles = "Admin,Agent")]
         [HttpPost]
         public async Task<ActionResult<EstateDto>> CreateEstate(EstateForCreationDto estateForCreation)
         {
@@ -114,7 +114,7 @@ namespace RealEstateAPI.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Seller")]
+        [Authorize(Roles = "Admin,Agent")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateEstate(int id, EstateForUpdateDto estateData)
         {

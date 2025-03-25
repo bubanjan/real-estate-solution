@@ -146,7 +146,7 @@ namespace RealEstateAPI.Controllers
                 Email = createUserModel.Email,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-                Role = createUserModel.Role ?? "Seller"
+                Role = createUserModel.Role ?? "Agent"
             };
 
             _userRepository.AddUser(newUser);
