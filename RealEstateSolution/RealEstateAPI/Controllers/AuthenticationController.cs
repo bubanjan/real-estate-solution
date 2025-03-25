@@ -52,7 +52,8 @@ namespace RealEstateAPI.Controllers
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim("id", user.Id.ToString()),
                 new Claim("username", user.UserName),
-                new Claim("email", user.Email)
+                new Claim("email", user.Email),
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             var jwtSecurityToken = new JwtSecurityToken(
@@ -129,7 +130,8 @@ namespace RealEstateAPI.Controllers
                 UserName = createUserModel.UserName,
                 Email = createUserModel.Email,
                 PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
+                PasswordSalt = passwordSalt,
+                Role = createUserModel.Role ?? "Seller"
             };
 
             _userRepository.AddUser(newUser);
@@ -153,7 +155,8 @@ namespace RealEstateAPI.Controllers
                 {
                     Id = user.Id,
                     UserName = user.UserName,
-                    Email = user.Email
+                    Email = user.Email,
+                    Role = user.Role,
                 };
 
                 return userDto;
