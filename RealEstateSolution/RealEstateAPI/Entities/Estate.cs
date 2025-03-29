@@ -19,5 +19,6 @@ namespace RealEstateAPI.Entities
         public City City { get; set; }
 
         public ICollection<Tag> Tags { get; set; } = new List<Tag>();
+        public ICollection<ImageLink> ImageLinks { get; set; } = new List<ImageLink>();
     }
 }
