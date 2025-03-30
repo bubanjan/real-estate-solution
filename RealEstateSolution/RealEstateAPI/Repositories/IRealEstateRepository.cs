@@ -19,5 +19,10 @@ namespace RealEstateAPI.Repositories
         Task AddEstateAsync(Estate estate);
 
         Task<List<Tag>> GetTagsByIdsAsync(IEnumerable<int> tagIds);
+
+        Task RemoveImageLinksByEstateIdAsync(int estateId);
+
+        Task RemoveTagsFromEstateAsync(int estateId);
+
     }
 }

@@ -13,5 +13,6 @@ namespace RealEstateAPI.Models
         public City City { get; set; }
 
         public List<TagDto> Tags { get; set; } = new List<TagDto>();
+        public List<ImageLinkDto> ImageLinks { get; set; } = new List<ImageLinkDto>();
     }
 }

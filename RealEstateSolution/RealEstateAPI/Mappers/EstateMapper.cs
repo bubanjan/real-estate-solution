@@ -24,6 +24,14 @@ namespace RealEstateAPI.Mappers
                         Id = t.Id,
                         Name = t.Name
                     })
+                    .ToList(),
+
+                ImageLinks = o.ImageLinks
+                    .Select(il => new ImageLinkDto
+                    {
+                        Id = il.Id,
+                        Url = il.Url
+                    })
                     .ToList()
             };
         }
@@ -46,7 +54,16 @@ namespace RealEstateAPI.Mappers
                         Id = t.Id,
                         Name = t.Name
                     })
+                    .ToList(),
+
+                ImageLinks = estate.ImageLinks
+                    .Select(il => new ImageLinkDto
+                    {
+                        Id = il.Id,
+                        Url = il.Url
+                    })
                     .ToList()
+
             };
         }
 

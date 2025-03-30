@@ -105,5 +105,27 @@ namespace RealEstateAPI.Repositories
                 .Where(t => tagIds.Contains(t.Id))
                 .ToListAsync();
         }
+
+        public async Task RemoveImageLinksByEstateIdAsync(int estateId)
+        {
+            var existingImages = await _context.ImageLinks
+                .Where(il => il.EstateId == estateId)
+                .ToListAsync();
+
+            _context.ImageLinks.RemoveRange(existingImages);
+        }
+
+        public async Task RemoveTagsFromEstateAsync(int estateId)
+        {
+            var estate = await _context.Estates
+                .Include(e => e.Tags)
+                .FirstOrDefaultAsync(e => e.Id == estateId);
+
+            if (estate != null)
+            {
+                estate.Tags.Clear();
+            }
+        }
+
     }
 }
