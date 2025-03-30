@@ -17,5 +17,7 @@ namespace RealEstateAPI.Repositories
         Task<bool> DeleteEstateAsync(int estateId);
 
         Task AddEstateAsync(Estate estate);
+
+        Task<List<Tag>> GetTagsByIdsAsync(IEnumerable<int> tagIds);
     }
 }

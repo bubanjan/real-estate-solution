@@ -17,20 +17,36 @@ namespace RealEstateAPI.Mappers
                 Price = o.Price,
                 Size = o.Size,
                 City = o.City,
+
+                Tags = o.Tags
+                    .Select(t => new TagDto
+                    {
+                        Id = t.Id,
+                        Name = t.Name
+                    })
+                    .ToList()
             };
         }
 
-        public static EstateDto MapToEstateDto(Estate estateForCreationDto)
+        public static EstateDto MapToEstateDto(Estate estate)
         {
             return new EstateDto
             {
-                Id = estateForCreationDto.Id,
-                Description = estateForCreationDto.Description,
-                Price = estateForCreationDto.Price,
-                Size = estateForCreationDto.Size,
-                EstateCategory = estateForCreationDto.EstateCategory,
-                City = estateForCreationDto.City,
-                Title = estateForCreationDto.Title,
+                Id = estate.Id,
+                Description = estate.Description,
+                Price = estate.Price,
+                Size = estate.Size,
+                EstateCategory = estate.EstateCategory,
+                City = estate.City,
+                Title = estate.Title,
+
+                Tags = estate.Tags
+                    .Select(t => new TagDto
+                    {
+                        Id = t.Id,
+                        Name = t.Name
+                    })
+                    .ToList()
             };
         }
 

@@ -98,5 +98,12 @@ namespace RealEstateAPI.Repositories
         {
             await _context.Estates.AddAsync(estate);
         }
+
+        public async Task<List<Tag>> GetTagsByIdsAsync(IEnumerable<int> tagIds)
+        {
+            return await _context.Tags
+                .Where(t => tagIds.Contains(t.Id))
+                .ToListAsync();
+        }
     }
 }

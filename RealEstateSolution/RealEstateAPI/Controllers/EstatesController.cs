@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RealEstateAPI.Entities;
 using RealEstateAPI.Enums;
 using RealEstateAPI.Mappers;
 using RealEstateAPI.Models;
@@ -100,6 +101,13 @@ namespace RealEstateAPI.Controllers
             try
             {
                 var estate = EstateMapper.MapToEstate(estateForCreation);
+
+                if (estateForCreation.TagIds.Any())
+                {
+                    List<Tag> tags = await _realEstateRepository.GetTagsByIdsAsync(estateForCreation.TagIds);
+                    estate.Tags = tags; ;
+                }
+
                 await _realEstateRepository.AddEstateAsync(estate);
                 await _realEstateRepository.SaveChangesAsync();
 
@@ -133,6 +141,16 @@ namespace RealEstateAPI.Controllers
                 }
 
                 EstateMapper.UpdateEstate(estateEntity, estateData);
+
+                List<Tag> tags = new List<Tag>();
+
+                if (estateData.TagIds != null && estateData.TagIds.Any())
+                {
+                    tags = await _realEstateRepository.GetTagsByIdsAsync(estateData.TagIds);
+                }
+
+                estateEntity.Tags = tags;
+
                 await _realEstateRepository.SaveChangesAsync();
 
                 return NoContent();
