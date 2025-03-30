@@ -22,5 +22,6 @@ namespace RealEstateAPI.Models
         public City City { get; set; }
 
         public List<int> TagIds { get; set; } = new List<int>();
+        public List<string> ImageUrls { get; set; } = new List<string>();
     }
 }

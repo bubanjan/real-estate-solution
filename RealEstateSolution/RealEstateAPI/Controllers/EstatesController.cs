@@ -108,6 +108,15 @@ namespace RealEstateAPI.Controllers
                     estate.Tags = tags; ;
                 }
 
+                if (estateForCreation.ImageUrls.Any())
+                {
+                    var imageLinks = estateForCreation.ImageUrls
+                        .Select(url => new ImageLink { Url = url })
+                        .ToList();
+
+                    estate.ImageLinks = imageLinks;
+                }
+
                 await _realEstateRepository.AddEstateAsync(estate);
                 await _realEstateRepository.SaveChangesAsync();
 
@@ -142,14 +151,31 @@ namespace RealEstateAPI.Controllers
 
                 EstateMapper.UpdateEstate(estateEntity, estateData);
 
-                List<Tag> tags = new List<Tag>();
+                await _realEstateRepository.RemoveTagsFromEstateAsync(id);
+                await _realEstateRepository.SaveChangesAsync();
 
                 if (estateData.TagIds != null && estateData.TagIds.Any())
                 {
-                    tags = await _realEstateRepository.GetTagsByIdsAsync(estateData.TagIds);
+                    var tags = await _realEstateRepository.GetTagsByIdsAsync(estateData.TagIds);
+                    foreach (var tag in tags)
+                    {
+                        estateEntity.Tags.Add(tag);
+                    }
                 }
 
-                estateEntity.Tags = tags;
+                await _realEstateRepository.RemoveImageLinksByEstateIdAsync(id);
+                await _realEstateRepository.SaveChangesAsync();
+
+                if (estateData.ImageUrls != null && estateData.ImageUrls.Any())
+                {
+                    foreach (var url in estateData.ImageUrls)
+                    {
+                        estateEntity.ImageLinks.Add(new ImageLink
+                        {
+                            Url = url,
+                        });
+                    }
+                }
 
                 await _realEstateRepository.SaveChangesAsync();
 
@@ -161,5 +187,6 @@ namespace RealEstateAPI.Controllers
                 return StatusCode(500, "An unexpected error occurred. Please try again later.");
             }
         }
+
     }
 }
