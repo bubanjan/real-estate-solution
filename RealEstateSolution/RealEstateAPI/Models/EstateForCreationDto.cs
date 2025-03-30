@@ -9,6 +9,7 @@ namespace RealEstateAPI.Models
 
         [Required]
         public string Title { get; set; }
+
         public int? Price { get; set; }
 
         [Required(ErrorMessage = "You should provide size value")]
@@ -19,5 +20,7 @@ namespace RealEstateAPI.Models
         public string? SellerContact { get; set; }
 
         public City City { get; set; }
+
+        public List<int> TagIds { get; set; } = new List<int>();
     }
 }

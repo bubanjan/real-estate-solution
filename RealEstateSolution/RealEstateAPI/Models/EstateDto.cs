@@ -11,5 +11,7 @@ namespace RealEstateAPI.Models
         public int Size { get; set; }
         public EstateType EstateCategory { get; set; }
         public City City { get; set; }
+
+        public List<TagDto> Tags { get; set; } = new List<TagDto>();
     }
 }
