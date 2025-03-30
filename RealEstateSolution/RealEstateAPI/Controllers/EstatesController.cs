@@ -152,7 +152,6 @@ namespace RealEstateAPI.Controllers
                 EstateMapper.UpdateEstate(estateEntity, estateData);
 
                 await _realEstateRepository.RemoveTagsFromEstateAsync(id);
-                await _realEstateRepository.SaveChangesAsync();
 
                 if (estateData.TagIds != null && estateData.TagIds.Any())
                 {
@@ -164,7 +163,6 @@ namespace RealEstateAPI.Controllers
                 }
 
                 await _realEstateRepository.RemoveImageLinksByEstateIdAsync(id);
-                await _realEstateRepository.SaveChangesAsync();
 
                 if (estateData.ImageUrls != null && estateData.ImageUrls.Any())
                 {
@@ -187,6 +185,5 @@ namespace RealEstateAPI.Controllers
                 return StatusCode(500, "An unexpected error occurred. Please try again later.");
             }
         }
-
     }
 }
