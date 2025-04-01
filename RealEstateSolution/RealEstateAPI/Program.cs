@@ -108,7 +108,7 @@ namespace RealEstateAPI
                     options.UseSqlite(connectionString));
 
                 builder.Services.AddScoped<IRealEstateRepository, RealEstateRepository>();
-                builder.Services.AddScoped<IUserRepository, UserRepository>(); // Added user repository for authentication
+                builder.Services.AddScoped<IUserRepository, UserRepository>();
 
                 var app = builder.Build();
 
