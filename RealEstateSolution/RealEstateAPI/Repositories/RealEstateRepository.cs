@@ -16,7 +16,7 @@ namespace RealEstateAPI.Repositories
             _context = context;
         }
 
-        public async Task<(IEnumerable<EstateDto>, PaginationMetadata)> GetEstatesAsync(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber, int pageSize)
+        public async Task<(IEnumerable<EstateDto>, PaginationMetadata)> GetEstatesAsync(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber, int pageSize, string? searchWord)
         {
             var collection = _context.Estates.AsQueryable();
 
@@ -48,6 +48,11 @@ namespace RealEstateAPI.Repositories
             if (maxSize != null)
             {
                 collection = collection.Where(x => x.Size <= maxSize);
+            }
+
+            if (string.IsNullOrEmpty(searchWord) == false)
+            {
+                collection = collection.Where(x => x.Description != null && x.Description.ToLower().Contains(searchWord.ToLower()));
             }
 
             var totalItemsCount = await collection.CountAsync();
@@ -126,6 +131,5 @@ namespace RealEstateAPI.Repositories
                 estate.Tags.Clear();
             }
         }
-
     }
 }
