@@ -5,10 +5,12 @@ namespace RealEstateAPI.Models
 {
     public class EstateForCreationDto
     {
-        public string? Description { get; set; }
-
         [Required]
+        [MaxLength(300)]
         public string Title { get; set; }
+
+        [MaxLength(2500)]
+        public string? Description { get; set; }
 
         public int? Price { get; set; }
 
@@ -17,6 +19,8 @@ namespace RealEstateAPI.Models
         public int? Size { get; set; }
 
         public EstateType EstateCategory { get; set; }
+
+        [MaxLength(300)]
         public string? SellerContact { get; set; }
 
         public City City { get; set; }
