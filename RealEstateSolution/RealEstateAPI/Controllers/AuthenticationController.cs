@@ -77,10 +77,11 @@ namespace RealEstateAPI.Controllers
                     Expires = DateTime.UtcNow.AddMonths(6)
                 };
 
+                var expirationDate = jwtSecurityToken.ValidTo;
                 Response.Cookies.Append("jwt215ho", tokenToReturn, cookieOptions);
 
                 _logger.LogInformation("User {UserName} authenticated successfully.", user.UserName);
-                return Ok(new { message = "Authenticated successfully" });
+                return Ok(new { message = "Authenticated successfully", expires = expirationDate });
             }
             catch (Exception ex)
             {
