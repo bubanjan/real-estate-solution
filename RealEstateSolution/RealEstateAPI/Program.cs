@@ -14,11 +14,19 @@ namespace RealEstateAPI
     {
         public static void Main(string[] args)
         {
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.Console()
-                .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day,
-                               outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}")
-                .CreateLogger();
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+
+            var loggerConfig = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.Console();
+
+            if (environment == "Development")
+            {
+                loggerConfig = loggerConfig.WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day,
+                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}");
+            }
+
+            Log.Logger = loggerConfig.CreateLogger();
 
             try
             {
