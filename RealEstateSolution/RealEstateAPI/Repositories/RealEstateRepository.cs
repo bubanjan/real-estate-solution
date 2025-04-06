@@ -83,12 +83,19 @@ namespace RealEstateAPI.Repositories
             return (collectionToReturn, paginationMetaData);
         }
 
-        public async Task<EstatePublicDto?> GetEstateAsync(int estateId)
+        public async Task<object?> GetEstateAsync(int estateId, bool userIsAuthenticated)
         {
-            return await _context.Estates
+            var result = userIsAuthenticated
+                ? await _context.Estates
+                          .Where(x => x.Id == estateId)
+                          .Select(EstateMapper.ToEstatePrivateDto())
+                          .FirstOrDefaultAsync()
+                : await _context.Estates
                           .Where(x => x.Id == estateId)
                           .Select(EstateMapper.ToEstatePublicDto())
                           .FirstOrDefaultAsync();
+
+            return result;
         }
 
         public async Task<Estate?> GetEstateEntityAsync(int estateId)
