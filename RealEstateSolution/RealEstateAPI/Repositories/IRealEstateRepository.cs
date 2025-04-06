@@ -12,7 +12,7 @@ namespace RealEstateAPI.Repositories
 
         Task<Estate?> GetEstateEntityAsync(int estateId);
 
-        Task<bool> SaveChangesAsync();
+        Task SaveChangesAsync();
 
         Task<bool> DeleteEstateAsync(int estateId);
 

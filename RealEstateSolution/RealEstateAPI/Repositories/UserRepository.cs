@@ -10,7 +10,7 @@ namespace RealEstateAPI.Repositories
 
         public UserRepository(RealEstateDbContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _context = context;
         }
 
         public async Task<User?> GetUserByUsernameAsync(string username)
@@ -36,9 +36,9 @@ namespace RealEstateAPI.Repositories
             _context.Users.Add(user);
         }
 
-        public async Task<bool> SaveChangesAsync()
+        public async Task SaveChangesAsync()
         {
-            return (await _context.SaveChangesAsync() >= 0);
+            _context.SaveChangesAsync();
         }
     }
 }

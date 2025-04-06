@@ -12,6 +12,6 @@ namespace RealEstateAPI.Repositories
 
         void AddUser(User user);
 
-        Task<bool> SaveChangesAsync();
+        Task SaveChangesAsync();
     }
 }
