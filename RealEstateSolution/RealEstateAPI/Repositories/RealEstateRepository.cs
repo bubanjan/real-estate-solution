@@ -16,7 +16,7 @@ namespace RealEstateAPI.Repositories
             _context = context;
         }
 
-        public async Task<(IEnumerable<EstateDto>, PaginationMetadata)> GetEstatesAsync(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber, int pageSize, string? searchWord)
+        public async Task<(IEnumerable<EstateDto>, PaginationMetadata)> GetEstatesAsync(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber, int pageSize, string? searchWord, EstatesOrderBy? orderBy)
         {
             var collection = _context.Estates.AsQueryable();
 
@@ -59,7 +59,16 @@ namespace RealEstateAPI.Repositories
 
             var paginationMetaData = new PaginationMetadata(totalItemsCount, pageSize, pageNumber);
 
-            var collectionToReturn = await collection.OrderBy(o => o.Price)
+            collection = (orderBy ?? EstatesOrderBy.PriceAsc) switch
+            {
+                EstatesOrderBy.PriceAsc => collection.OrderBy(e => e.Price),
+                EstatesOrderBy.PriceDesc => collection.OrderByDescending(e => e.Price),
+                EstatesOrderBy.SizeAsc => collection.OrderBy(e => e.Size),
+                EstatesOrderBy.SizeDesc => collection.OrderByDescending(e => e.Size),
+                _ => collection.OrderBy(e => e.Price)
+            };
+
+            var collectionToReturn = await collection
                 .Skip(pageSize * (pageNumber - 1))
                 .Take(pageSize)
                 .Select(EstateMapper.ToEstateDto())
