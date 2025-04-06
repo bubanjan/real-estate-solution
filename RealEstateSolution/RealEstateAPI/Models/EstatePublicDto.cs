@@ -2,7 +2,7 @@
 
 namespace RealEstateAPI.Models
 {
-    public class EstateDto
+    public class EstatePublicDto
     {
         public int Id { get; set; }
         public string Title { get; set; }
