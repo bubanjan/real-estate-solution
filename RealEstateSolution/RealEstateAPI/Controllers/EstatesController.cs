@@ -24,7 +24,7 @@ namespace RealEstateAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EstateDto>>> GetEstates(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber = 1, int pageSize = 10, string? searchWord = "")
+        public async Task<ActionResult<IEnumerable<EstateDto>>> GetEstates(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber = 1, int pageSize = 10, string? searchWord = "", EstatesOrderBy? orderBy = null)
         {
             if (pageNumber < 1 || pageSize < 1)
             {
@@ -38,7 +38,7 @@ namespace RealEstateAPI.Controllers
 
             try
             {
-                var (estateDtos, paginationMetadata) = await _realEstateRepository.GetEstatesAsync(estateCategory, city, minPrice, maxPrice, minSize, maxSize, pageNumber, pageSize, searchWord);
+                var (estateDtos, paginationMetadata) = await _realEstateRepository.GetEstatesAsync(estateCategory, city, minPrice, maxPrice, minSize, maxSize, pageNumber, pageSize, searchWord, orderBy);
 
                 Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
 
