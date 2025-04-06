@@ -16,7 +16,7 @@ namespace RealEstateAPI.Repositories
             _context = context;
         }
 
-        public async Task<(IEnumerable<EstateDto>, PaginationMetadata)> GetEstatesAsync(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber, int pageSize, string? searchWord, EstatesOrderBy? orderBy)
+        public async Task<(IEnumerable<object>, PaginationMetadata)> GetEstatesAsync(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber, int pageSize, string? searchWord, EstatesOrderBy? orderBy, bool userIsAuthenticated)
         {
             var collection = _context.Estates.AsQueryable();
 
@@ -68,20 +68,26 @@ namespace RealEstateAPI.Repositories
                 _ => collection.OrderBy(e => e.Price)
             };
 
-            var collectionToReturn = await collection
-                .Skip(pageSize * (pageNumber - 1))
-                .Take(pageSize)
-                .Select(EstateMapper.ToEstateDto())
-                .ToListAsync();
+            var collectionToReturn = userIsAuthenticated
+                ? await collection
+                    .Skip(pageSize * (pageNumber - 1))
+                    .Take(pageSize)
+                    .Select(EstateMapper.ToEstatePrivateDto())
+                    .ToListAsync<object>()
+                : await collection
+                    .Skip(pageSize * (pageNumber - 1))
+                    .Take(pageSize)
+                    .Select(EstateMapper.ToEstatePublicDto())
+                    .ToListAsync<object>();
 
             return (collectionToReturn, paginationMetaData);
         }
 
-        public async Task<EstateDto?> GetEstateAsync(int estateId)
+        public async Task<EstatePublicDto?> GetEstateAsync(int estateId)
         {
             return await _context.Estates
                           .Where(x => x.Id == estateId)
-                          .Select(EstateMapper.ToEstateDto())
+                          .Select(EstateMapper.ToEstatePublicDto())
                           .FirstOrDefaultAsync();
         }
 

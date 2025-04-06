@@ -24,7 +24,7 @@ namespace RealEstateAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EstateDto>>> GetEstates(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber = 1, int pageSize = 10, string? searchWord = "", EstatesOrderBy? orderBy = null)
+        public async Task<ActionResult<IEnumerable<object>>> GetEstates(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber = 1, int pageSize = 10, string? searchWord = "", EstatesOrderBy? orderBy = null)
         {
             if (pageNumber < 1 || pageSize < 1)
             {
@@ -38,7 +38,10 @@ namespace RealEstateAPI.Controllers
 
             try
             {
-                var (estateDtos, paginationMetadata) = await _realEstateRepository.GetEstatesAsync(estateCategory, city, minPrice, maxPrice, minSize, maxSize, pageNumber, pageSize, searchWord, orderBy);
+                bool userIsAuthenticated = User.Identity?.IsAuthenticated == true &&
+                     (User.IsInRole("Admin") || User.IsInRole("Agent"));
+
+                var (estateDtos, paginationMetadata) = await _realEstateRepository.GetEstatesAsync(estateCategory, city, minPrice, maxPrice, minSize, maxSize, pageNumber, pageSize, searchWord, orderBy, userIsAuthenticated);
 
                 Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
 
@@ -52,7 +55,7 @@ namespace RealEstateAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "GetEstate")]
-        public async Task<ActionResult<EstateDto>> GetEstate(int id)
+        public async Task<ActionResult<EstatePublicDto>> GetEstate(int id)
         {
             try
             {
@@ -96,7 +99,7 @@ namespace RealEstateAPI.Controllers
 
         [Authorize(Roles = "Admin,Agent")]
         [HttpPost]
-        public async Task<ActionResult<EstateDto>> CreateEstate(EstateForCreationDto estateForCreation)
+        public async Task<ActionResult<EstatePublicDto>> CreateEstate(EstateForCreationDto estateForCreation)
         {
             if (estateForCreation == null)
             {
@@ -125,7 +128,7 @@ namespace RealEstateAPI.Controllers
                 await _realEstateRepository.AddEstateAsync(estate);
                 await _realEstateRepository.SaveChangesAsync();
 
-                var estateToReturn = EstateMapper.MapToEstateDto(estate);
+                var estateToReturn = EstateMapper.MapToEstatePublicDto(estate);
 
                 return CreatedAtRoute("GetEstate", new { id = estateToReturn.Id }, estateToReturn);
             }
