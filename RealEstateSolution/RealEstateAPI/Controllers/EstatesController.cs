@@ -98,6 +98,11 @@ namespace RealEstateAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<EstateDto>> CreateEstate(EstateForCreationDto estateForCreation)
         {
+            if (estateForCreation == null)
+            {
+                return BadRequest("Estate creation data cannot be null.");
+            }
+
             try
             {
                 var estate = EstateMapper.MapToEstate(estateForCreation);
