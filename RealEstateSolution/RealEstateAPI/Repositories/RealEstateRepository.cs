@@ -94,9 +94,9 @@ namespace RealEstateAPI.Repositories
             return true;
         }
 
-        public async Task<bool> SaveChangesAsync()
+        public async Task SaveChangesAsync()
         {
-            return (await _context.SaveChangesAsync() >= 0);
+            await _context.SaveChangesAsync();
         }
 
         public async Task AddEstateAsync(Estate estate)
