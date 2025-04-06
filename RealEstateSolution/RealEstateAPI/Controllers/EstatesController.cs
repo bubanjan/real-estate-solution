@@ -55,11 +55,14 @@ namespace RealEstateAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "GetEstate")]
-        public async Task<ActionResult<EstatePublicDto>> GetEstate(int id)
+        public async Task<ActionResult<object>> GetEstate(int id)
         {
             try
             {
-                var estateDto = await _realEstateRepository.GetEstateAsync(id);
+                bool userIsAuthenticated = User.Identity?.IsAuthenticated == true &&
+                     (User.IsInRole("Admin") || User.IsInRole("Agent"));
+
+                var estateDto = await _realEstateRepository.GetEstateAsync(id, userIsAuthenticated);
                 if (estateDto == null)
                 {
                     return NotFound();

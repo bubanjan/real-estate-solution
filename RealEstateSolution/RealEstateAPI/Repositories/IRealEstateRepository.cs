@@ -8,7 +8,7 @@ namespace RealEstateAPI.Repositories
     {
         Task<(IEnumerable<object>, PaginationMetadata)> GetEstatesAsync(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber, int pageSize, string? searchWord, EstatesOrderBy? orderBy, bool userIsAuthenticated);
 
-        Task<EstatePublicDto?> GetEstateAsync(int estateId);
+        Task<object?> GetEstateAsync(int estateId, bool userIsAuthenticated);
 
         Task<Estate?> GetEstateEntityAsync(int estateId);
 
