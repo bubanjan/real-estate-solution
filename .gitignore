@@ -6,19 +6,30 @@
 
 #Project plan txt
 ProjectPlan.txt
-# app settings
-appsettings.Development.json
-appsettings.*.json
 
+#******************************************
+# === TEMPORARILY INCLUDED FOR DEMO/TESTING ===
+# These are normally ignored to protect secrets,
+# but included here to allow easy cloning & running.
+# app settings :
+#*************************************
+# appsettings.Development.json
+# appsettings.*.json
+#*************************************
 
+#******************************************
+# === TEMPORARILY INCLUDED FOR DEMO/TESTING ===
+# These are normally ignored but included here to allow easy cloning & running.
+#*************************************
 #Sql light database files
-realestate.db
-realestate.db-shm
-realestate.db-wal
-*.sqlite
-*.sqlite3
-*.db
-*.db3
+# realestate.db
+# realestate.db-shm
+# realestate.db-wal
+# *.sqlite
+# *.sqlite3
+# *.db
+# *.db3
+#**************************************
 
 # User-specific files
 *.rsuser
