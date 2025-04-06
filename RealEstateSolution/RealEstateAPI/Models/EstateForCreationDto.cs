@@ -15,7 +15,7 @@ namespace RealEstateAPI.Models
         public int? Price { get; set; }
 
         [Required(ErrorMessage = "You should provide size value")]
-        [Range(1, int.MaxValue, ErrorMessage = "Size must be greater than 0.")]
+        [Range(1, 100000, ErrorMessage = "Size must be between 1 and 100 000 square meters.")]
         public int? Size { get; set; }
 
         public EstateType EstateCategory { get; set; }
