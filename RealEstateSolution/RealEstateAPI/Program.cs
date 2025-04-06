@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using RealEstateAPI.DbContexts;
 using RealEstateAPI.Repositories;
 using Serilog;
@@ -79,7 +78,8 @@ namespace RealEstateAPI
                     var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                     var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
 
-                    setupAction.AddSecurityDefinition("RealEstateApiBearerAuth", new OpenApiSecurityScheme()
+                    // NOT NEEDED NOW, HTTP ONLY COOKIES ARE USED
+                    /* setupAction.AddSecurityDefinition("RealEstateApiBearerAuth", new OpenApiSecurityScheme()
                     {
                         Type = SecuritySchemeType.Http,
                         Scheme = "Bearer",
@@ -99,7 +99,7 @@ namespace RealEstateAPI
                             },
                             new List<string>()
                         }
-                    });
+                    }); */
                 });
 
                 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
