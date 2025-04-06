@@ -23,11 +23,12 @@ dist-ssr
 *.sln
 *.sw?
 
-#Sql light database files
-realestate.db
-realestate.db-shm
-realestate.db-wal
-*.sqlite
-*.sqlite3
-*.db
-*.db3
+# === TEMPORARILY INCLUDED FOR DEMO/TESTING ===
+# Sql light database files
+# realestate.db
+# realestate.db-shm
+# realestate.db-wal
+# *.sqlite
+# *.sqlite3
+# *.db
+# *.db3
