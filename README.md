@@ -63,7 +63,7 @@ API will be available at: `https://localhost:7209/api/estates`
 
 Navigate to: `https://localhost:7209/swagger`
 
--   Use the login endpoint with the test credentials
+-   Use the login endpoint with the test credentials (username: Admin4, password: admin4@@@) or (Agent4, agent4@@@)
 -   JWT token is stored in an **HttpOnly cookie** after login
 -   You can now test protected routes directly from Swagger
 
