@@ -80,7 +80,7 @@ Navigate to: `https://localhost:7209/swagger`
 ### Entities & Relationships
 
 -   `User` (Admin, Agent roles)
--   `Estate` (owned by User)
+-   `Estate`
 -   `Tag` – many-to-many with Estate (`SeaView`, `NewBuild`, etc.)
 -   `ImageLink` – one-to-many with Estate
 
