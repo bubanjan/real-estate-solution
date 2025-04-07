@@ -1,9 +1,9 @@
 ﻿using RealEstateAPI.Enums;
-using RealEstateAPI.Interfaces;
+using RealEstateAPI.Models;
 
-namespace RealEstateAPI.Models
+namespace RealEstateAPI.Interfaces
 {
-    public class EstatePublicDto : IEstateDto
+    public interface IEstateDto
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -13,7 +13,7 @@ namespace RealEstateAPI.Models
         public EstateType EstateCategory { get; set; }
         public City City { get; set; }
 
-        public List<TagDto> Tags { get; set; } = new List<TagDto>();
-        public List<ImageLinkDto> ImageLinks { get; set; } = new List<ImageLinkDto>();
+        public List<TagDto> Tags { get; set; }
+        public List<ImageLinkDto> ImageLinks { get; set; }
     }
 }
