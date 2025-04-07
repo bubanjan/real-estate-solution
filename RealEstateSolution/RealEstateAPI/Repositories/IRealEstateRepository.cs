@@ -1,14 +1,15 @@
 ﻿using RealEstateAPI.Entities;
 using RealEstateAPI.Enums;
+using RealEstateAPI.Interfaces;
 using RealEstateAPI.Models;
 
 namespace RealEstateAPI.Repositories
 {
     public interface IRealEstateRepository
     {
-        Task<(IEnumerable<object>, PaginationMetadata)> GetEstatesAsync(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber, int pageSize, string? searchWord, EstatesOrderBy? orderBy, bool userIsAuthenticated);
+        Task<(IEnumerable<IEstateDto>, PaginationMetadata)> GetEstatesAsync(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber, int pageSize, string? searchWord, EstatesOrderBy? orderBy, bool userIsAuthenticated);
 
-        Task<object?> GetEstateAsync(int estateId, bool userIsAuthenticated);
+        Task<IEstateDto?> GetEstateAsync(int estateId, bool userIsAuthenticated);
 
         Task<Estate?> GetEstateEntityAsync(int estateId);
 

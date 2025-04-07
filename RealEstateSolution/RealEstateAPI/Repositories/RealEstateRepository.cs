@@ -2,6 +2,7 @@
 using RealEstateAPI.DbContexts;
 using RealEstateAPI.Entities;
 using RealEstateAPI.Enums;
+using RealEstateAPI.Interfaces;
 using RealEstateAPI.Mappers;
 using RealEstateAPI.Models;
 
@@ -16,7 +17,7 @@ namespace RealEstateAPI.Repositories
             _context = context;
         }
 
-        public async Task<(IEnumerable<object>, PaginationMetadata)> GetEstatesAsync(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber, int pageSize, string? searchWord, EstatesOrderBy? orderBy, bool userIsAuthenticated)
+        public async Task<(IEnumerable<IEstateDto>, PaginationMetadata)> GetEstatesAsync(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber, int pageSize, string? searchWord, EstatesOrderBy? orderBy, bool userIsAuthenticated)
         {
             var collection = _context.Estates.AsQueryable();
 
@@ -68,32 +69,39 @@ namespace RealEstateAPI.Repositories
                 _ => collection.OrderBy(e => e.Price)
             };
 
-            var collectionToReturn = userIsAuthenticated
-                ? await collection
+            IEnumerable<IEstateDto> collectionToReturn = userIsAuthenticated
+                ? (await collection
                     .Skip(pageSize * (pageNumber - 1))
                     .Take(pageSize)
                     .Select(EstateMapper.ToEstatePrivateDto())
-                    .ToListAsync<object>()
-                : await collection
+                    .ToListAsync())
+                : (await collection
                     .Skip(pageSize * (pageNumber - 1))
                     .Take(pageSize)
                     .Select(EstateMapper.ToEstatePublicDto())
-                    .ToListAsync<object>();
+                    .ToListAsync());
 
             return (collectionToReturn, paginationMetaData);
         }
 
-        public async Task<object?> GetEstateAsync(int estateId, bool userIsAuthenticated)
+        public async Task<IEstateDto?> GetEstateAsync(int estateId, bool userIsAuthenticated)
         {
-            var result = userIsAuthenticated
-                ? await _context.Estates
+            IEstateDto result = null;
+
+            if (userIsAuthenticated)
+            {
+                result = await _context.Estates
                           .Where(x => x.Id == estateId)
                           .Select(EstateMapper.ToEstatePrivateDto())
-                          .FirstOrDefaultAsync()
-                : await _context.Estates
+                          .FirstOrDefaultAsync();
+            }
+            else
+            {
+                result = await _context.Estates
                           .Where(x => x.Id == estateId)
                           .Select(EstateMapper.ToEstatePublicDto())
                           .FirstOrDefaultAsync();
+            }
 
             return result;
         }

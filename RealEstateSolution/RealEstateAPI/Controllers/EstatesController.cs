@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RealEstateAPI.Entities;
 using RealEstateAPI.Enums;
+using RealEstateAPI.Interfaces;
 using RealEstateAPI.Mappers;
 using RealEstateAPI.Models;
 using RealEstateAPI.Repositories;
@@ -24,7 +25,7 @@ namespace RealEstateAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<object>>> GetEstates(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber = 1, int pageSize = 10, string? searchWord = "", EstatesOrderBy? orderBy = null)
+        public async Task<ActionResult<IEnumerable<IEstateDto>>> GetEstates(EstateType? estateCategory, City? city, int? minPrice, int? maxPrice, int? minSize, int? maxSize, int pageNumber = 1, int pageSize = 10, string? searchWord = "", EstatesOrderBy? orderBy = null)
         {
             if (pageNumber < 1 || pageSize < 1)
             {
@@ -55,7 +56,7 @@ namespace RealEstateAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "GetEstate")]
-        public async Task<ActionResult<object>> GetEstate(int id)
+        public async Task<ActionResult<IEstateDto>> GetEstate(int id)
         {
             try
             {
