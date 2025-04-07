@@ -1,11 +1,11 @@
-# 🏨 Real Estate App – Backend
+# 🌅 Real Estate App – Backend
 
 **Tech Stack:**  
 C# ASP.NET Core Web API + Entity Framework Core + SQLite (will later be migrated to SQL Server)  
 Authorization via JWT + HttpOnly Cookies
 
- This is the backend part of a full-stack real estate application. Frontend (React) will be added soon in a separate repo.
- ⛵ The project is still in progress — some parts of the code may change soon.
+This is the backend part of a full-stack real estate application. Frontend (React) will be added soon in a separate repo.
+⛵ The project is still in progress — some parts of the code may change soon.
 
 ---
 
@@ -102,4 +102,3 @@ Navigate to: `https://localhost:7209/swagger`
 -   [ ] Change database from SQLite to SQL Server
 -   [ ] Deploy backend, frontend, and database to Azure  
          (Azure App Service, Azure SQL Database, Azure Static Web Apps – or Netlify for frontend)
- 
