@@ -4,8 +4,8 @@
 C# ASP.NET Core Web API + Entity Framework Core + SQLite (will later be migrated to SQL Server)  
 Authorization via JWT + HttpOnly Cookies
 
-> This is the backend part of a full-stack real estate application. Frontend (React) will be added soon in a separate repo.
-> ⛵ The project is still in progress — some parts of the code may change soon.
+ This is the backend part of a full-stack real estate application. Frontend (React) will be added soon in a separate repo.
+ ⛵ The project is still in progress — some parts of the code may change soon.
 
 ---
 
