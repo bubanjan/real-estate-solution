@@ -14,6 +14,7 @@ namespace RealEstateAPI
     {
         public static void Main(string[] args)
         {
+            //
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
 
             var loggerConfig = new LoggerConfiguration()
