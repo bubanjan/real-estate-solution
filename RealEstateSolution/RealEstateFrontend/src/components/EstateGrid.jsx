@@ -3,7 +3,7 @@ import { Grid, CircularProgress, Typography, Pagination, Box } from '@mui/materi
 import EstateCard from './EstateCard'
 import { fetchEstates } from '../api/realEstateApi'
 
-export default function EstateGrid() {
+export default function EstateGrid({ searchTerm, city }) {
   const [estates, setEstates] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -15,7 +15,12 @@ export default function EstateGrid() {
       setLoading(true)
       setError(null)
       try {
-        const { data, pagination } = await fetchEstates({ pageNumber: page })
+        const { data, pagination } = await fetchEstates({
+          pageNumber: page,
+          pageSize: 12,
+          searchWord: searchTerm,
+          city: city
+        })
         setEstates(data)
         setTotalPages(pagination.totalPages)
       } catch (err) {
@@ -26,7 +31,7 @@ export default function EstateGrid() {
     }
 
     loadEstates()
-  }, [page])
+  }, [page, searchTerm, city])
 
   if (loading) return <CircularProgress />
   if (error) return <Typography color="error">{error}</Typography>
