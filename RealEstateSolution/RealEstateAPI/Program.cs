@@ -45,7 +45,7 @@ namespace RealEstateAPI
                 {
                     options.AddPolicy("AllowLocalHosts", builder =>
                     {
-                        builder.WithOrigins("http://localhost:5173", "https://localhost:7209", "http://localhost:8000/")
+                        builder.WithOrigins("http://localhost:5173")
                                .AllowAnyMethod()
                                .AllowAnyHeader()
                                .AllowCredentials();
