@@ -1,4 +1,4 @@
-# 🌅 Real Estate App – Backend
+# 🏣 Real Estate App – Backend
 
 **Tech Stack:**  
 C# ASP.NET Core Web API + Entity Framework Core + SQLite (will later be migrated to SQL Server)  
