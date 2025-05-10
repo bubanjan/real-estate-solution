@@ -28,7 +28,7 @@ export default function SearchBar({
     }
 
     return (
-        <Box display="flex" flexDirection="column" alignItems="center" mb={4} gap={2}>
+        <Box display="flex" flexDirection="column" alignItems="center" mb={4} gap={2} sx={{ backgroundColor: "#f0f7fc", padding: 3 }}>
 
             {/* Row 1 */}
             <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap', width: '100%', justifyContent: 'center' }}>

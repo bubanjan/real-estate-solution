@@ -139,7 +139,7 @@ export default function EstateGrid({
                     </Button>
                 </Box>
             )}
-            <Grid container spacing={3}>
+            <Grid container spacing={3} sx={{ backgroundColor: "#f0f7fc", }}>
                 {estates.map((estate) => (
                     <Grid item xs={12} sm={6} md={4} key={estate.id}>
                         <EstateCard
