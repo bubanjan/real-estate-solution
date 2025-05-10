@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import EstateCard from './EstateCard'
 import EstateFormModal from './EstateFormModal'
-import { fetchEstates, deleteEstate } from '../api/realEstateApi'
+import { fetchEstates, deleteEstate, updateEstate } from '../api/realEstateApi'
 
 export default function EstateGrid({
     searchTerm,
@@ -92,10 +92,29 @@ export default function EstateGrid({
     }
 
     const handleSubmitEstate = async (formData) => {
-        console.log('Submit estate:', formData)
-        // TODO: call updateEstate(formData) or createEstate(formData)
-        handleCloseModal()
+        try {
+            await updateEstate(editingEstate.id, formData)
+            handleCloseModal()
+
+            const { data, pagination } = await fetchEstates({
+                pageNumber: page,
+                pageSize: 12,
+                searchWord: searchTerm,
+                city,
+                estateCategory: estateType,
+                minPrice,
+                maxPrice,
+                minSize,
+                maxSize,
+                orderBy
+            })
+            setEstates(data)
+            setTotalPages(pagination.totalPages)
+        } catch (err) {
+            alert(err.message)
+        }
     }
+
 
     if (loading) return <CircularProgress />
     if (error) return <Typography color="error">{error}</Typography>
