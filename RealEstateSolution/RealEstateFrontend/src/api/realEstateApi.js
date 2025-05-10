@@ -29,3 +29,46 @@ export async function fetchEstates({
     const pagination = paginationHeader ? JSON.parse(paginationHeader) : { totalPages: 1 }
     return { data, pagination }
 }
+
+export async function login(username, password) {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/authentication/authenticate`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ userName: username, password }),
+    })
+
+    if (!response.ok) {
+        throw new Error('Login failed')
+    }
+
+    return await response.json()
+}
+
+export async function logout() {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/authentication/logout`, {
+        method: 'POST',
+        credentials: 'include',
+    })
+
+    if (!response.ok) {
+        throw new Error('Logout failed')
+    }
+
+    return await response.json()
+}
+
+export async function checkUser() {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/authentication/check-user`, {
+        method: 'GET',
+        credentials: 'include',
+    })
+
+    if (!response.ok) {
+        throw new Error('Not authenticated')
+    }
+
+    return await response.json()
+}

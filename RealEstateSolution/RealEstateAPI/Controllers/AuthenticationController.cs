@@ -93,7 +93,12 @@ namespace RealEstateAPI.Controllers
         [HttpPost("logout")]
         public IActionResult Logout()
         {
-            Response.Cookies.Delete("jwt215ho");
+            Response.Cookies.Delete("jwt215ho", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None
+            });
             return Ok(new { message = "Logged out successfully" });
         }
 
