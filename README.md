@@ -3,7 +3,7 @@
 
 > 🚧 This is a **full-stack** real estate application.  
 > ✅ The **backend is fully implemented and ready for use**.  
-> 🛠️ The **frontend (React)** is currently in active development — commits are being added **daily**
+> 🛠️ The **frontend (React)** is currently in active development
 
 ---
 
