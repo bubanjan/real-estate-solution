@@ -1,4 +1,5 @@
 export const cities = [
+    { label: 'All Cities', value: '' },
     { label: 'Budva', value: 'Budva' },
     { label: 'Tivat', value: 'Tivat' },
     { label: 'Kotor', value: 'Kotor' },
@@ -9,6 +10,7 @@ export const cities = [
 ]
 
 export const estateTypes = [
+    { label: 'All Types', value: '' },
     { label: 'Apartment', value: 'Apartment' },
     { label: 'House', value: 'House' },
     { label: 'Land', value: 'Land' },
