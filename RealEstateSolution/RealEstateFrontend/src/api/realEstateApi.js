@@ -72,3 +72,16 @@ export async function checkUser() {
 
     return await response.json()
 }
+
+export async function deleteEstate(id) {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/estates/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+    })
+
+    if (!response.ok) {
+        throw new Error('Failed to delete estate')
+    }
+
+    return true
+}

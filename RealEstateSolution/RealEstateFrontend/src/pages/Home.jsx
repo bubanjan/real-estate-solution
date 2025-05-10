@@ -3,7 +3,7 @@ import SearchBar from '../components/SearchBar'
 import EstateGrid from '../components/EstateGrid'
 import { Box } from '@mui/material'
 
-export default function Home() {
+export default function Home({ auth }) {
     const [searchTerm, setSearchTerm] = useState('')
     const [city, setCity] = useState('')
     const [estateType, setEstateType] = useState('')
@@ -34,6 +34,7 @@ export default function Home() {
                 minSize={minSize}
                 maxSize={maxSize}
                 orderBy={orderBy}
+                auth={auth}
             />
         </Box>
     )
