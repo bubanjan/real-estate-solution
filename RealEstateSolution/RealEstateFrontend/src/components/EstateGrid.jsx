@@ -4,11 +4,12 @@ import {
     CircularProgress,
     Typography,
     Pagination,
-    Box
+    Box,
+    Button
 } from '@mui/material'
 import EstateCard from './EstateCard'
 import EstateFormModal from './EstateFormModal'
-import { fetchEstates, deleteEstate, updateEstate } from '../api/realEstateApi'
+import { fetchEstates, deleteEstate, updateEstate, createEstate } from '../api/realEstateApi'
 
 export default function EstateGrid({
     searchTerm,
@@ -93,7 +94,12 @@ export default function EstateGrid({
 
     const handleSubmitEstate = async (formData) => {
         try {
-            await updateEstate(editingEstate.id, formData)
+            if (editingEstate?.id) {
+                await updateEstate(editingEstate.id, formData)
+            } else {
+                await createEstate(formData)
+            }
+
             handleCloseModal()
 
             const { data, pagination } = await fetchEstates({
@@ -108,6 +114,7 @@ export default function EstateGrid({
                 maxSize,
                 orderBy
             })
+
             setEstates(data)
             setTotalPages(pagination.totalPages)
         } catch (err) {
@@ -116,11 +123,22 @@ export default function EstateGrid({
     }
 
 
+
     if (loading) return <CircularProgress />
     if (error) return <Typography color="error">{error}</Typography>
 
     return (
         <>
+            {['Admin', 'Agent'].includes(auth.role) && (
+                <Box display="flex" justifyContent="flex-start" mb={2}>
+                    <Button variant="contained" onClick={() => {
+                        setEditingEstate(null)
+                        setShowModal(true)
+                    }}>
+                        💾 Create Estate
+                    </Button>
+                </Box>
+            )}
             <Grid container spacing={3}>
                 {estates.map((estate) => (
                     <Grid item xs={12} sm={6} md={4} key={estate.id}>
