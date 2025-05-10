@@ -46,9 +46,9 @@ export default function Header({ auth, setAuth }) {
 
         <Box display="flex" alignItems="center" gap={2}>
           <Button color="inherit" component={Link} to="/">Search Estates</Button>
-          <Button color="inherit">About Us</Button>
+          {/*   <Button color="inherit">About Us</Button>
           <Button color="inherit">Our Team</Button>
-          <Button color="inherit">Contact</Button>
+          <Button color="inherit">Contact</Button> */}
 
           {auth.isLoggedIn ? (
             <>
