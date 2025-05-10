@@ -12,24 +12,7 @@ import {
     MenuItem
 } from '@mui/material'
 import { useEffect, useState } from 'react'
-
-const cities = [
-    { label: 'Budva', value: 'Budva' },
-    { label: 'Tivat', value: 'Tivat' },
-    { label: 'Kotor', value: 'Kotor' },
-    { label: 'Herceg Novi', value: 'Herceg_Novi' },
-    { label: 'Bar', value: 'Bar' },
-    { label: 'Petrovac', value: 'Petrovac' },
-    { label: 'Ulcinj', value: 'Ulcinj' }
-]
-
-const estateTypes = [
-    { label: 'Apartment', value: 'Apartment' },
-    { label: 'House', value: 'House' },
-    { label: 'Land', value: 'Land' },
-    { label: 'Office Space', value: 'OfficeSpace' }
-]
-
+import { cities, estateTypes } from '../constants/enums'
 
 export default function EstateFormModal({ open, onClose, onSubmit, initialData = {} }) {
     const [form, setForm] = useState({

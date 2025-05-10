@@ -1,24 +1,6 @@
 import { TextField, Box, MenuItem, Stack } from '@mui/material'
 import { useState } from 'react'
-
-const cities = [
-    { label: 'All Cities', value: '' },
-    { label: 'Budva', value: 0 },
-    { label: 'Tivat', value: 1 },
-    { label: 'Kotor', value: 2 },
-    { label: 'Herceg Novi', value: 3 },
-    { label: 'Bar', value: 4 },
-    { label: 'Petrovac', value: 5 },
-    { label: 'Ulcinj', value: 6 }
-]
-
-const estateTypes = [
-    { label: 'All Types', value: '' },
-    { label: 'Apartment', value: 0 },
-    { label: 'House', value: 1 },
-    { label: 'Land', value: 2 },
-    { label: 'Office Space', value: 3 }
-]
+import { cities, estateTypes } from '../constants/enums'
 
 const orderOptions = [
     { label: 'Price Ascending', value: 0 },
