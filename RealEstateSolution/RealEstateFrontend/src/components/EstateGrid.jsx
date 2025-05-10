@@ -7,7 +7,7 @@ import {
     Box
 } from '@mui/material'
 import EstateCard from './EstateCard'
-import { fetchEstates } from '../api/realEstateApi'
+import { fetchEstates, deleteEstate } from '../api/realEstateApi'
 
 export default function EstateGrid({
     searchTerm,
@@ -17,8 +17,13 @@ export default function EstateGrid({
     maxPrice,
     minSize,
     maxSize,
-    orderBy
+    orderBy,
+    auth
 }) {
+
+    console.log("auth from EstateGrid:", auth);
+
+
     const [estates, setEstates] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -64,6 +69,23 @@ export default function EstateGrid({
         orderBy
     ])
 
+    const handleDelete = async (id) => {
+        const confirm = window.confirm("Are you sure you want to delete this estate?")
+        if (!confirm) return
+
+        try {
+            await deleteEstate(id)
+            setEstates(estates.filter(e => e.id !== id))
+        } catch (err) {
+            alert("Failed to delete estate: " + err.message)
+        }
+    }
+
+    const handleEdit = (estate) => {
+        console.log("Edit clicked:", estate)
+        // You can later redirect to /edit/:id or open a modal
+    }
+
     if (loading) return <CircularProgress />
     if (error) return <Typography color="error">{error}</Typography>
 
@@ -72,7 +94,12 @@ export default function EstateGrid({
             <Grid container spacing={3}>
                 {estates.map((estate) => (
                     <Grid item xs={12} sm={6} md={4} key={estate.id}>
-                        <EstateCard estate={estate} />
+                        <EstateCard
+                            estate={estate}
+                            auth={auth}
+                            onDelete={handleDelete}
+                            onEdit={handleEdit}
+                        />
                     </Grid>
                 ))}
             </Grid>

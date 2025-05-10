@@ -1,7 +1,7 @@
-import { Card, CardMedia, CardContent, Typography } from '@mui/material'
+import { Card, CardContent, Typography, Button, Box } from '@mui/material'
 import noImage from '../assets/noImage.png'
 
-export default function EstateCard({ estate }) {
+export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
   const trimDescription = (text, maxLength = 200) =>
     text.length > maxLength ? text.substring(0, maxLength) + '...' : text
 
@@ -23,6 +23,15 @@ export default function EstateCard({ estate }) {
         </Typography>
         <Typography mt={1}> {estate.price} EUR</Typography>
         <Typography> {estate.size} m²</Typography>
+
+        {(auth.role === 'Admin' || auth.role === 'Agent') && (
+          <Box mt={2} display="flex" gap={1}>
+            <Button size="small" variant="outlined" onClick={() => onEdit(estate)}>Edit</Button>
+            {auth.role === 'Admin' && (
+              <Button size="small" variant="outlined" color="error" onClick={() => onDelete(estate.id)}>Delete</Button>
+            )}
+          </Box>
+        )}
       </CardContent>
     </Card>
   )
