@@ -5,9 +5,31 @@ import {
     DialogActions,
     TextField,
     Button,
-    Box
+    Box,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem
 } from '@mui/material'
 import { useEffect, useState } from 'react'
+
+const cities = [
+    { label: 'Budva', value: 'Budva' },
+    { label: 'Tivat', value: 'Tivat' },
+    { label: 'Kotor', value: 'Kotor' },
+    { label: 'Herceg Novi', value: 'Herceg_Novi' },
+    { label: 'Bar', value: 'Bar' },
+    { label: 'Petrovac', value: 'Petrovac' },
+    { label: 'Ulcinj', value: 'Ulcinj' }
+]
+
+const estateTypes = [
+    { label: 'Apartment', value: 'Apartment' },
+    { label: 'House', value: 'House' },
+    { label: 'Land', value: 'Land' },
+    { label: 'Office Space', value: 'OfficeSpace' }
+]
+
 
 export default function EstateFormModal({ open, onClose, onSubmit, initialData = {} }) {
     const [form, setForm] = useState({
@@ -26,14 +48,15 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
                 description: initialData.description || '',
                 price: initialData.price || '',
                 size: initialData.size || '',
-                city: initialData.city || '',
-                estateCategory: initialData.estateCategory || ''
+                city: initialData.city ?? '',
+                estateCategory: initialData.estateCategory ?? ''
             })
         }
     }, [initialData])
 
     const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value })
+        const { name, value } = e.target
+        setForm({ ...form, [name]: value })
     }
 
     const handleSubmit = () => {
@@ -49,8 +72,40 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
                     <TextField label="Description" name="description" value={form.description} onChange={handleChange} fullWidth multiline rows={3} />
                     <TextField label="Price" name="price" value={form.price} onChange={handleChange} type="number" fullWidth />
                     <TextField label="Size (m²)" name="size" value={form.size} onChange={handleChange} type="number" fullWidth />
-                    <TextField label="City" name="city" value={form.city} onChange={handleChange} fullWidth />
-                    <TextField label="Estate Category" name="estateCategory" value={form.estateCategory} onChange={handleChange} fullWidth />
+
+                    <FormControl fullWidth>
+                        <InputLabel id="city-label">City</InputLabel>
+                        <Select
+                            labelId="city-label"
+                            name="city"
+                            value={form.city}
+                            label="City"
+                            onChange={handleChange}
+                        >
+                            {cities.map((c) => (
+                                <MenuItem key={c.value} value={c.value}>
+                                    {c.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+
+                    <FormControl fullWidth>
+                        <InputLabel id="estate-type-label">Estate Type</InputLabel>
+                        <Select
+                            labelId="estate-type-label"
+                            name="estateCategory"
+                            value={form.estateCategory}
+                            label="Estate Type"
+                            onChange={handleChange}
+                        >
+                            {estateTypes.map((t) => (
+                                <MenuItem key={t.value} value={t.value}>
+                                    {t.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </Box>
             </DialogContent>
             <DialogActions>
