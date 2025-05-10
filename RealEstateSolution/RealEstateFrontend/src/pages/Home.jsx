@@ -14,7 +14,7 @@ export default function Home({ auth }) {
     const [orderBy, setOrderBy] = useState('')
 
     return (
-        <Box sx={{ padding: '2rem', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ padding: '2rem', minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: "#f0f7fc" }}>
             <SearchBar
                 onSearch={setSearchTerm}
                 onCityChange={setCity}
