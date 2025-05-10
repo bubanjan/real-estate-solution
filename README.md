@@ -1,3 +1,13 @@
+# 🏡 Full-Stack Real Estate Application  
+*A real estate web platform built with ASP.NET Core and React (in progress)*
+
+> 🚧 This is a **full-stack** real estate application.  
+> ✅ The **backend is fully implemented and ready for use**.  
+> 🛠️ The **frontend (React)** is currently in active development — commits are being added **daily**
+
+---
+
+
 # 🏣 Real Estate App – Backend
 
 **Tech Stack:**  
