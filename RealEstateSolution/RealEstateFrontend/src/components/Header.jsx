@@ -39,8 +39,8 @@ export default function Header({ auth, setAuth }) {
       <Toolbar sx={{ justifyContent: 'space-between' }}>
 
         <Box display="flex" alignItems="center">
-          <img src={logo} alt="Real Estate Logo" height={50} style={{ marginRight: 16 }} />
-          <Typography variant="h6">Real Estate</Typography>
+          {/* <img src={logo} alt="Real Estate Logo" height={50} style={{ marginRight: 16 }} /> */}
+          <Typography variant="h6">👧Jugoslovenka Real Estate</Typography>
         </Box>
 
 

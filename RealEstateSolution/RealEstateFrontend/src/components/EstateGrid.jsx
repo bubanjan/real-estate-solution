@@ -7,6 +7,7 @@ import {
     Box
 } from '@mui/material'
 import EstateCard from './EstateCard'
+import EstateFormModal from './EstateFormModal'
 import { fetchEstates, deleteEstate } from '../api/realEstateApi'
 
 export default function EstateGrid({
@@ -21,14 +22,13 @@ export default function EstateGrid({
     auth
 }) {
 
-    console.log("auth from EstateGrid:", auth);
-
-
     const [estates, setEstates] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [page, setPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
+    const [showModal, setShowModal] = useState(false)
+    const [editingEstate, setEditingEstate] = useState(null)
 
     useEffect(() => {
         async function loadEstates() {
@@ -82,8 +82,19 @@ export default function EstateGrid({
     }
 
     const handleEdit = (estate) => {
-        console.log("Edit clicked:", estate)
-        // You can later redirect to /edit/:id or open a modal
+        setEditingEstate(estate)
+        setShowModal(true)
+    }
+
+    const handleCloseModal = () => {
+        setShowModal(false)
+        setEditingEstate(null)
+    }
+
+    const handleSubmitEstate = async (formData) => {
+        console.log('Submit estate:', formData)
+        // TODO: call updateEstate(formData) or createEstate(formData)
+        handleCloseModal()
     }
 
     if (loading) return <CircularProgress />
@@ -111,6 +122,13 @@ export default function EstateGrid({
                     color="primary"
                 />
             </Box>
+
+            <EstateFormModal
+                open={showModal}
+                onClose={handleCloseModal}
+                onSubmit={handleSubmitEstate}
+                initialData={editingEstate}
+            />
         </>
     )
 }

@@ -85,3 +85,31 @@ export async function deleteEstate(id) {
 
     return true
 }
+
+export async function createEstate(data) {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/estates`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+
+    if (!response.ok) throw new Error('Failed to create estate')
+    return await response.json()
+}
+
+export async function updateEstate(id, data) {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/estates/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+
+    if (!response.ok) throw new Error('Failed to update estate')
+}
+
