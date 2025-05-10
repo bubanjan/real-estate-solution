@@ -26,9 +26,9 @@ export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
 
         {(auth.role === 'Admin' || auth.role === 'Agent') && (
           <Box mt={2} display="flex" gap={1}>
-            <Button size="small" variant="outlined" onClick={() => onEdit(estate)}>Edit</Button>
+            <Button size="small" variant="outlined" onClick={() => onEdit(estate)}>🖋️ Edit</Button>
             {auth.role === 'Admin' && (
-              <Button size="small" variant="outlined" color="error" onClick={() => onDelete(estate.id)}>Delete</Button>
+              <Button size="small" variant="outlined" color="error" onClick={() => onDelete(estate.id)}>🗑️ Delete</Button>
             )}
           </Box>
         )}
