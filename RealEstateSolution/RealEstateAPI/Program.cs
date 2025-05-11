@@ -45,10 +45,11 @@ namespace RealEstateAPI
                 {
                     options.AddPolicy("AllowLocalHosts", builder =>
                     {
-                        builder.WithOrigins("http://localhost:5173")
+                        builder.WithOrigins("http://localhost:5173", "https://localhost:5173")
                                .AllowAnyMethod()
                                .AllowAnyHeader()
-                               .AllowCredentials();
+                               .AllowCredentials()
+                               .WithExposedHeaders("X-Pagination");
                     });
                 });
 

@@ -41,7 +41,7 @@ export default function EstateGrid({
             try {
                 const { data, pagination } = await fetchEstates({
                     pageNumber: page,
-                    pageSize: 12,
+                    pageSize: 9,
                     searchWord: searchTerm,
                     city,
                     estateCategory: estateType,
@@ -75,7 +75,7 @@ export default function EstateGrid({
     const refreshEstates = async () => {
         const { data, pagination } = await fetchEstates({
             pageNumber: page,
-            pageSize: 12,
+            pageSize: 9,
             searchWord: searchTerm,
             city,
             estateCategory: estateType,
