@@ -118,15 +118,18 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 ### ✅ Completed Frontend Features
 
 - 🔍 **List Estates** with pagination, sorting, and search
-- 🎯 **Filter by** price, size, city, and estate type
+- 🎯 **Filter real estate listings** by price, size, city, and estate type
 - 🧾 **Frontend form validation** (e.g., required fields, max text length)
 - 🧠 **Modal confirmation dialogs** for estate deletion
 - ✏️ **Create/Edit Estate** with dynamic tag selection (multi-select)
-- 👥 **Role-based access**: Admin and Agent can create/edit/ adn only admin can delete
-- 💅 Basic **responsive layout** with Material UI
-- 🔄 React Router navigation
-- 💬 Validation and error messages show in the form before submission
-- 🔐 Handles JWT login via HttpOnly cookie
+- 👥 **Role-based access**:
+  - Admin and Agent can create/edit estates
+  - Only Admin can delete
+  - Public (unauthenticated) users can search and browse, but not modify data
+- 💅 Responsive layout built with Material UI
+- 🔄 Client-side navigation using React Router
+- 💬 Real-time validation and error messages in form fields
+- 🔐 Handles JWT login via HttpOnly cookies (secure session management)
 
 ---
 
