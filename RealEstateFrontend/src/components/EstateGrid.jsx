@@ -37,6 +37,13 @@ export default function EstateGrid({
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [estateIdToDelete, setEstateIdToDelete] = useState(null);
 
+
+  useEffect(() => {
+    const handleCreated = () => refreshEstates()
+    window.addEventListener('estateCreated', handleCreated)
+    return () => window.removeEventListener('estateCreated', handleCreated)
+  }, [])     
+
   useEffect(() => {
     async function loadEstates() {
       setLoading(true);
@@ -134,19 +141,6 @@ export default function EstateGrid({
 
   return (
     <>
-      {['Admin', 'Agent'].includes(auth.role) && (
-        <Box display="flex" justifyContent="flex-start" mb={2}>
-          <Button
-            variant="contained"
-            onClick={() => {
-              setEditingEstate(null);
-              setShowModal(true);
-            }}
-          >
-            💾 Create Estate
-          </Button>
-        </Box>
-      )}
 
       <Box
         sx={{
