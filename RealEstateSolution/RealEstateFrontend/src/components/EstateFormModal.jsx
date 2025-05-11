@@ -28,26 +28,25 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
 
   const [availableTags, setAvailableTags] = useState([])
 
-    useEffect(() => {
+  useEffect(() => {
     fetchTags()
-        .then(setAvailableTags)
-        .catch(err => console.error('Failed to load tags:', err))
-    }, [])
-
+      .then(setAvailableTags)
+      .catch(err => console.error('Failed to load tags:', err))
+  }, [])
 
   useEffect(() => {
-    if (initialData) {
+    if (open) {
       setForm({
-        title: initialData.title || '',
-        description: initialData.description || '',
-        price: initialData.price || '',
-        size: initialData.size || '',
-        city: initialData.city ?? '',
-        estateCategory: initialData.estateCategory ?? '',
-        tagIds: initialData.tagIds || initialData.tags?.map(tag => tag.id) || []
+        title: initialData?.title || '',
+        description: initialData?.description || '',
+        price: initialData?.price || '',
+        size: initialData?.size || '',
+        city: initialData?.city ?? '',
+        estateCategory: initialData?.estateCategory ?? '',
+        tagIds: initialData?.tagIds || initialData?.tags?.map(tag => tag.id) || []
       })
     }
-  }, [initialData])
+  }, [initialData, open])
 
   const handleChange = (e) => {
     const { name, value } = e.target
