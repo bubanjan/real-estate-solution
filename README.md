@@ -161,6 +161,28 @@ npm run dev
 
 ```
 
+## Test Users
+
+These demo users are seeded in the database you can log in with:
+
+### Admin
+
+```json
+{
+  "userName": "Admin4",
+  "password": "admin4@@@"
+}
+```
+
+### Agent
+
+```json
+{
+  "userName": "Agent4",
+  "password": "agent4@@@"
+}
+```
+
 ### 📌 Future Tasks (TODO)
 
 - [ ] Finish React frontend
