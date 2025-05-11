@@ -117,19 +117,20 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 
 ### ✅ Completed Frontend Features
 
-- 🔍 **List Estates** with pagination, sorting, and search
-- 🎯 **Filter real estate listings** by price, size, city, and estate type
-- 🧾 **Frontend form validation** (e.g., required fields, max text length)
-- 🧠 **Modal confirmation dialogs** for estate deletion
-- ✏️ **Create/Edit Estate** with dynamic tag selection (multi-select)
-- 👥 **Role-based access**:
-  - Admin and Agent can create/edit estates
-  - Only Admin can delete
-  - Public (unauthenticated) users can search and browse, but not modify data
-- 💅 Responsive layout built with Material UI
-- 🔄 Client-side navigation using React Router
-- 💬 Real-time validation and error messages in form fields
-- 🔐 Handles JWT login via HttpOnly cookies (secure session management)
+- ✅🔍 **List Estates** with pagination, sorting, and search
+- ✅🎯 **Filter real estate listings** by price, size, city, and estate type
+
+- ✅🧾 **Frontend form validation** (e.g., required fields, max text length)
+- ✅🧠 **Modal confirmation dialogs** for estate deletion
+- ✅✏️ **Create/Edit Estate** with dynamic tag selection (multi-select)
+- ✅👥 **Role-based access**:
+  - ✅ Admin and Agent can create/edit estates
+  - ✅ Only Admin can delete
+  - ✅ Public (unauthenticated) users can search and browse, but not modify data
+- ✅💅 Responsive layout built with Material UI
+- ✅🔄 Client-side navigation using React Router
+- ✅💬 Real-time validation and error messages in form fields
+- ✅🔐 Handles JWT login via HttpOnly cookies (secure session management)
 
 ---
 
@@ -161,5 +162,5 @@ npm run dev
 
 - [ ] Finish React frontend
 - [ ] Change database from SQLite to SQL Server
-- [ ] Deploy backend, frontend, and database to Azure
-      (Azure App Service, Azure SQL Database, Azure Static Web Apps – or Netlify for frontend)
+- [ ] Deploy backend, frontend, and database to Azure  
+       (Azure App Service, Azure SQL Database, Azure Static Web Apps – or Netlify for frontend)
