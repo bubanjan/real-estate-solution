@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Header from './components/Header.jsx'
 import Home from './pages/Home'
+import AboutUs from './pages/AboutUs.jsx'
 import { CssBaseline, Box } from '@mui/material'
 import { checkUser } from './api/realEstateApi'
 
@@ -25,6 +26,7 @@ export default function App() {
         <Header auth={auth} setAuth={setAuth} />
         <Routes>
           <Route path="/" element={<Home auth={auth} />} />
+          <Route path="/about-us" element={<AboutUs/>} />
           {/* TODO: About Us, Our Team, Contact */}
         </Routes>
       </Box>
