@@ -2,9 +2,9 @@
 
 _A real estate web platform built with ASP.NET Core and React (in progress)_
 
-🚧 This is a **full-stack** real estate application.  
- ✅ The **backend is fully implemented and ready for use**.  
- 🛠️ The **frontend (React)** is currently in active development and is not finished yet
+- 🚧 This is a **full-stack** real estate application.
+- ✅ The **backend is fully implemented and ready for use**. 📁 Folder: RealEstateAPI
+- 🛠️ The **frontend (React)** is currently in active development and is not finished yet 📁 Folder: RealEstateFrontend
 
 ---
 
@@ -14,8 +14,8 @@ _A real estate web platform built with ASP.NET Core and React (in progress)_
 C# ASP.NET Core Web API + Entity Framework Core + SQLite (will later be migrated to SQL Server)  
 Authorization via JWT + HttpOnly Cookies
 
-This is the backend part of a full-stack real estate application. Frontend (React) will be added soon in a separate repo.
-⛵ The project is still in progress — some parts of the code may change soon.
+- This is the backend part of a full-stack real estate application. Frontend is in same solution, in separate folder.
+- ⛵ The project is still in progress — some parts of the code may change soon.
 
 ---
 
@@ -120,20 +120,20 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 
 ### ✅ Completed Frontend Features
 
-- ✅🔍 **List Estates** with pagination, sorting, and search
-- ✅🎯 **Filter real estate listings** by price, size, city, and estate type
+- ✅ **List Estates** with pagination, sorting, and search
+- ✅ **Filter real estate listings** by price, size, city, and estate type
 
-- ✅🧾 **Frontend form validation** (e.g., required fields, max text length)
-- ✅🧠 **Modal confirmation dialogs** for estate deletion
-- ✅✏️ **Create/Edit Estate** with dynamic tag selection (multi-select)
+- ✅ **Frontend form validation** (e.g., required fields, max text length)
+- ✅ **Modal confirmation dialogs** for estate deletion
+- ✅ **Create/Edit Estate** with dynamic tag selection (multi-select)
 - ✅👥 **Role-based access**:
   - ✅ Admin and Agent can create/edit estates
   - ✅ Only Admin can delete
   - ✅ Public (unauthenticated) users can search and browse, but not modify data
-- ✅💅 Responsive layout built with Material UI
-- ✅🔄 Client-side navigation using React Router
-- ✅💬 Real-time validation and error messages in form fields
-- ✅🔐 Handles JWT login via HttpOnly cookies (secure session management)
+- ✅ Responsive layout built with Material UI
+- ✅ Client-side navigation using React Router
+- ✅ Real-time validation and error messages in form fields
+- ✅ Handles JWT login via HttpOnly cookies (secure session management)
 
 ---
 
