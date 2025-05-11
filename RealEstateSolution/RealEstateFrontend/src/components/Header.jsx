@@ -35,7 +35,7 @@ export default function Header({ auth, setAuth }) {
   }
 
   return (
-    <AppBar position="static">
+    <AppBar position="sticky" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar sx={{ justifyContent: 'space-between' }}>
 
         <Box display="flex" alignItems="center">
