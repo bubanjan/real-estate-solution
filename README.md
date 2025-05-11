@@ -106,7 +106,7 @@ Navigate to: `https://localhost:7209/swagger`
 
 ---
 
-## 🖥️ Real Estate App – Frontend (React)
+# 🖥️ Real Estate App – Frontend (React)
 
 **Tech Stack:**  
 React (Vite) + React Router + Material UI + JWT authentication (via HttpOnly cookies)
