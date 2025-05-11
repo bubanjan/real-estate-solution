@@ -113,3 +113,15 @@ export async function updateEstate(id, data) {
     if (!response.ok) throw new Error('Failed to update estate')
 }
 
+export async function fetchTags() {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/tags`, {
+    credentials: 'include'
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch tags')
+  }
+
+  const data = await response.json()
+  return data.map(t => ({ id: t.id, name: t.name }))
+}
