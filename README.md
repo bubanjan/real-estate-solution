@@ -155,11 +155,11 @@ cd RealEstateFrontend
 npm install
 npm run dev
 
-
-## Future Tasks TODO
-
--   [ ] Finish React frontend
--   [ ] Change database from SQLite to SQL Server
--   [ ] Deploy backend, frontend, and database to Azure
-         (Azure App Service, Azure SQL Database, Azure Static Web Apps – or Netlify for frontend)
 ```
+
+### 📌 Future Tasks (TODO)
+
+- [ ] Finish React frontend
+- [ ] Change database from SQLite to SQL Server
+- [ ] Deploy backend, frontend, and database to Azure
+      (Azure App Service, Azure SQL Database, Azure Static Web Apps – or Netlify for frontend)
