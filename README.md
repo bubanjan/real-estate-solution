@@ -108,8 +108,8 @@ Navigate to: `https://localhost:7209/swagger`
 
 # 🖥️ Real Estate App – Frontend (React)
 
-> 🚧 **IMPORTANT NOTE:**  
-> The frontend is runnable and connected to the backend, but it is still in active development and not yet fully complete.
+🚧 **IMPORTANT NOTE:**  
+ The frontend is runnable and connected to the backend, but it is still in active development and not yet fully complete.
 
 **Tech Stack:**  
 React (Vite) + React Router + Material UI + JWT authentication (via HttpOnly cookies)
