@@ -37,12 +37,15 @@ export default function EstateGrid({
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [estateIdToDelete, setEstateIdToDelete] = useState(null);
 
+  useEffect(() => {
+    const handleCreated = () => refreshEstates();
+    window.addEventListener('estateCreated', handleCreated);
+    return () => window.removeEventListener('estateCreated', handleCreated);
+  }, []);
 
   useEffect(() => {
-    const handleCreated = () => refreshEstates()
-    window.addEventListener('estateCreated', handleCreated)
-    return () => window.removeEventListener('estateCreated', handleCreated)
-  }, [])     
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [page]);
 
   useEffect(() => {
     async function loadEstates() {
@@ -141,7 +144,6 @@ export default function EstateGrid({
 
   return (
     <>
-
       <Box
         sx={{
           display: 'grid',
