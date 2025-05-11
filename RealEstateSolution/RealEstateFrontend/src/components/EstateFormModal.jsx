@@ -9,7 +9,8 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  FormHelperText
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { cities, estateTypes } from '../constants/enums'
@@ -27,6 +28,7 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
   })
 
   const [availableTags, setAvailableTags] = useState([])
+  const [validationError, setValidationError] = useState('')
 
   useEffect(() => {
     fetchTags()
@@ -45,6 +47,7 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
         estateCategory: initialData?.estateCategory ?? '',
         tagIds: initialData?.tagIds || initialData?.tags?.map(tag => tag.id) || []
       })
+      setValidationError('')
     }
   }, [initialData, open])
 
@@ -54,20 +57,112 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
   }
 
   const handleSubmit = () => {
+    if (!form.title || form.title.trim().length === 0) {
+      setValidationError('Title is required.')
+      return
+    }
+
+    if (!form.description || form.description.trim().length === 0) {
+      setValidationError('Description is required.')
+      return
+    }
+
+    if (form.description.length > 2500) {
+      setValidationError('Description must be 2500 characters or less.')
+      return
+    }
+
+    if (!form.size || form.size < 1) {
+      setValidationError('Size is required and must be greater than 0.')
+      return
+    }
+
+
+    if (!form.price || form.price < 1) {
+      setValidationError('Price is required and must be greater than 0.')
+      return
+    }
+
+    if (!form.city) {
+      setValidationError('City is required.')
+      return
+    }
+
+    if (!form.estateCategory) {
+      setValidationError('Estate type is required.')
+      return
+    }
+
+    setValidationError('')
     onSubmit(form)
   }
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>{initialData?.id ? 'Edit Estate' : 'Create Estate'}</DialogTitle>
+
+      {validationError && (
+        <Box color="error.main" ml={3} mb={1}>
+          {validationError}
+        </Box>
+      )}
+
       <DialogContent>
         <Box display="flex" flexDirection="column" gap={2} mt={1}>
-          <TextField label="Title" name="title" value={form.title} onChange={handleChange} fullWidth />
-          <TextField label="Description" name="description" value={form.description} onChange={handleChange} fullWidth multiline rows={3} />
-          <TextField label="Price" name="price" value={form.price} onChange={handleChange} type="number" fullWidth />
-          <TextField label="Size (m²)" name="size" value={form.size} onChange={handleChange} type="number" fullWidth />
+          <TextField
+            label="Title"
+            name="title"
+            value={form.title}
+            onChange={handleChange}
+            fullWidth
+            error={!form.title}
+            helperText={!form.title ? 'Title is required' : ''}
+          />
 
-          <FormControl fullWidth>
+          <TextField
+            label="Description"
+            name="description"
+            value={form.description}
+            onChange={handleChange}
+            fullWidth
+            multiline
+            rows={3}
+            error={
+              !form.description || form.description.trim().length === 0 ||
+              form.description.length > 2500
+            }
+            helperText={
+              !form.description || form.description.trim().length === 0
+                ? 'Description is required'
+                : form.description.length > 2500
+                ? 'Description must be 2500 characters or less.'
+                : ''
+            }
+          />
+
+          <TextField
+            label="Price"
+            name="price"
+            value={form.price}
+            onChange={handleChange}
+            type="number"
+            fullWidth
+            error={!form.price || form.price < 1}
+            helperText={!form.price || form.price < 1 ? 'Price must be greater than 0' : ''}
+          />
+
+          <TextField
+            label="Size (m²)"
+            name="size"
+            value={form.size}
+            onChange={handleChange}
+            type="number"
+            fullWidth
+            error={!form.size || form.size < 1}
+            helperText={!form.size || form.size < 1 ? 'Size must be greater than 0' : ''}
+          />
+
+          <FormControl fullWidth error={!form.city}>
             <InputLabel id="city-label">City</InputLabel>
             <Select
               labelId="city-label"
@@ -82,9 +177,10 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
                 </MenuItem>
               ))}
             </Select>
+            {!form.city && <FormHelperText>City is required</FormHelperText>}
           </FormControl>
 
-          <FormControl fullWidth>
+          <FormControl fullWidth error={!form.estateCategory}>
             <InputLabel id="estate-type-label">Estate Type</InputLabel>
             <Select
               labelId="estate-type-label"
@@ -99,6 +195,7 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
                 </MenuItem>
               ))}
             </Select>
+            {!form.estateCategory && <FormHelperText>Estate type is required</FormHelperText>}
           </FormControl>
 
           <FormControl fullWidth>
@@ -127,6 +224,7 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
           </FormControl>
         </Box>
       </DialogContent>
+
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
         <Button variant="contained" onClick={handleSubmit}>
