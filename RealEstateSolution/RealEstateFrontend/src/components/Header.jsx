@@ -40,7 +40,7 @@ export default function Header({ auth, setAuth }) {
 
         <Box display="flex" alignItems="center">
           {/* <img src={logo} alt="Real Estate Logo" height={50} style={{ marginRight: 16 }} /> */}
-          <Typography variant="h6">👧 Budvanka Real Estate 🌏 Montenegro</Typography>
+          <Typography variant="h6">👧 Budvanka Real Estate Agency 🌏 Montenegro</Typography>
         </Box>
 
 
