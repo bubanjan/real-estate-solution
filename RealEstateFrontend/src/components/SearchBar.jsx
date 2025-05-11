@@ -28,9 +28,8 @@ export default function SearchBar({
     }
 
     return (
-        <Box display="flex" flexDirection="column" alignItems="center" mb={4} gap={2} sx={{ backgroundColor: "#f0f7fc", padding: 3 }}>
+        <Box display="flex" flexDirection="column" alignItems="center" mb={2} gap={2} sx={{ backgroundColor: "#f0f7fc", padding: 2 }}>
 
-            {/* Row 1 */}
             <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap', width: '100%', justifyContent: 'center' }}>
                 <TextField
                     variant="outlined"
@@ -38,7 +37,7 @@ export default function SearchBar({
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    sx={{ flex: 1, minWidth: 200, maxWidth: 290 }}
+                    sx={{ flex: 1, minWidth: 200, maxWidth: 290}} 
                 />
 
                 <TextField
@@ -66,7 +65,6 @@ export default function SearchBar({
                 </TextField>
             </Stack>
 
-            {/* Row 2 */}
             <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap', width: '100%', justifyContent: 'center' }}>
                 <TextField type="number" label="Min Price" onChange={(e) => onMinPriceChange(e.target.value)} sx={{ flex: 1, minWidth: 150, maxWidth: 150 }} />
                 <TextField type="number" label="Max Price" onChange={(e) => onMaxPriceChange(e.target.value)} sx={{ flex: 1, minWidth: 150, maxWidth: 150 }} />
