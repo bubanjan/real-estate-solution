@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, Button, Box } from '@mui/material';
+import { Card, CardContent, Typography, Button, Box, CardMedia } from '@mui/material';
 import noImage from '../assets/noImage.png';
 
 export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
@@ -18,8 +18,8 @@ export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
         justifyContent: 'space-between',
       }}
     >
-      {/* Optional image section
-      <CardMedia
+     
+      {/* <CardMedia
         component="img"
         height="200"
         image={imageUrl}

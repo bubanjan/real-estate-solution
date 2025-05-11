@@ -46,8 +46,8 @@ export default function Header({ auth, setAuth }) {
 
         <Box display="flex" alignItems="center" gap={2}>
           <Button color="inherit" component={Link} to="/">Search Estates</Button>
-          {/*   <Button color="inherit">About Us</Button>
-          <Button color="inherit">Our Team</Button>
+          <Button color="inherit" component={Link} to="/about-us">About Us</Button>
+          {/*<Button color="inherit">Our Team</Button>
           <Button color="inherit">Contact</Button> */}
 
           {auth.isLoggedIn ? (
@@ -55,11 +55,11 @@ export default function Header({ auth, setAuth }) {
               <Typography variant="body2">
                 You are logged in as: {auth.username} ({auth.role})
               </Typography>
-
+{/* 
               {auth.role === 'Admin' && (
                 <Button color="inherit">Admin Panel</Button>
               )}
-
+ */}
               <Button color="inherit" onClick={handleLogout}>Logout</Button>
             </>
           ) : (
