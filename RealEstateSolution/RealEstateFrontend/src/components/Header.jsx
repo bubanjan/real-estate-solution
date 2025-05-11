@@ -65,6 +65,7 @@ export default function Header({ auth, setAuth }) {
           ) : (
             <Box display="flex" gap={1} alignItems="center">
               <TextField
+                sx={{background: "white"}}
                 variant="standard"
                 size="small"
                 placeholder="Username"
@@ -72,6 +73,7 @@ export default function Header({ auth, setAuth }) {
                 onChange={e => setUsername(e.target.value)}
               />
               <TextField
+                sx={{background: "white"}}
                 variant="standard"
                 size="small"
                 type="password"
