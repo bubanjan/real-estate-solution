@@ -15,16 +15,18 @@ export default function Home({ auth }) {
 
     return (
         <Box sx={{ p: '2rem', minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor:"white" }}>
-            <SearchBar
-                onSearch={setSearchTerm}
-                onCityChange={setCity}
-                onTypeChange={setEstateType}
-                onMinPriceChange={setMinPrice}
-                onMaxPriceChange={setMaxPrice}
-                onMinSizeChange={setMinSize}
-                onMaxSizeChange={setMaxSize}
-                onOrderChange={setOrderBy}
-            />
+            <Box sx={{ position: 'sticky', top: 64, zIndex: 1000, backgroundColor: 'white' }}>
+                <SearchBar
+                    onSearch={setSearchTerm}
+                    onCityChange={setCity}
+                    onTypeChange={setEstateType}
+                    onMinPriceChange={setMinPrice}
+                    onMaxPriceChange={setMaxPrice}
+                    onMinSizeChange={setMinSize}
+                    onMaxSizeChange={setMaxSize}
+                    onOrderChange={setOrderBy}
+                />
+                </Box>
             <EstateGrid
                 searchTerm={searchTerm}
                 city={city}
