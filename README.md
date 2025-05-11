@@ -1,12 +1,12 @@
-# 🏡 Full-Stack Real Estate Application  
-*A real estate web platform built with ASP.NET Core and React (in progress)*
+# 🏡 Full-Stack Real Estate Application
 
- 🚧 This is a **full-stack** real estate application.  
+_A real estate web platform built with ASP.NET Core and React (in progress)_
+
+🚧 This is a **full-stack** real estate application.  
  ✅ The **backend is fully implemented and ready for use**.  
  🛠️ The **frontend (React)** is currently in active development and is not finished yet
 
 ---
-
 
 # 🏣 Real Estate App – Backend
 
@@ -21,16 +21,16 @@ This is the backend part of a full-stack real estate application. Frontend (Reac
 
 ## Features
 
--   ✅ Custom DTO-to-Entity mapping
--   ✅ EF Core + SQL DB
--   ✅ Role-based Authorization (JWT tokens in HttpOnly cookies)
--   ✅ Admin & Agent roles with access control on endpoints
--   ✅ CRUD for Real Estates, Tags, and Photos
--   ✅ Pagination, Sorting, Filtering, and Text Search
--   ✅ Many-to-Many (Tags), One-to-Many (Photos) relationships
--   ✅ Logging using Serilog
--   ✅ API Documentation via Swagger
--   ✅ Test users seeded for easy local testing
+- ✅ Custom DTO-to-Entity mapping
+- ✅ EF Core + SQL DB
+- ✅ Role-based Authorization (JWT tokens in HttpOnly cookies)
+- ✅ Admin & Agent roles with access control on endpoints
+- ✅ CRUD for Real Estates, Tags, and Photos
+- ✅ Pagination, Sorting, Filtering, and Text Search
+- ✅ Many-to-Many (Tags), One-to-Many (Photos) relationships
+- ✅ Logging using Serilog
+- ✅ API Documentation via Swagger
+- ✅ Test users seeded for easy local testing
 
 ---
 
@@ -42,10 +42,10 @@ These demo users are seeded in the database and ready to use:
 
 ```json
 {
-    "userName": "Admin4",
-    "email": "admin4@example.com",
-    "password": "admin4@@@",
-    "role": "Admin"
+  "userName": "Admin4",
+  "email": "admin4@example.com",
+  "password": "admin4@@@",
+  "role": "Admin"
 }
 ```
 
@@ -53,10 +53,10 @@ These demo users are seeded in the database and ready to use:
 
 ```json
 {
-    "userName": "Agent4",
-    "email": "agent4@example.com",
-    "password": "agent4@@@",
-    "role": "Agent"
+  "userName": "Agent4",
+  "email": "agent4@example.com",
+  "password": "agent4@@@",
+  "role": "Agent"
 }
 ```
 
@@ -64,8 +64,8 @@ These demo users are seeded in the database and ready to use:
 
 ## How to Run This Backend Locally
 
--   No need to configure connection strings or set up a database — a ready-to-use SQLite file with test data is included.
--   Just open the project in **Visual Studio** and run it using the **Debug (F5)** button.
+- No need to configure connection strings or set up a database — a ready-to-use SQLite file with test data is included.
+- Just open the project in **Visual Studio** and run it using the **Debug (F5)** button.
 
 API will be available at: `https://localhost:7209/api/estates`
 
@@ -73,15 +73,15 @@ API will be available at: `https://localhost:7209/api/estates`
 
 Navigate to: `https://localhost:7209/swagger`
 
--   Use the login endpoint with the test credentials (username: Admin4, password: admin4@@@) or (Agent4, agent4@@@)
--   JWT token is stored in an **HttpOnly cookie** after login
--   You can now test protected routes directly from Swagger
+- Use the login endpoint with the test credentials (username: Admin4, password: admin4@@@) or (Agent4, agent4@@@)
+- JWT token is stored in an **HttpOnly cookie** after login
+- You can now test protected routes directly from Swagger
 
 ## Authorization
 
--   Admin can: create/delete users, delete estates and see seller contact info for every estate
--   Admin & Agent can: create/update estates and see seller contact info for every estate
--   Public users: can browse, search, filter, and view listings (without seller contact info)
+- Admin can: create/delete users, delete estates and see seller contact info for every estate
+- Admin & Agent can: create/update estates and see seller contact info for every estate
+- Public users: can browse, search, filter, and view listings (without seller contact info)
 
 ---
 
@@ -89,26 +89,74 @@ Navigate to: `https://localhost:7209/swagger`
 
 ### Entities & Relationships
 
--   `User` (Admin, Agent roles)
--   `Estate`
--   `Tag` – many-to-many with Estate (`SeaView`, `NewBuild`, etc.)
--   `ImageLink` – one-to-many with Estate
+- `User` (Admin, Agent roles)
+- `Estate`
+- `Tag` – many-to-many with Estate (`SeaView`, `NewBuild`, etc.)
+- `ImageLink` – one-to-many with Estate
 
 ### Filtering & Search
 
--   Filter by: `price`, `size`, `city`
--   Sort: ascending/descending by price or size
--   Text search in estate description
+- Filter by: `price`, `size`, `city`
+- Sort: ascending/descending by price or size
+- Text search in estate description
 
 ## Notes
 
--   Some files (e.g., DB and appsettings) **excluded from .gitignore** temporarily for easier testing
+- Some files (e.g., DB and appsettings) **excluded from .gitignore** temporarily for easier testing
 
 ---
+
+## 🖥️ Real Estate App – Frontend (React)
+
+**Tech Stack:**  
+React (Vite) + React Router + Material UI + JWT authentication (via HttpOnly cookies)
+
+This is the frontend for the Real Estate platform. It connects to the ASP.NET Core backend and enables users to browse, search, filter, and manage property listings.
+
+---
+
+### ✅ Completed Frontend Features
+
+- 🔍 **List Estates** with pagination, sorting, and search
+- 🎯 **Filter by** price, size, city, and estate type
+- 🧾 **Frontend form validation** (e.g., required fields, max text length)
+- 🧠 **Modal confirmation dialogs** for estate deletion
+- ✏️ **Create/Edit Estate** with dynamic tag selection (multi-select)
+- 👥 **Role-based access**: Admin and Agent can create/edit/ adn only admin can delete
+- 💅 Basic **responsive layout** with Material UI
+- 🔄 React Router navigation
+- 💬 Validation and error messages show in the form before submission
+- 🔐 Handles JWT login via HttpOnly cookie
+
+---
+
+### 🚧 TODO · Work In Progress
+
+- 🖼️ **Image upload support** (frontend UI) + display estate pictures in listings and detail view
+- 🧾 Admin panel to update agency info (name, logo, contact details)
+- 🧠 "About Us" page with static agent/team cards and company overview
+- 📱 Final UI/UX design polish (colors, logo, backgrounds, responsive layout for mobile)
+- 🧱 Sticky main menu and search bar for better navigation
+- 🔄 Improved login/logout UI (user dropdown, login status indicator)
+
+---
+
+### 🧪 How to Run the Frontend
+
+> Make sure the **backend is already running** locally at `https://localhost:7209`.
+
+Then:
+
+```bash
+cd RealEstateFrontend
+npm install
+npm run dev
+
 
 ## Future Tasks TODO
 
 -   [ ] Finish React frontend
 -   [ ] Change database from SQLite to SQL Server
--   [ ] Deploy backend, frontend, and database to Azure  
+-   [ ] Deploy backend, frontend, and database to Azure
          (Azure App Service, Azure SQL Database, Azure Static Web Apps – or Netlify for frontend)
+```
