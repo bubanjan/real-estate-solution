@@ -10,13 +10,18 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  FormHelperText
-} from '@mui/material'
-import { useEffect, useState } from 'react'
-import { cities, estateTypes } from '../constants/enums'
-import { fetchTags } from '../api/realEstateApi'
+  FormHelperText,
+} from '@mui/material';
+import { useEffect, useState } from 'react';
+import { cities, estateTypes } from '../constants/enums';
+import { fetchTags } from '../api/realEstateApi';
 
-export default function EstateFormModal({ open, onClose, onSubmit, initialData = {} }) {
+export default function EstateFormModal({
+  open,
+  onClose,
+  onSubmit,
+  initialData = {},
+}) {
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -24,17 +29,17 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
     size: '',
     city: '',
     estateCategory: '',
-    tagIds: []
-  })
+    tagIds: [],
+  });
 
-  const [availableTags, setAvailableTags] = useState([])
-  const [validationError, setValidationError] = useState('')
+  const [availableTags, setAvailableTags] = useState([]);
+  const [validationError, setValidationError] = useState('');
 
   useEffect(() => {
     fetchTags()
       .then(setAvailableTags)
-      .catch(err => console.error('Failed to load tags:', err))
-  }, [])
+      .catch((err) => console.error('Failed to load tags:', err));
+  }, []);
 
   useEffect(() => {
     if (open) {
@@ -45,61 +50,63 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
         size: initialData?.size || '',
         city: initialData?.city ?? '',
         estateCategory: initialData?.estateCategory ?? '',
-        tagIds: initialData?.tagIds || initialData?.tags?.map(tag => tag.id) || []
-      })
-      setValidationError('')
+        tagIds:
+          initialData?.tagIds || initialData?.tags?.map((tag) => tag.id) || [],
+      });
+      setValidationError('');
     }
-  }, [initialData, open])
+  }, [initialData, open]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setForm({ ...form, [name]: value })
-  }
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
 
   const handleSubmit = () => {
     if (!form.title || form.title.trim().length === 0) {
-      setValidationError('Title is required.')
-      return
+      setValidationError('Title is required.');
+      return;
     }
 
     if (!form.description || form.description.trim().length === 0) {
-      setValidationError('Description is required.')
-      return
+      setValidationError('Description is required.');
+      return;
     }
 
     if (form.description.length > 2500) {
-      setValidationError('Description must be 2500 characters or less.')
-      return
+      setValidationError('Description must be 2500 characters or less.');
+      return;
     }
 
     if (!form.size || form.size < 1) {
-      setValidationError('Size is required and must be greater than 0.')
-      return
+      setValidationError('Size is required and must be greater than 0.');
+      return;
     }
 
-
     if (!form.price || form.price < 1) {
-      setValidationError('Price is required and must be greater than 0.')
-      return
+      setValidationError('Price is required and must be greater than 0.');
+      return;
     }
 
     if (!form.city) {
-      setValidationError('City is required.')
-      return
+      setValidationError('City is required.');
+      return;
     }
 
     if (!form.estateCategory) {
-      setValidationError('Estate type is required.')
-      return
+      setValidationError('Estate type is required.');
+      return;
     }
 
-    setValidationError('')
-    onSubmit(form)
-  }
+    setValidationError('');
+    onSubmit(form);
+  };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{initialData?.id ? 'Edit Estate' : 'Create Estate'}</DialogTitle>
+      <DialogTitle>
+        {initialData?.id ? 'Edit Estate' : 'Create Estate'}
+      </DialogTitle>
 
       {validationError && (
         <Box color="error.main" ml={3} mb={1}>
@@ -128,7 +135,8 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
             multiline
             rows={3}
             error={
-              !form.description || form.description.trim().length === 0 ||
+              !form.description ||
+              form.description.trim().length === 0 ||
               form.description.length > 2500
             }
             helperText={
@@ -148,7 +156,11 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
             type="number"
             fullWidth
             error={!form.price || form.price < 1}
-            helperText={!form.price || form.price < 1 ? 'Price must be greater than 0' : ''}
+            helperText={
+              !form.price || form.price < 1
+                ? 'Price must be greater than 0'
+                : ''
+            }
           />
 
           <TextField
@@ -159,7 +171,9 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
             type="number"
             fullWidth
             error={!form.size || form.size < 1}
-            helperText={!form.size || form.size < 1 ? 'Size must be greater than 0' : ''}
+            helperText={
+              !form.size || form.size < 1 ? 'Size must be greater than 0' : ''
+            }
           />
 
           <FormControl fullWidth error={!form.city}>
@@ -195,7 +209,9 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
                 </MenuItem>
               ))}
             </Select>
-            {!form.estateCategory && <FormHelperText>Estate type is required</FormHelperText>}
+            {!form.estateCategory && (
+              <FormHelperText>Estate type is required</FormHelperText>
+            )}
           </FormControl>
 
           <FormControl fullWidth>
@@ -209,8 +225,8 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
               renderValue={(selected) =>
                 selected
                   .map((id) => {
-                    const tag = availableTags.find((t) => t.id === id)
-                    return tag?.name || id
+                    const tag = availableTags.find((t) => t.id === id);
+                    return tag?.name || id;
                   })
                   .join(', ')
               }
@@ -232,5 +248,5 @@ export default function EstateFormModal({ open, onClose, onSubmit, initialData =
         </Button>
       </DialogActions>
     </Dialog>
-  )
+  );
 }

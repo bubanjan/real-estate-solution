@@ -1,4 +1,11 @@
-import { Card, CardContent, Typography, Button, Box, CardMedia } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Box,
+  CardMedia,
+} from '@mui/material';
 import noImage from '../assets/noImage.png';
 
 export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
@@ -55,7 +62,11 @@ export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
 
         {(auth.role === 'Admin' || auth.role === 'Agent') && (
           <Box mt={2} display="flex" gap={1}>
-            <Button size="small" variant="outlined" onClick={() => onEdit(estate)}>
+            <Button
+              size="small"
+              variant="outlined"
+              onClick={() => onEdit(estate)}
+            >
               🖋️ Edit
             </Button>
             {auth.role === 'Admin' && (
