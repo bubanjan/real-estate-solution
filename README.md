@@ -147,7 +147,7 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 
 ### 🧪 How to Run the Frontend
 
-> Make sure the **backend is already running** locally at `https://localhost:7209`.
+- Open backend project (RealEstateAPI) in Visual Studio and run it using the Debug (F5) button, make sure the **backend is running** locally at `https://localhost:7209`.
 
 Then:
 
