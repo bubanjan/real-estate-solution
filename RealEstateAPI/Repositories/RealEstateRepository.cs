@@ -53,7 +53,11 @@ namespace RealEstateAPI.Repositories
 
             if (string.IsNullOrEmpty(searchWord) == false)
             {
-                collection = collection.Where(x => x.Description != null && x.Description.ToLower().Contains(searchWord.ToLower()));
+                var searchWordLowered = searchWord.ToLower();
+                collection = collection.Where(x =>
+                    (!string.IsNullOrEmpty(x.Description) && x.Description.ToLower().Contains(searchWordLowered)) ||
+                    (!string.IsNullOrEmpty(x.Title) && x.Title.ToLower().Contains(searchWordLowered))
+                );
             }
 
             var totalItemsCount = await collection.CountAsync();
