@@ -132,6 +132,8 @@ namespace RealEstateAPI
 
                 app.UseHttpsRedirection();
 
+                app.UseStaticFiles();
+
                 app.UseCors("AllowLocalHosts");
 
                 app.UseAuthentication();

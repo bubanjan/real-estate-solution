@@ -197,5 +197,49 @@ namespace RealEstateAPI.Controllers
                 return StatusCode(500, "An unexpected error occurred. Please try again later.");
             }
         }
+
+        [Authorize(Roles = "Admin,Agent")]
+        [HttpPost("{id}/images")]
+        public async Task<ActionResult<IEnumerable<ImageLink>>> UploadEstateImages(int id, [FromForm] List<IFormFile> files)
+        {
+            if (files == null || files.Count == 0)
+                return BadRequest("No files uploaded.");
+
+            var estate = await _realEstateRepository.GetEstateEntityAsync(id);
+            if (estate == null)
+                return NotFound("Estate not found.");
+
+            var savedLinks = new List<ImageLink>();
+            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "estates");
+
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+
+            foreach (var file in files)
+            {
+                var fileExt = Path.GetExtension(file.FileName);
+                var fileName = $"estate_{id}_{Guid.NewGuid()}{fileExt}";
+                var fullPath = Path.Combine(uploadPath, fileName);
+                var relativeUrl = $"/images/estates/{fileName}";
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                var link = new ImageLink
+                {
+                    Url = relativeUrl,
+                    EstateId = id
+                };
+
+                estate.ImageLinks.Add(link);
+                savedLinks.Add(link);
+            }
+
+            await _realEstateRepository.SaveChangesAsync();
+            return Ok(savedLinks);
+        }
+
     }
 }
