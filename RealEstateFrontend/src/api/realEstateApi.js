@@ -119,8 +119,21 @@ export async function createEstate(data) {
     body: JSON.stringify(data),
   });
 
-  if (!response.ok) throw new Error('Failed to create estate');
-  return await response.json();
+  const text = await response.text();
+  console.log('CreateEstate response text:', text); // <-- Add this line
+
+  if (!response.ok) {
+    throw new Error(`Failed to create estate: ${response.status} - ${text}`);
+  }
+
+  try {
+    const json = JSON.parse(text);
+    console.log('Parsed createEstate response:', json); // <-- Add this too
+    return json;
+  } catch (err) {
+    console.error('Failed to parse JSON:', err);
+    throw new Error('Server returned invalid JSON after creating estate.');
+  }
 }
 
 export async function updateEstate(id, data) {
@@ -150,4 +163,28 @@ export async function fetchTags() {
 
   const data = await response.json();
   return data.map((t) => ({ id: t.id, name: t.name }));
+}
+
+export async function uploadEstateImage(estateId, file) {
+  console.log('Uploading image for estate ID:', estateId); // ✅ Add this
+
+  const formData = new FormData();
+  formData.append('files', file);
+
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/api/estates/${estateId}/images`,
+    {
+      method: 'POST',
+      credentials: 'include',
+      body: formData,
+    }
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error('Image upload failed:', errorText);
+    throw new Error(`Failed to upload image: ${response.status}`);
+  }
+
+  return true;
 }
