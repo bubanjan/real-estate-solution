@@ -11,6 +11,7 @@ import {
   Select,
   MenuItem,
   FormHelperText,
+  Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { cities, estateTypes } from '../constants/enums';
@@ -34,6 +35,7 @@ export default function EstateFormModal({
 
   const [availableTags, setAvailableTags] = useState([]);
   const [validationError, setValidationError] = useState('');
+  const [imageFile, setImageFile] = useState(null);
 
   useEffect(() => {
     fetchTags()
@@ -99,7 +101,8 @@ export default function EstateFormModal({
     }
 
     setValidationError('');
-    onSubmit(form);
+    onSubmit(form, imageFile);
+    setImageFile(null);
   };
 
   return (
@@ -239,6 +242,40 @@ export default function EstateFormModal({
             </Select>
           </FormControl>
         </Box>
+
+        {initialData?.id && (
+          <Box>
+            <Typography>Add image:</Typography>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const validTypes = [
+                  'image/jpeg',
+                  'image/png',
+                  'image/webp',
+                  'image/gif',
+                ];
+                const maxSize = 2 * 1024 * 1024;
+
+                if (!validTypes.includes(file.type)) {
+                  alert('Only JPG, PNG, WebP, or GIF images are allowed.');
+                  return;
+                }
+
+                if (file.size > maxSize) {
+                  alert('File size must be less than 2MB.');
+                  return;
+                }
+
+                setImageFile(file);
+              }}
+            />
+          </Box>
+        )}
       </DialogContent>
 
       <DialogActions>

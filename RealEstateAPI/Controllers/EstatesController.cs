@@ -200,7 +200,7 @@ namespace RealEstateAPI.Controllers
 
         [Authorize(Roles = "Admin,Agent")]
         [HttpPost("{id}/images")]
-        public async Task<ActionResult<IEnumerable<ImageLink>>> UploadEstateImages(int id, [FromForm] List<IFormFile> files)
+        public async Task<ActionResult> UploadEstateImages(int id, [FromForm] List<IFormFile> files)
         {
             if (files == null || files.Count == 0)
                 return BadRequest("No files uploaded.");
@@ -209,15 +209,23 @@ namespace RealEstateAPI.Controllers
             if (estate == null)
                 return NotFound("Estate not found.");
 
-            var savedLinks = new List<ImageLink>();
-            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "estates");
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+            const long maxFileSize = 2 * 1024 * 1024;
 
+            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "estates");
             if (!Directory.Exists(uploadPath))
                 Directory.CreateDirectory(uploadPath);
 
             foreach (var file in files)
             {
-                var fileExt = Path.GetExtension(file.FileName);
+                var fileExt = Path.GetExtension(file.FileName).ToLower();
+
+                if (!allowedExtensions.Contains(fileExt))
+                    return BadRequest("Only JPG, PNG, GIF, or WebP image files are allowed.");
+
+                if (file.Length > maxFileSize)
+                    return BadRequest("File size must be less than 2MB.");
+
                 var fileName = $"estate_{id}_{Guid.NewGuid()}{fileExt}";
                 var fullPath = Path.Combine(uploadPath, fileName);
                 var relativeUrl = $"/images/estates/{fileName}";
@@ -234,12 +242,12 @@ namespace RealEstateAPI.Controllers
                 };
 
                 estate.ImageLinks.Add(link);
-                savedLinks.Add(link);
             }
 
             await _realEstateRepository.SaveChangesAsync();
-            return Ok(savedLinks);
+            return Ok();
         }
+
 
     }
 }

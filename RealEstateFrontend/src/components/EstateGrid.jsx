@@ -14,6 +14,7 @@ import {
   deleteEstate,
   updateEstate,
   createEstate,
+  uploadEstateImage,
 } from '../api/realEstateApi';
 
 export default function EstateGrid({
@@ -124,13 +125,23 @@ export default function EstateGrid({
     setShowModal(true);
   };
 
-  const handleSubmitEstate = async (formData) => {
+  const handleSubmitEstate = async (formData, imageFile) => {
     try {
+      let createdEstate;
+
       if (editingEstate?.id) {
         await updateEstate(editingEstate.id, formData);
+        createdEstate = { id: editingEstate.id };
       } else {
-        await createEstate(formData);
+        createdEstate = await createEstate(formData);
+
+        await new Promise((resolve) => setTimeout(resolve, 400));
       }
+
+      if (imageFile && createdEstate?.id) {
+        await uploadEstateImage(createdEstate.id, imageFile);
+      }
+
       setShowModal(false);
       setEditingEstate(null);
       await refreshEstates();
