@@ -120,15 +120,14 @@ export async function createEstate(data) {
   });
 
   const text = await response.text();
-  console.log('CreateEstate response text:', text); // <-- Add this line
-
+  console.log('CreateEstate response text:', text);
   if (!response.ok) {
     throw new Error(`Failed to create estate: ${response.status} - ${text}`);
   }
 
   try {
     const json = JSON.parse(text);
-    console.log('Parsed createEstate response:', json); // <-- Add this too
+    console.log('Parsed createEstate response:', json);
     return json;
   } catch (err) {
     console.error('Failed to parse JSON:', err);
@@ -166,7 +165,7 @@ export async function fetchTags() {
 }
 
 export async function uploadEstateImage(estateId, file) {
-  console.log('Uploading image for estate ID:', estateId); // ✅ Add this
+  console.log('Uploading image for estate ID:', estateId);
 
   const formData = new FormData();
   formData.append('files', file);

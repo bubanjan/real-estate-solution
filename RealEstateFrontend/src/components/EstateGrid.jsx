@@ -133,14 +133,11 @@ export default function EstateGrid({
         await updateEstate(editingEstate.id, formData);
         createdEstate = { id: editingEstate.id };
       } else {
-        // Step 1: create estate
         createdEstate = await createEstate(formData);
 
-        // Step 2: wait a bit to ensure it is persisted
         await new Promise((resolve) => setTimeout(resolve, 400));
       }
 
-      // Step 3: upload image with known ID
       if (imageFile && createdEstate?.id) {
         await uploadEstateImage(createdEstate.id, imageFile);
       }
