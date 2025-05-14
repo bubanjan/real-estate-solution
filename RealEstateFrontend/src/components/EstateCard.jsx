@@ -30,7 +30,9 @@ export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
         height="200"
         image={
           estate.imageLinks && estate.imageLinks.length > 0
-            ? `${import.meta.env.VITE_API_URL}${estate.imageLinks[0].url}`
+            ? `${import.meta.env.VITE_API_URL}${
+                estate.imageLinks[estate.imageLinks.length - 1].url
+              }`
             : noImage
         }
         alt={estate.title || 'No Image Available'}
