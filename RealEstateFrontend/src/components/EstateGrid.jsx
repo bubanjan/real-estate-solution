@@ -101,6 +101,7 @@ export default function EstateGrid({
       orderBy,
     });
     setEstates(data);
+    console.log('data refreshed..', data);
     setTotalPages(pagination.totalPages);
   };
 
@@ -130,6 +131,7 @@ export default function EstateGrid({
       let createdEstate;
 
       if (editingEstate?.id) {
+        console.log('form data', formData);
         await updateEstate(editingEstate.id, formData);
         createdEstate = { id: editingEstate.id };
       } else {
