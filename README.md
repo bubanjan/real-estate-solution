@@ -31,6 +31,7 @@ Authorization via JWT + HttpOnly Cookies
 - ✅ Logging using Serilog
 - ✅ API Documentation via Swagger
 - ✅ Test users seeded for easy local testing
+- ✅ Image upload with check of size and file type
 
 ---
 
