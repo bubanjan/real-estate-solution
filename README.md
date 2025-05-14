@@ -31,7 +31,7 @@ Authorization via JWT + HttpOnly Cookies
 - ✅ Logging using Serilog
 - ✅ API Documentation via Swagger
 - ✅ Test users seeded for easy local testing
-- ✅ Image upload with check of size and file type
+- ✅ Images upload with check of size and file type
 
 ---
 
@@ -135,7 +135,7 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 - ✅ Client-side navigation using React Router
 - ✅ Real-time validation and error messages in form fields
 - ✅ Handles JWT login via HttpOnly cookies (secure session management)
-- ✅ Image upload with check of size and file type, in edit modal
+- ✅ Images upload with check of size and file type, in edit modal
 
 ---
 
