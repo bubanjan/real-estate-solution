@@ -6,13 +6,13 @@ import {
   Box,
   CardMedia,
 } from '@mui/material';
-import noImage from '../assets/noImage.png';
+import noImage from '../assets/noImage4.png';
 
 export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
   const trimDescription = (text, maxLength = 200) =>
     text.length > maxLength ? `${text.substring(0, maxLength)}…` : text;
 
-  const imageUrl = estate.imageUrl || noImage;
+  //const imageUrl = estate.imageUrl || noImage;
 
   return (
     <Card
@@ -25,13 +25,17 @@ export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
         justifyContent: 'space-between',
       }}
     >
-      {/* <CardMedia
+      <CardMedia
         component="img"
         height="200"
-        image={imageUrl}
+        image={
+          estate.imageLinks && estate.imageLinks.length > 0
+            ? `${import.meta.env.VITE_API_URL}${estate.imageLinks[0].url}`
+            : noImage
+        }
         alt={estate.title || 'No Image Available'}
         sx={{ objectFit: 'cover', backgroundColor: '#f0f0f0' }}
-      /> */}
+      />
 
       <CardContent sx={{ flexGrow: 1 }}>
         <Typography variant="h6">{estate.title}</Typography>
