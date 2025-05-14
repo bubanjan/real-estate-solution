@@ -47,6 +47,7 @@ export default function EstateFormModal({
     if (open) {
       setForm({
         title: initialData?.title || '',
+        imageLinks: initialData?.imageLinks || [],
         description: initialData?.description || '',
         price: initialData?.price || '',
         size: initialData?.size || '',

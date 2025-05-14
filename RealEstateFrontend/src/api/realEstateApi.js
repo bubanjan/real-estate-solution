@@ -136,6 +136,11 @@ export async function createEstate(data) {
 }
 
 export async function updateEstate(id, data) {
+  const cleanedData = {
+    ...data,
+    imageLinks: data.imageLinks?.map((link) => link.url) || [],
+  };
+  console.log('data before send', cleanedData);
   const response = await fetch(
     `${import.meta.env.VITE_API_URL}/api/estates/${id}`,
     {
@@ -144,7 +149,7 @@ export async function updateEstate(id, data) {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify(data),
+      body: JSON.stringify(cleanedData),
     }
   );
 

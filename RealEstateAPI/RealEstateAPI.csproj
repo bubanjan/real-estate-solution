@@ -26,9 +26,6 @@
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.5.0" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Content Include="wwwroot\**" />
-	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="wwwroot\images\estates\" />

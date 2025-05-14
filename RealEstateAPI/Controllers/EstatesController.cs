@@ -176,9 +176,9 @@ namespace RealEstateAPI.Controllers
 
                 await _realEstateRepository.RemoveImageLinksByEstateIdAsync(id);
 
-                if (estateData.ImageUrls != null && estateData.ImageUrls.Any())
+                if (estateData.ImageLinks != null && estateData.ImageLinks.Any())
                 {
-                    foreach (var url in estateData.ImageUrls)
+                    foreach (var url in estateData.ImageLinks)
                     {
                         estateEntity.ImageLinks.Add(new ImageLink
                         {
