@@ -119,20 +119,16 @@ export async function createEstate(data) {
     body: JSON.stringify(data),
   });
 
-  const text = await response.text();
-  console.log('CreateEstate response text:', text);
   if (!response.ok) {
-    throw new Error(`Failed to create estate: ${response.status} - ${text}`);
+    const errorText = await response.text();
+    throw new Error(
+      `Failed to create estate: ${response.status} - ${errorText}`
+    );
   }
 
-  try {
-    const json = JSON.parse(text);
-    console.log('Parsed createEstate response:', json);
-    return json;
-  } catch (err) {
-    console.error('Failed to parse JSON:', err);
-    throw new Error('Server returned invalid JSON after creating estate.');
-  }
+  const json = await response.json();
+  console.log('Created estate:', json);
+  return json;
 }
 
 export async function updateEstate(id, data) {
