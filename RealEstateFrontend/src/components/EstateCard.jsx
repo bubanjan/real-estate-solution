@@ -17,7 +17,7 @@ export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
   return (
     <Card
       sx={{
-        cursor: 'pointer',
+        // cursor: 'pointer',
         height: '100%',
         width: '100%',
         display: 'flex',
