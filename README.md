@@ -142,8 +142,7 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 ### 🚧 TODO · Not finished tasks, Work In Progress
 
 - [ ] Image upload is not finished, full support (frontend UI) + display estate pictures in listings and detail view as image gallery
-- [ ] Final UI/UX design polish (colors, photos, logo, backgrounds, dark/other theme, responsive layout for mobile)
-- [ ] Improved login/logout UI (user dropdown, login status indicator)
+- [ ] Final UI/UX design polish (colors, photos, logo, backgrounds, dark/other theme, responsive layout for mobile, login menu as dropdown)
 
 ---
 
