@@ -135,7 +135,7 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 - ✅ Client-side navigation using React Router
 - ✅ Real-time validation and error messages in form fields
 - ✅ Handles JWT login via HttpOnly cookies (secure session management)
-- ✅ Images upload with check of size and file type, in edit modal (not tottaly finished)
+- ✅ Images upload with check of size and file type, in edit modal (not totally finished)
 
 ---
 
