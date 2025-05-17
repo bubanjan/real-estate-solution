@@ -8,8 +8,8 @@ import {
   useTheme,
 } from '@mui/material';
 
-import adminImg from '../assets/admin2.png';
-import agentImg from '../assets/agent2.png';
+import adminImg from '../assets/admin1.png';
+import agentImg from '../assets/agent1.png';
 
 export default function AboutUs() {
   const theme = useTheme();
