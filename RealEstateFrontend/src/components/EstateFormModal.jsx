@@ -188,7 +188,6 @@ export default function EstateFormModal({
           <FormControl fullWidth error={!form.city}>
             <InputLabel id="city-label">City</InputLabel>
             <Select
-              size="small"
               labelId="city-label"
               name="city"
               value={form.city}
@@ -207,7 +206,6 @@ export default function EstateFormModal({
           <FormControl fullWidth error={!form.estateCategory}>
             <InputLabel id="estate-type-label">Estate Type</InputLabel>
             <Select
-              size="small"
               labelId="estate-type-label"
               name="estateCategory"
               value={form.estateCategory}
@@ -228,7 +226,6 @@ export default function EstateFormModal({
           <FormControl fullWidth>
             <InputLabel id="tags-label">Tags</InputLabel>
             <Select
-              size="small"
               labelId="tags-label"
               name="tagIds"
               multiple
