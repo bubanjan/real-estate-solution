@@ -55,6 +55,7 @@ export default function EstateFormModal({
         estateCategory: initialData?.estateCategory ?? '',
         tagIds:
           initialData?.tagIds || initialData?.tags?.map((tag) => tag.id) || [],
+        sellerContact: initialData?.sellerContact || '',
       });
       setValidationError('');
     }
@@ -121,6 +122,7 @@ export default function EstateFormModal({
       <DialogContent>
         <Box display="flex" flexDirection="column" gap={2} mt={1}>
           <TextField
+            size="small"
             label="Title"
             name="title"
             value={form.title}
@@ -131,6 +133,7 @@ export default function EstateFormModal({
           />
 
           <TextField
+            size="small"
             label="Description"
             name="description"
             value={form.description}
@@ -153,6 +156,7 @@ export default function EstateFormModal({
           />
 
           <TextField
+            size="small"
             label="Price"
             name="price"
             value={form.price}
@@ -168,6 +172,7 @@ export default function EstateFormModal({
           />
 
           <TextField
+            size="small"
             label="Size (m²)"
             name="size"
             value={form.size}
@@ -183,6 +188,7 @@ export default function EstateFormModal({
           <FormControl fullWidth error={!form.city}>
             <InputLabel id="city-label">City</InputLabel>
             <Select
+              size="small"
               labelId="city-label"
               name="city"
               value={form.city}
@@ -201,6 +207,7 @@ export default function EstateFormModal({
           <FormControl fullWidth error={!form.estateCategory}>
             <InputLabel id="estate-type-label">Estate Type</InputLabel>
             <Select
+              size="small"
               labelId="estate-type-label"
               name="estateCategory"
               value={form.estateCategory}
@@ -221,6 +228,7 @@ export default function EstateFormModal({
           <FormControl fullWidth>
             <InputLabel id="tags-label">Tags</InputLabel>
             <Select
+              size="small"
               labelId="tags-label"
               name="tagIds"
               multiple
@@ -242,6 +250,15 @@ export default function EstateFormModal({
               ))}
             </Select>
           </FormControl>
+
+          <TextField
+            size="small"
+            label="Seller contact"
+            name="sellerContact"
+            value={form.sellerContact}
+            onChange={handleChange}
+            fullWidth
+          />
         </Box>
 
         {initialData?.id && (

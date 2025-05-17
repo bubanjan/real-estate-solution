@@ -46,6 +46,9 @@ export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
         </Typography>
         <Typography mt={1}>{estate.price} EUR</Typography>
         <Typography>{estate.size} m²</Typography>
+        {estate.sellerContact && (
+          <Typography>Seller contact: {estate.sellerContact} </Typography>
+        )}
 
         {estate.tags?.length > 0 && (
           <Box mt={1} display="flex" flexWrap="wrap" gap={1}>
