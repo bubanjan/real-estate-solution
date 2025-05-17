@@ -128,9 +128,9 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 - ✅ **Modal confirmation dialogs** for estate deletion
 - ✅ **Create/Edit Estate** with dynamic tag selection (multi-select)
 - ✅👥 **Role-based access**:
-  - ✅ Admin and Agent can create/edit estates
-  - ✅ Only Admin can delete
-  - ✅ Public (unauthenticated) users can search and browse, but not modify data
+  - ✅ Admin and Agent can create/edit estates and and see/edit seller contact info for every estate
+  - ✅ Only Admin can delete estate
+  - ✅ Public (unauthenticated) users can search and browse, see estate data, but not modify data and they can not see seller data
 - ✅ Responsive layout built with Material UI
 - ✅ Client-side navigation using React Router
 - ✅ Real-time validation and error messages in form fields
