@@ -44,8 +44,9 @@ export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
         <Typography variant="body2" color="text.secondary">
           {trimDescription(estate.description)}
         </Typography>
-        <Typography mt={1}>{estate.price} EUR</Typography>
-        <Typography>{estate.size} m²</Typography>
+        <Typography mt={1}>Location: {estate.city}</Typography>
+        <Typography mt={1}>Price: {estate.price} EUR</Typography>
+        <Typography>Size: {estate.size} m²</Typography>
         {estate.sellerContact && (
           <Typography>Seller contact: {estate.sellerContact} </Typography>
         )}
