@@ -210,7 +210,7 @@ namespace RealEstateAPI.Controllers
                 return NotFound("Estate not found.");
 
             var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
-            const long maxFileSize = 2 * 1024 * 1024;
+            const long maxFileSize = 4 * 1024 * 1024;
 
             var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "estates");
             if (!Directory.Exists(uploadPath))
@@ -224,7 +224,7 @@ namespace RealEstateAPI.Controllers
                     return BadRequest("Only JPG, PNG, GIF, or WebP image files are allowed.");
 
                 if (file.Length > maxFileSize)
-                    return BadRequest("File size must be less than 2MB.");
+                    return BadRequest("File size must be less than 4MB.");
 
                 var fileName = $"estate_{id}_{Guid.NewGuid()}{fileExt}";
                 var fullPath = Path.Combine(uploadPath, fileName);
