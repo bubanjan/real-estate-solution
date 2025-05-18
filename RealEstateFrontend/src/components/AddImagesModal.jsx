@@ -33,7 +33,7 @@ export default function AddImagesModal({ open, onClose, onSubmit, estateId }) {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Add Images</DialogTitle>
+      <DialogTitle>Add Image</DialogTitle>
 
       {validationError && (
         <Typography color="error" ml={3} mb={1}>
@@ -45,7 +45,7 @@ export default function AddImagesModal({ open, onClose, onSubmit, estateId }) {
         <Box display="flex" flexDirection="column" gap={2} mt={1}></Box>
 
         <Box>
-          <Typography>Add image:</Typography>
+          <Typography>Choose image:</Typography>
           <input
             type="file"
             accept="image/*"
@@ -81,7 +81,7 @@ export default function AddImagesModal({ open, onClose, onSubmit, estateId }) {
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
         <Button variant="contained" onClick={handleSubmit}>
-          Add Images
+          Add Image
         </Button>
       </DialogActions>
     </Dialog>
