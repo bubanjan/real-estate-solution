@@ -37,6 +37,13 @@ export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
       />
 
       <CardContent sx={{ flexGrow: 1 }}>
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{ fontStyle: 'italic' }}
+        >
+          Ref ID: #{estate.id}
+        </Typography>
         <Typography variant="h6">{estate.title}</Typography>
         <Typography variant="body2" color="text.secondary">
           {trimDescription(estate.description)}
