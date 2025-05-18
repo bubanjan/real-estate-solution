@@ -9,6 +9,7 @@ import {
 import EstateCard from './EstateCard';
 import EstateFormModal from './EstateFormModal';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
+import EstateDetailModal from './EstateDetailModal';
 import {
   fetchEstates,
   deleteEstate,
@@ -37,6 +38,7 @@ export default function EstateGrid({
   const [editingEstate, setEditingEstate] = useState(null);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [estateIdToDelete, setEstateIdToDelete] = useState(null);
+  const [viewingEstate, setViewingEstate] = useState(null);
 
   useEffect(() => {
     const handleCreated = () => refreshEstates();
@@ -171,6 +173,7 @@ export default function EstateGrid({
             auth={auth}
             onDelete={confirmDelete}
             onEdit={handleEdit}
+            onView={(estate) => setViewingEstate(estate)}
           />
         ))}
       </Box>
@@ -201,6 +204,12 @@ export default function EstateGrid({
           setEstateIdToDelete(null);
         }}
         onConfirm={handleDelete}
+      />
+
+      <EstateDetailModal
+        open={!!viewingEstate}
+        onClose={() => setViewingEstate(null)}
+        estate={viewingEstate}
       />
     </>
   );
