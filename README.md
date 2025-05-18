@@ -25,7 +25,7 @@ Authorization via JWT + HttpOnly Cookies
 - ✅ EF Core + SQL DB
 - ✅ Role-based Authorization (JWT tokens in HttpOnly cookies)
 - ✅ Admin & Agent roles with access control on endpoints
-- ✅ CRUD for Real Estates, Tags, and Photos
+- ✅ Create, Read, Update, Delete for Real Estates, Tags, and Photos
 - ✅ Pagination, Sorting, Filtering, and Text Search
 - ✅ Many-to-Many (Tags), One-to-Many (Photos) relationships
 - ✅ Logging using Serilog
@@ -126,7 +126,7 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 
 - ✅ **Frontend form validation** (e.g., required fields, max text length)
 - ✅ **Modal confirmation dialogs** for estate deletion
-- ✅ **Create/Edit Estate** with dynamic tag selection (multi-select)
+- ✅ **Create/Edit/Delete Estate** with dynamic tag selection (multi-select)
 - ✅👥 **Role-based access**:
   - ✅ Admin and Agent can create/edit estates and and see/edit seller contact info for every estate
   - ✅ Only Admin can delete estate
