@@ -40,17 +40,29 @@ export default function EstateGrid({
   const [estateIdToDelete, setEstateIdToDelete] = useState(null);
   const [viewingEstate, setViewingEstate] = useState(null);
 
+  const refreshEstatesData = () => refreshEstates();
+
   useEffect(() => {
-    const handleCreated = () => refreshEstates();
-    window.addEventListener('estateCreated', handleCreated);
-    return () => window.removeEventListener('estateCreated', handleCreated);
+    window.addEventListener('estateCreated', refreshEstatesData);
+    return () =>
+      window.removeEventListener('estateCreated', refreshEstatesData);
   }, []);
 
   useEffect(() => {
-    const handleImagesAdded = () => refreshEstates();
-    window.addEventListener('estateImagesAdded', handleImagesAdded);
+    window.addEventListener('estateImagesAdded', refreshEstatesData);
     return () =>
-      window.removeEventListener('estateImagesAdded', handleImagesAdded);
+      window.removeEventListener('estateImagesAdded', refreshEstatesData);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('userLoggedIn', refreshEstatesData);
+    return () => window.removeEventListener('userLoggedIn', refreshEstatesData);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('userLoggedOut', refreshEstatesData);
+    return () =>
+      window.removeEventListener('userLoggedOut', refreshEstatesData);
   }, []);
 
   useEffect(() => {

@@ -34,6 +34,7 @@ export default function Header({ auth, setAuth }) {
       setUsername('');
       setPassword('');
       setLoginError('');
+      window.dispatchEvent(new Event('userLoggedIn'));
     } catch {
       setLoginError('Login failed');
     }
@@ -42,6 +43,7 @@ export default function Header({ auth, setAuth }) {
   const handleLogout = async () => {
     await logout();
     setAuth({ isLoggedIn: false, role: null, username: null });
+    window.dispatchEvent(new Event('userLoggedOut'));
   };
 
   const handleSubmitEstate = async (formData) => {
