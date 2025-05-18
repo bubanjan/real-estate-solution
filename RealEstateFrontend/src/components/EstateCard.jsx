@@ -8,19 +8,26 @@ import {
 } from '@mui/material';
 import noImage from '../assets/noImage4.png';
 
-export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
+export default function EstateCard({
+  estate,
+  auth = {},
+  onDelete,
+  onEdit,
+  onView,
+}) {
   const trimDescription = (text, maxLength = 200) =>
     text.length > maxLength ? `${text.substring(0, maxLength)}…` : text;
 
   return (
     <Card
       sx={{
-        // cursor: 'pointer',
+        cursor: 'pointer',
         height: '100%',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
       }}
+      onClick={() => onView?.(estate)}
     >
       <CardMedia
         component="img"
@@ -80,7 +87,10 @@ export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
           <Button
             size="small"
             variant="outlined"
-            onClick={() => onEdit(estate)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(estate);
+            }}
           >
             🖋️ Edit
           </Button>
@@ -89,7 +99,10 @@ export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
               size="small"
               variant="outlined"
               color="error"
-              onClick={() => onDelete(estate.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(estate.id);
+              }}
             >
               🗑️ Delete
             </Button>
