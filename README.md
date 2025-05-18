@@ -143,6 +143,7 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 
 - [ ] Image upload is posible now in create and edit modal, but it is not tottaly finished with full support (frontend UI) + display estate pictures in listings and detail view as image gallery
 - [ ] Final UI/UX design polish (colors, photos, logo, backgrounds, dark/other theme, responsive layout for mobile, login menu as dropdown)
+- [ ] UI where admin can see, add, edit and remove users
 
 ---
 
