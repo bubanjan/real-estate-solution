@@ -3,48 +3,25 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  TextField,
   Button,
   Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormHelperText,
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { cities, estateTypes } from '../constants/enums';
-import { fetchTags } from '../api/realEstateApi';
 
-export default function AddImagesModal({
-  open,
-  onClose,
-  onSubmit,
-  estateId,
-  createdEstateIdValue,
-}) {
-  const [form, setForm] = useState({});
-
-  //const [availableTags, setAvailableTags] = useState([]);
+export default function AddImagesModal({ open, onClose, onSubmit, estateId }) {
   const [validationError, setValidationError] = useState('');
   const [imageFile, setImageFile] = useState(null);
 
   useEffect(() => {
     if (open) {
-      setForm({});
       setValidationError('');
     }
   }, [estateId, open]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  };
-
   const handleSubmit = () => {
     setValidationError('');
-    onSubmit(form, imageFile);
+    onSubmit(imageFile);
     setImageFile(null);
   };
 

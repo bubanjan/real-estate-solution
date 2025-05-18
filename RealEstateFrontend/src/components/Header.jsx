@@ -58,7 +58,7 @@ export default function Header({ auth, setAuth }) {
     }
   };
 
-  const handleAddImages = async (formData, imageFile) => {
+  const handleAddImages = async (imageFile) => {
     try {
       if (imageFile && createdEstateId) {
         await uploadEstateImage(createdEstateId, imageFile);
