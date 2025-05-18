@@ -16,10 +16,16 @@ export default function AddImagesModal({ open, onClose, onSubmit, estateId }) {
   useEffect(() => {
     if (open) {
       setValidationError('');
+      setImageFile(null);
     }
   }, [estateId, open]);
 
   const handleSubmit = () => {
+    if (!imageFile) {
+      setValidationError('Please choose an image before submitting.');
+      return;
+    }
+
     setValidationError('');
     onSubmit(imageFile);
     setImageFile(null);
@@ -30,9 +36,9 @@ export default function AddImagesModal({ open, onClose, onSubmit, estateId }) {
       <DialogTitle>Add Images</DialogTitle>
 
       {validationError && (
-        <Box color="error.main" ml={3} mb={1}>
+        <Typography color="error" ml={3} mb={1}>
           {validationError}
-        </Box>
+        </Typography>
       )}
 
       <DialogContent>
@@ -66,6 +72,7 @@ export default function AddImagesModal({ open, onClose, onSubmit, estateId }) {
               }
 
               setImageFile(file);
+              setValidationError('');
             }}
           />
         </Box>
