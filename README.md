@@ -1,10 +1,10 @@
 # 🏡 Full-Stack Real Estate Application
 
-_A real estate web platform built with ASP.NET Core and React (in progress)_
+_A real estate web platform built with ASP.NET Core and React_
 
 - 🚧 This is a **full-stack** real estate application.
 - ✅ The **backend is fully implemented and ready for use**. 📁 Folder: RealEstateAPI
-- 🛠️ The **frontend (React)** is currently in active development and is not finished yet 📁 Folder: RealEstateFrontend
+- 🛠️ The **frontend (React) is functionally complete — minor visual and UX improvements are in progress.** 📁 Folder: RealEstateFrontend
 
 ---
 
@@ -109,8 +109,8 @@ Navigate to: `https://localhost:7209/swagger`
 
 # 🖥️ Real Estate App – Frontend (React)
 
-🚧 **IMPORTANT NOTE:**  
- The frontend is runnable and connected to the backend, but it is still in active development and not yet fully complete.
+🚧 **NOTE:**  
+ The main frontend functionality is complete. Minor enhancements and polishing are still in progress and will be added soon.
 
 **Tech Stack:**  
 React (Vite) + React Router + Material UI + JWT authentication (via HttpOnly cookies)
@@ -136,12 +136,13 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 - ✅ Real-time validation and error messages in form fields
 - ✅ Handles JWT login via HttpOnly cookies (secure session management)
 - ✅ Images upload with check of size and file type, in create and edit modal (not totally finished)
+- ✅ Images are visible as image gallery in estate detail view
 
 ---
 
 ### 🚧 TODO · Not finished tasks, Work In Progress
 
-- [ ] Image upload is posible now in create and edit modal, but it is not tottaly finished with full support (frontend UI) + display estate pictures in listings and detail view as image gallery
+- [ ] Posibility to delete images for each estate, add multiple images at once in edit modal
 - [ ] Final UI/UX design polish (colors, photos, logo, backgrounds, dark/other theme, responsive layout for mobile, login menu as dropdown)
 - [ ] UI where admin can see, add, edit and remove users
 
@@ -184,7 +185,6 @@ These demo users are seeded in the database you can log in with:
 
 ### 📌 Future Tasks (TODO)
 
-- [ ] Finish React frontend
 - [ ] Change database from SQLite to SQL Server
 - [ ] Deploy backend, frontend, and database to Azure  
        (Azure App Service, Azure SQL Database, Azure Static Web Apps – or Netlify for frontend)
