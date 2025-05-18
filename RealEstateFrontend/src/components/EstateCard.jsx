@@ -11,15 +11,14 @@ import noImage from '../assets/noImage4.png';
 export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
   const trimDescription = (text, maxLength = 200) =>
     text.length > maxLength ? `${text.substring(0, maxLength)}…` : text;
+
   return (
     <Card
       sx={{
-        // cursor: 'pointer',
         height: '100%',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
       }}
     >
       <CardMedia
@@ -52,7 +51,7 @@ export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
         <Typography mt={1}>Price: {estate.price} EUR</Typography>
         <Typography>Size: {estate.size} m²</Typography>
         {estate.sellerContact && (
-          <Typography>Seller contact: {estate.sellerContact} </Typography>
+          <Typography>Seller contact: {estate.sellerContact}</Typography>
         )}
 
         {estate.tags?.length > 0 && (
@@ -73,29 +72,29 @@ export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
             ))}
           </Box>
         )}
+      </CardContent>
 
-        {(auth.role === 'Admin' || auth.role === 'Agent') && (
-          <Box mt={2} display="flex" gap={1}>
+      {(auth.role === 'Admin' || auth.role === 'Agent') && (
+        <Box display="flex" gap={1} p={2} pt={0}>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => onEdit(estate)}
+          >
+            🖋️ Edit
+          </Button>
+          {auth.role === 'Admin' && (
             <Button
               size="small"
               variant="outlined"
-              onClick={() => onEdit(estate)}
+              color="error"
+              onClick={() => onDelete(estate.id)}
             >
-              🖋️ Edit
+              🗑️ Delete
             </Button>
-            {auth.role === 'Admin' && (
-              <Button
-                size="small"
-                variant="outlined"
-                color="error"
-                onClick={() => onDelete(estate.id)}
-              >
-                🗑️ Delete
-              </Button>
-            )}
-          </Box>
-        )}
-      </CardContent>
+          )}
+        </Box>
+      )}
     </Card>
   );
 }
