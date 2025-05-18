@@ -11,9 +11,6 @@ import noImage from '../assets/noImage4.png';
 export default function EstateCard({ estate, auth = {}, onDelete, onEdit }) {
   const trimDescription = (text, maxLength = 200) =>
     text.length > maxLength ? `${text.substring(0, maxLength)}…` : text;
-
-  //const imageUrl = estate.imageUrl || noImage;
-
   return (
     <Card
       sx={{

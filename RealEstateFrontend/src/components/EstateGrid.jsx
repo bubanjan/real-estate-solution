@@ -37,7 +37,6 @@ export default function EstateGrid({
   const [editingEstate, setEditingEstate] = useState(null);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [estateIdToDelete, setEstateIdToDelete] = useState(null);
-  const [createdEstateId, setCreatedEstateId] = useState(null);
 
   useEffect(() => {
     const handleCreated = () => refreshEstates();
@@ -136,27 +135,13 @@ export default function EstateGrid({
 
   const handleSubmitEstate = async (formData, imageFile) => {
     try {
-      let createdEstate;
-
       if (editingEstate?.id) {
         console.log('form data', formData);
         await updateEstate(editingEstate.id, formData);
-        //createdEstateId = editingEstate.id;
-      } else {
-        console.log('creating of estate...', formData);
-        createdEstate = await createEstate(formData);
-
-        /*  await new Promise((resolve) => setTimeout(resolve, 400));
-        console.log('crt', createEstate);
-
-        alert('created', createEstate); */
       }
 
       if (imageFile && editingEstate?.id) {
         await uploadEstateImage(editingEstate.id, imageFile);
-      } else if (imageFile && createdEstate?.id) {
-        setCreatedEstateId(createdEstate.id);
-        await uploadEstateImage(createdEstate.id, imageFile);
       }
 
       setShowModal(false);
@@ -207,7 +192,6 @@ export default function EstateGrid({
         }}
         onSubmit={handleSubmitEstate}
         initialData={editingEstate}
-        createdEstateIdValue={createdEstateId}
       />
 
       <DeleteConfirmationModal

@@ -154,7 +154,7 @@ export default function Header({ auth, setAuth }) {
       />
       <AddImagesModal
         open={showImageModal}
-        onClose={() => showImageModal(false)}
+        onClose={() => setShowImageModal(false)}
         onSubmit={handleAddImages}
         estateId={createdEstateId}
       />
