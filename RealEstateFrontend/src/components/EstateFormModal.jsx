@@ -274,7 +274,7 @@ export default function EstateFormModal({
                   'image/webp',
                   'image/gif',
                 ];
-                const maxSize = 2 * 1024 * 1024;
+                const maxSize = 4 * 1024 * 1024;
 
                 if (!validTypes.includes(file.type)) {
                   alert('Only JPG, PNG, WebP, or GIF images are allowed.');
@@ -282,7 +282,7 @@ export default function EstateFormModal({
                 }
 
                 if (file.size > maxSize) {
-                  alert('File size must be less than 2MB.');
+                  alert('File size must be less than 4MB.');
                   return;
                 }
 
