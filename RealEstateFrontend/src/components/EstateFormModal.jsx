@@ -22,6 +22,7 @@ export default function EstateFormModal({
   onClose,
   onSubmit,
   initialData = {},
+  createdEstateIdValue,
 }) {
   const [form, setForm] = useState({
     title: '',
@@ -258,7 +259,7 @@ export default function EstateFormModal({
           />
         </Box>
 
-        {initialData?.id && (
+        {(initialData?.id || createdEstateIdValue) && (
           <Box>
             <Typography>Add image:</Typography>
             <input

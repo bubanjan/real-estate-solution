@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -6,62 +6,93 @@ import {
   Button,
   Box,
   TextField,
-} from '@mui/material'
-import { Link } from 'react-router-dom'
-import { login, logout, checkUser, createEstate } from '../api/realEstateApi'
-import EstateFormModal from './EstateFormModal'
+} from '@mui/material';
+import { Link } from 'react-router-dom';
+import {
+  login,
+  logout,
+  checkUser,
+  createEstate,
+  uploadEstateImage,
+} from '../api/realEstateApi';
+import EstateFormModal from './EstateFormModal';
+import AddImagesModal from './AddImagesModal';
 
 export default function Header({ auth, setAuth }) {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [loginError, setLoginError] = useState('')
-
-  const [showCreate, setShowCreate] = useState(false)
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [showCreate, setShowCreate] = useState(false);
+  const [createdEstateId, setCreatedEstateId] = useState(null);
+  const [showImageModal, setShowImageModal] = useState(false);
 
   const handleLogin = async () => {
     try {
-      await login(username, password)
-      const data = await checkUser()
-      setAuth({ isLoggedIn: true, role: data.role, username: data.username })
-      setUsername('')
-      setPassword('')
-      setLoginError('')
+      await login(username, password);
+      const data = await checkUser();
+      setAuth({ isLoggedIn: true, role: data.role, username: data.username });
+      setUsername('');
+      setPassword('');
+      setLoginError('');
     } catch {
-      setLoginError('Login failed')
+      setLoginError('Login failed');
     }
-  }
+  };
 
   const handleLogout = async () => {
-    await logout()
-    setAuth({ isLoggedIn: false, role: null, username: null })
-  }
-  
+    await logout();
+    setAuth({ isLoggedIn: false, role: null, username: null });
+  };
+
   const handleSubmitEstate = async (formData) => {
     try {
-      await createEstate(formData)
-      setShowCreate(false)
-     
-      window.dispatchEvent(new Event('estateCreated'))
+      console.log('creating estate in header.jsx...', formData);
+      let createdEstate = await createEstate(formData);
+      setShowCreate(false);
+      setCreatedEstateId(createdEstate.id);
+      setShowImageModal(true);
+
+      window.dispatchEvent(new Event('estateCreated'));
     } catch (err) {
-      alert(err.message)
+      alert(err.message);
     }
-  }
+  };
+
+  const handleAddImages = async (formData, imageFile) => {
+    try {
+      if (imageFile && createdEstateId) {
+        await uploadEstateImage(createdEstateId, imageFile);
+      }
+
+      setShowImageModal(false);
+
+      window.dispatchEvent(new Event('estateImagesAdded'));
+    } catch (err) {
+      alert(err.message);
+    }
+  };
 
   return (
     <>
-      <AppBar position="sticky" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <AppBar
+        position="sticky"
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Box display="flex" alignItems="center">
-             {/* <img src={logo} alt="Real Estate Logo" height={50} style={{ marginRight: 16 }} /> */}
+            {/* <img src={logo} alt="Real Estate Logo" height={50} style={{ marginRight: 16 }} /> */}
             <Typography variant="h6">
               👧 Budvanka Real Estate Agency 🌏 Montenegro
             </Typography>
           </Box>
 
           <Box display="flex" alignItems="center" gap={2}>
-
             {['Admin', 'Agent'].includes(auth.role) && (
-              <Button variant="contained" onClick={() => setShowCreate(true)} sx={{backgroundColor: "#6dbbf2", color: "darkblue"}}>
+              <Button
+                variant="contained"
+                onClick={() => setShowCreate(true)}
+                sx={{ backgroundColor: '#6dbbf2', color: 'darkblue' }}
+              >
                 💾 Create Estate
               </Button>
             )}
@@ -73,7 +104,6 @@ export default function Header({ auth, setAuth }) {
               About Us
             </Button>
 
-            
             {auth.isLoggedIn ? (
               <>
                 <Typography variant="body2">
@@ -122,6 +152,12 @@ export default function Header({ auth, setAuth }) {
         onSubmit={handleSubmitEstate}
         initialData={null}
       />
+      <AddImagesModal
+        open={showImageModal}
+        onClose={() => showImageModal(false)}
+        onSubmit={handleAddImages}
+        estateId={createdEstateId}
+      />
     </>
-  )
+  );
 }

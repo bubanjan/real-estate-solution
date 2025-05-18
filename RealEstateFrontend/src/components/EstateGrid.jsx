@@ -37,11 +37,19 @@ export default function EstateGrid({
   const [editingEstate, setEditingEstate] = useState(null);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [estateIdToDelete, setEstateIdToDelete] = useState(null);
+  const [createdEstateId, setCreatedEstateId] = useState(null);
 
   useEffect(() => {
     const handleCreated = () => refreshEstates();
     window.addEventListener('estateCreated', handleCreated);
     return () => window.removeEventListener('estateCreated', handleCreated);
+  }, []);
+
+  useEffect(() => {
+    const handleImagesAdded = () => refreshEstates();
+    window.addEventListener('estateImagesAdded', handleImagesAdded);
+    return () =>
+      window.removeEventListener('estateImagesAdded', handleImagesAdded);
   }, []);
 
   useEffect(() => {
@@ -133,14 +141,21 @@ export default function EstateGrid({
       if (editingEstate?.id) {
         console.log('form data', formData);
         await updateEstate(editingEstate.id, formData);
-        createdEstate = { id: editingEstate.id };
+        //createdEstateId = editingEstate.id;
       } else {
+        console.log('creating of estate...', formData);
         createdEstate = await createEstate(formData);
 
-        await new Promise((resolve) => setTimeout(resolve, 400));
+        /*  await new Promise((resolve) => setTimeout(resolve, 400));
+        console.log('crt', createEstate);
+
+        alert('created', createEstate); */
       }
 
-      if (imageFile && createdEstate?.id) {
+      if (imageFile && editingEstate?.id) {
+        await uploadEstateImage(editingEstate.id, imageFile);
+      } else if (imageFile && createdEstate?.id) {
+        setCreatedEstateId(createdEstate.id);
         await uploadEstateImage(createdEstate.id, imageFile);
       }
 
@@ -192,6 +207,7 @@ export default function EstateGrid({
         }}
         onSubmit={handleSubmitEstate}
         initialData={editingEstate}
+        createdEstateIdValue={createdEstateId}
       />
 
       <DeleteConfirmationModal
