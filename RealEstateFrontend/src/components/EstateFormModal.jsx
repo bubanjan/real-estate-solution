@@ -296,7 +296,7 @@ export default function EstateFormModal({
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
         <Button variant="contained" onClick={handleSubmit}>
-          {initialData?.id ? 'Update' : 'Create estate and add images'}
+          {initialData?.id ? 'Update' : 'Create estate and add image'}
         </Button>
       </DialogActions>
     </Dialog>
