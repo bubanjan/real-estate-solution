@@ -21,7 +21,7 @@ Authorization via JWT + HttpOnly Cookies
 ## Features
 
 - ✅ Custom DTO-to-Entity mapping
-- ✅ EF Core + SQL DB
+- ✅ Entity Framework Core + SQL DB
 - ✅ Role-based Authorization (JWT tokens in HttpOnly cookies)
 - ✅ Admin & Agent roles with access control on endpoints
 - ✅ Create, Read, Update, Delete for Real Estates, Tags, and Photos
@@ -142,7 +142,7 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 ### 🚧 TODO · Not finished tasks, Work In Progress
 
 - [ ] Posibility to delete images for each estate, add multiple images at once in edit modal
-- [ ] Final UI/UX design polish (colors, photos, logo, backgrounds, dark/other theme, responsive layout for mobile, login menu as dropdown)
+- [ ] Final UI/UX design polish (colors, photos, logo, backgrounds, dark/other theme, responsive layout for mobile phones, login menu as dropdown)
 - [ ] UI where admin can see, add, edit and remove users
 
 ---
