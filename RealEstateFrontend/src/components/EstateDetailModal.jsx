@@ -16,6 +16,7 @@ import { useState } from 'react';
 
 export default function EstateDetailModal({ open, onClose, estate }) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   if (!estate) return null;
 
@@ -92,13 +93,7 @@ export default function EstateDetailModal({ open, onClose, estate }) {
               <Typography variant="subtitle1" gutterBottom fontWeight="bold">
                 Gallery
               </Typography>
-              <Box
-                display="flex"
-                flexWrap="wrap"
-                gap={1.5}
-                onClick={() => setLightboxOpen(true)}
-                sx={{ cursor: 'pointer' }}
-              >
+              <Box display="flex" flexWrap="wrap" gap={1.5}>
                 {images.map((img, i) => (
                   <Box
                     key={i}
@@ -107,11 +102,16 @@ export default function EstateDetailModal({ open, onClose, estate }) {
                     alt={`Estate Image ${i + 1}`}
                     width={120}
                     height={90}
+                    onClick={() => {
+                      setLightboxIndex(i);
+                      setLightboxOpen(true);
+                    }}
                     sx={{
                       objectFit: 'cover',
                       borderRadius: 2,
                       boxShadow: 1,
                       transition: 'transform 0.2s',
+                      cursor: 'pointer',
                       '&:hover': {
                         transform: 'scale(1.05)',
                       },
@@ -131,6 +131,7 @@ export default function EstateDetailModal({ open, onClose, estate }) {
         open={lightboxOpen}
         close={() => setLightboxOpen(false)}
         slides={images}
+        index={lightboxIndex}
         plugins={[Thumbnails]}
       />
     </>
