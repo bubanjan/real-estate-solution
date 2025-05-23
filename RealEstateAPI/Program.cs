@@ -53,7 +53,7 @@ namespace RealEstateAPI
                     });
                 });
 
-                builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                builder.Services.AddAuthentication()
                     .AddJwtBearer(options =>
                     {
                         options.Events = new JwtBearerEvents
