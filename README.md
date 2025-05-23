@@ -14,7 +14,7 @@ _A real estate web platform built with ASP.NET Core and React_
 C# ASP.NET Core Web API + Entity Framework Core + SQLite (will later be migrated to SQL Server)  
 Authorization via JWT + HttpOnly Cookies
 
-- This is the backend part of a full-stack real estate application. Frontend is in same solution, in separate folder.
+- This is the backend part of a full-stack real estate application. It includes unit and integration tests to ensure robustness and reliability. The frontend is in the same solution, in a separate folder.
 
 ---
 
@@ -31,6 +31,7 @@ Authorization via JWT + HttpOnly Cookies
 - ✅ API Documentation via Swagger
 - ✅ Test users seeded for easy local testing
 - ✅ Images upload with check of size and file type
+- ✅ Unit & Integration Tests using xUnit + EF Core InMemory + WebApplicationFactory
 
 ---
 
