@@ -186,6 +186,79 @@ namespace RealEstateAPI.Tests.Integration
             Assert.Equal(System.Net.HttpStatusCode.Forbidden, deleteResponse.StatusCode);
         }
 
+        [Fact]
+        public async Task UpdateEstate_ShouldModifyEstateSuccessfully()
+        {
+            // Arrange
+            var estateToCreate = new EstateForCreationDto
+            {
+                Title = "Original Title",
+                Description = "Original description",
+                Price = 100000,
+                Size = 80,
+                City = RealEstateAPI.Enums.City.Bar,
+                EstateCategory = RealEstateAPI.Enums.EstateType.Apartment,
+                ImageUrls = new List<string>(),
+                TagIds = new List<int>()
+            };
 
+            var postRequest = new HttpRequestMessage(HttpMethod.Post, "/api/estates")
+            {
+                Content = JsonContent.Create(estateToCreate)
+            };
+            postRequest.Headers.Add(TestAuthHandler.RoleHeader, "Agent");
+
+            var postResponse = await _client.SendAsync(postRequest);
+            postResponse.EnsureSuccessStatusCode();
+
+            var createdEstate = await postResponse.Content.ReadFromJsonAsync<EstatePublicDto>(
+               new System.Text.Json.JsonSerializerOptions
+               {
+                   Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() },
+                   PropertyNameCaseInsensitive = true
+               });
+
+            Assert.NotNull(createdEstate);
+
+            // Act
+            var estateUpdate = new EstateForUpdateDto
+            {
+                Title = "Updated Title",
+                Description = "Updated description",
+                Price = 150000,
+                Size = 85,
+                City = RealEstateAPI.Enums.City.Bar,
+                EstateCategory = RealEstateAPI.Enums.EstateType.Apartment,
+                ImageLinks = new List<string>(),
+                TagIds = new List<int>()
+            };
+
+            var putRequest = new HttpRequestMessage(HttpMethod.Put, $"/api/estates/{createdEstate.Id}")
+            {
+                Content = JsonContent.Create(estateUpdate)
+            };
+
+            putRequest.Headers.Add(TestAuthHandler.RoleHeader, "Agent");
+
+            var putResponse = await _client.SendAsync(putRequest);
+            putResponse.EnsureSuccessStatusCode();
+
+            // Assert
+            var getResponse = await _client.GetAsync($"/api/estates/{createdEstate.Id}");
+            getResponse.EnsureSuccessStatusCode();
+
+            var updatedEstate = await getResponse.Content.ReadFromJsonAsync<EstatePublicDto>(
+               new System.Text.Json.JsonSerializerOptions
+               {
+                   Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() },
+                   PropertyNameCaseInsensitive = true
+               });
+
+            Assert.NotNull(updatedEstate);
+            Assert.Equal("Updated Title", updatedEstate.Title);
+            Assert.Equal("Updated description", updatedEstate.Description);
+            Assert.Equal(150000, updatedEstate.Price);
+            Assert.Equal(85, updatedEstate.Size);
+        }
     }
 }
