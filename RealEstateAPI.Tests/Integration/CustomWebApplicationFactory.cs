@@ -43,6 +43,8 @@ namespace RealEstateAPI.Tests.Integration
 
     public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
+        public const string RoleHeader = "X-Test-Role";
+
         public TestAuthHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
@@ -52,11 +54,13 @@ namespace RealEstateAPI.Tests.Integration
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
+            var role = Request.Headers[RoleHeader].FirstOrDefault() ?? "Admin";
+
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, "TestUser"),
-                new Claim(ClaimTypes.Role, "Admin")
-            };
+            new Claim(ClaimTypes.Name, "TestUser"),
+            new Claim(ClaimTypes.Role, role)
+        };
 
             var identity = new ClaimsIdentity(claims, "Test");
             var principal = new ClaimsPrincipal(identity);
@@ -65,4 +69,5 @@ namespace RealEstateAPI.Tests.Integration
             return Task.FromResult(AuthenticateResult.Success(ticket));
         }
     }
+
 }

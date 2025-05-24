@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
+using System.Net;
 
 namespace RealEstateAPI.Tests.Integration
 {
@@ -147,6 +148,44 @@ namespace RealEstateAPI.Tests.Integration
 
             Assert.Equal(sortedPrices, prices);
         }
+
+        [Fact]
+        public async Task DeleteEstate_AsAgent_ShouldReturnForbidden()
+        {
+            // Arrange
+            var estate = new EstateForCreationDto
+            {
+                Title = "To be deleted",
+                Description = "Agent can't delete this",
+                Price = 123000,
+                Size = 75,
+                City = RealEstateAPI.Enums.City.Bar,
+                EstateCategory = RealEstateAPI.Enums.EstateType.House,
+                ImageUrls = new List<string>(),
+                TagIds = new List<int>()
+            };
+
+            var postResponse = await _client.PostAsJsonAsync("/api/estates", estate);
+
+            postResponse.EnsureSuccessStatusCode();
+
+            var createdEstate = await postResponse.Content.ReadFromJsonAsync<EstatePublicDto>(
+               new System.Text.Json.JsonSerializerOptions
+               {
+                   Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() },
+                   PropertyNameCaseInsensitive = true
+               });
+
+            // Act
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"/api/estates/{createdEstate.Id}");
+            request.Headers.Add(TestAuthHandler.RoleHeader, "Agent");
+
+            var deleteResponse = await _client.SendAsync(request);
+
+            // Assert
+            Assert.Equal(System.Net.HttpStatusCode.Forbidden, deleteResponse.StatusCode);
+        }
+
 
     }
 }
