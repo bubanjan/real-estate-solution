@@ -307,5 +307,49 @@ namespace RealEstateAPI.Tests.Integration
             var getResponse = await _client.GetAsync($"/api/estates/{createdEstate.Id}");
             Assert.Equal(HttpStatusCode.NotFound, getResponse.StatusCode);
         }
+
+        [Fact]
+        public async Task GetEstate_Nonexistent_ShouldReturnNotFound()
+        {
+            // Arrange
+            var nonexistentId = -1;
+
+            // Act
+            var response = await _client.GetAsync($"/api/estates/{nonexistentId}");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task UpdateEstate_Nonexistent_ShouldReturnNotFound()
+        {
+            // Arrange
+            var nonexistentId = -1;
+
+            var estateUpdate = new EstateForUpdateDto
+            {
+                Title = "Nonexistent Estate",
+                Description = "Trying to update an estate that doesn't exist",
+                Price = 123456,
+                Size = 100,
+                City = RealEstateAPI.Enums.City.Bar,
+                EstateCategory = RealEstateAPI.Enums.EstateType.Apartment,
+                ImageLinks = new List<string>(),
+                TagIds = new List<int>()
+            };
+
+            var putRequest = new HttpRequestMessage(HttpMethod.Put, $"/api/estates/{nonexistentId}")
+            {
+                Content = JsonContent.Create(estateUpdate)
+            };
+            putRequest.Headers.Add(TestAuthHandler.RoleHeader, "Admin");
+
+            // Act
+            var response = await _client.SendAsync(putRequest);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
     }
 }
