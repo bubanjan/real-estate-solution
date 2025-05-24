@@ -260,5 +260,52 @@ namespace RealEstateAPI.Tests.Integration
             Assert.Equal(150000, updatedEstate.Price);
             Assert.Equal(85, updatedEstate.Size);
         }
+
+        [Fact]
+        public async Task DeleteEstate_AsAdmin_ShouldSucceed()
+        {
+            // Arrange
+            var estate = new EstateForCreationDto
+            {
+                Title = "Estate to delete",
+                Description = "This will be deleted by Admin",
+                Price = 200000,
+                Size = 95,
+                City = RealEstateAPI.Enums.City.Bar,
+                EstateCategory = RealEstateAPI.Enums.EstateType.House,
+                ImageUrls = new List<string>(),
+                TagIds = new List<int>()
+            };
+
+            var postRequest = new HttpRequestMessage(HttpMethod.Post, "/api/estates")
+            {
+                Content = JsonContent.Create(estate)
+            };
+            postRequest.Headers.Add(TestAuthHandler.RoleHeader, "Admin");
+
+            var postResponse = await _client.SendAsync(postRequest);
+            postResponse.EnsureSuccessStatusCode();
+
+            var createdEstate = await postResponse.Content.ReadFromJsonAsync<EstatePublicDto>(new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                Converters = { new JsonStringEnumConverter() }
+            });
+
+            Assert.NotNull(createdEstate);
+
+            // Act
+            var deleteRequest = new HttpRequestMessage(HttpMethod.Delete, $"/api/estates/{createdEstate.Id}");
+            deleteRequest.Headers.Add(TestAuthHandler.RoleHeader, "Admin");
+
+            var deleteResponse = await _client.SendAsync(deleteRequest);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
+
+            // Assert
+            var getResponse = await _client.GetAsync($"/api/estates/{createdEstate.Id}");
+            Assert.Equal(HttpStatusCode.NotFound, getResponse.StatusCode);
+        }
     }
 }
