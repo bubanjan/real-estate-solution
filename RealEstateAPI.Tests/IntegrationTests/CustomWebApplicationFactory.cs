@@ -12,7 +12,7 @@ using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
-namespace RealEstateAPI.Tests.Integration
+namespace RealEstateAPI.Tests.IntegrationTests
 {
     public class CustomWebApplicationFactory : WebApplicationFactory<RealEstateAPI.Program>
     {

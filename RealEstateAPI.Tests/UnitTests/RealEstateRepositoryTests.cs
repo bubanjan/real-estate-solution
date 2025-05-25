@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RealEstateAPI.Tests.Repositories
+namespace RealEstateAPI.Tests.UnitTests
 {
     public class RealEstateRepositoryTests
     {

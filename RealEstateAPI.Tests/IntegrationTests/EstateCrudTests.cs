@@ -9,7 +9,7 @@ using Xunit;
 using Xunit.Abstractions;
 using System.Net;
 
-namespace RealEstateAPI.Tests.Integration
+namespace RealEstateAPI.Tests.IntegrationTests
 {
     public class EstateCrudTests : IClassFixture<CustomWebApplicationFactory>
     {
