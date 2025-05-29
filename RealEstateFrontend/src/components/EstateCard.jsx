@@ -7,14 +7,11 @@ import {
   CardMedia,
 } from '@mui/material';
 import noImage from '../assets/noImage4.png';
+import { useAuthStore } from '../store/useAuthStore';
 
-export default function EstateCard({
-  estate,
-  auth = {},
-  onDelete,
-  onEdit,
-  onView,
-}) {
+export default function EstateCard({ estate, onDelete, onEdit, onView }) {
+  const { role } = useAuthStore();
+
   const trimDescription = (text, maxLength = 200) =>
     text.length > maxLength ? `${text.substring(0, maxLength)}…` : text;
 
@@ -82,7 +79,7 @@ export default function EstateCard({
         )}
       </CardContent>
 
-      {(auth.role === 'Admin' || auth.role === 'Agent') && (
+      {(role === 'Admin' || role === 'Agent') && (
         <Box display="flex" gap={1} p={2} pt={0}>
           <Button
             size="small"
@@ -94,7 +91,7 @@ export default function EstateCard({
           >
             🖋️ Edit
           </Button>
-          {auth.role === 'Admin' && (
+          {role === 'Admin' && (
             <Button
               size="small"
               variant="outlined"

@@ -1,101 +1,50 @@
 import { useEffect, useState } from 'react';
-import {
-  CircularProgress,
-  Typography,
-  Pagination,
-  Box,
-  Button,
-} from '@mui/material';
+import { CircularProgress, Typography, Pagination, Box } from '@mui/material';
 import EstateCard from './EstateCard';
 import EstateFormModal from './EstateFormModal';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import EstateDetailModal from './EstateDetailModal';
-import {
-  fetchEstates,
-  deleteEstate,
-  updateEstate,
-  createEstate,
-  uploadEstateImage,
-} from '../api/realEstateApi';
+import { useEstateStore } from '../store/useEstateStore';
+import { useAuthStore } from '../store/useAuthStore';
+import { useFilterStore } from '../store/useFilterStore';
 
-export default function EstateGrid({
-  searchTerm,
-  city,
-  estateType,
-  minPrice,
-  maxPrice,
-  minSize,
-  maxSize,
-  orderBy,
-  auth,
-}) {
-  const [estates, setEstates] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+export default function EstateGrid() {
+  const {
+    estates,
+    loading,
+    error,
+    page,
+    totalPages,
+    setPage,
+    fetchEstatesData,
+    deleteEstateById,
+    updateEstateById,
+  } = useEstateStore();
+
+  const { role } = useAuthStore();
+  const {
+    searchTerm,
+    city,
+    estateType,
+    minPrice,
+    maxPrice,
+    minSize,
+    maxSize,
+    orderBy,
+  } = useFilterStore();
+
   const [showModal, setShowModal] = useState(false);
   const [editingEstate, setEditingEstate] = useState(null);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [estateIdToDelete, setEstateIdToDelete] = useState(null);
   const [viewingEstate, setViewingEstate] = useState(null);
 
-  const refreshEstatesData = () => refreshEstates();
-
-  useEffect(() => {
-    window.addEventListener('estateCreated', refreshEstatesData);
-    return () =>
-      window.removeEventListener('estateCreated', refreshEstatesData);
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('estateImagesAdded', refreshEstatesData);
-    return () =>
-      window.removeEventListener('estateImagesAdded', refreshEstatesData);
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('userLoggedIn', refreshEstatesData);
-    return () => window.removeEventListener('userLoggedIn', refreshEstatesData);
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('userLoggedOut', refreshEstatesData);
-    return () =>
-      window.removeEventListener('userLoggedOut', refreshEstatesData);
-  }, []);
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [page]);
 
   useEffect(() => {
-    async function loadEstates() {
-      setLoading(true);
-      setError(null);
-      try {
-        const { data, pagination } = await fetchEstates({
-          pageNumber: page,
-          pageSize: 9,
-          searchWord: searchTerm,
-          city,
-          estateCategory: estateType,
-          minPrice,
-          maxPrice,
-          minSize,
-          maxSize,
-          orderBy,
-        });
-        setEstates(data);
-        setTotalPages(pagination.totalPages);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadEstates();
+    fetchEstatesData();
   }, [
     page,
     searchTerm,
@@ -108,24 +57,6 @@ export default function EstateGrid({
     orderBy,
   ]);
 
-  const refreshEstates = async () => {
-    const { data, pagination } = await fetchEstates({
-      pageNumber: page,
-      pageSize: 9,
-      searchWord: searchTerm,
-      city,
-      estateCategory: estateType,
-      minPrice,
-      maxPrice,
-      minSize,
-      maxSize,
-      orderBy,
-    });
-    setEstates(data);
-    console.log('data refreshed..', data);
-    setTotalPages(pagination.totalPages);
-  };
-
   const confirmDelete = (id) => {
     setEstateIdToDelete(id);
     setConfirmDeleteOpen(true);
@@ -133,8 +64,7 @@ export default function EstateGrid({
 
   const handleDelete = async () => {
     try {
-      await deleteEstate(estateIdToDelete);
-      setEstates((prev) => prev.filter((e) => e.id !== estateIdToDelete));
+      await deleteEstateById(estateIdToDelete);
       setConfirmDeleteOpen(false);
       setEstateIdToDelete(null);
     } catch (err) {
@@ -150,17 +80,10 @@ export default function EstateGrid({
   const handleSubmitEstate = async (formData, imageFile) => {
     try {
       if (editingEstate?.id) {
-        console.log('form data', formData);
-        await updateEstate(editingEstate.id, formData);
+        await updateEstateById(editingEstate.id, formData, imageFile);
       }
-
-      if (imageFile && editingEstate?.id) {
-        await uploadEstateImage(editingEstate.id, imageFile);
-      }
-
       setShowModal(false);
       setEditingEstate(null);
-      await refreshEstates();
     } catch (err) {
       alert(err.message);
     }
@@ -182,7 +105,6 @@ export default function EstateGrid({
           <EstateCard
             key={estate.id}
             estate={estate}
-            auth={auth}
             onDelete={confirmDelete}
             onEdit={handleEdit}
             onView={(estate) => setViewingEstate(estate)}

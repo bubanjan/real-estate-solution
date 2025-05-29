@@ -17,9 +17,21 @@ import {
 } from '../api/realEstateApi';
 import EstateFormModal from './EstateFormModal';
 import AddImagesModal from './AddImagesModal';
+import { useAuthStore } from '../store/useAuthStore';
+import { useEstateStore } from '../store/useEstateStore';
 
-export default function Header({ auth, setAuth }) {
-  const [username, setUsername] = useState('');
+export default function Header() {
+  const {
+    isLoggedIn,
+    role,
+    username,
+    setAuth,
+    logout: clearAuth,
+  } = useAuthStore();
+
+  const fetchEstatesData = useEstateStore((state) => state.fetchEstatesData);
+
+  const [usernameInput, setUsernameInput] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [showCreate, setShowCreate] = useState(false);
@@ -28,13 +40,13 @@ export default function Header({ auth, setAuth }) {
 
   const handleLogin = async () => {
     try {
-      await login(username, password);
+      await login(usernameInput, password);
       const data = await checkUser();
       setAuth({ isLoggedIn: true, role: data.role, username: data.username });
-      setUsername('');
+      setUsernameInput('');
       setPassword('');
       setLoginError('');
-      window.dispatchEvent(new Event('userLoggedIn'));
+      fetchEstatesData();
     } catch {
       setLoginError('Login failed');
     }
@@ -42,19 +54,17 @@ export default function Header({ auth, setAuth }) {
 
   const handleLogout = async () => {
     await logout();
-    setAuth({ isLoggedIn: false, role: null, username: null });
-    window.dispatchEvent(new Event('userLoggedOut'));
+    clearAuth();
+    fetchEstatesData();
   };
 
   const handleSubmitEstate = async (formData) => {
     try {
-      console.log('creating estate in header.jsx...', formData);
-      let createdEstate = await createEstate(formData);
+      const createdEstate = await createEstate(formData);
       setShowCreate(false);
       setCreatedEstateId(createdEstate.id);
       setShowImageModal(true);
-
-      window.dispatchEvent(new Event('estateCreated'));
+      fetchEstatesData();
     } catch (err) {
       alert(err.message);
     }
@@ -65,10 +75,8 @@ export default function Header({ auth, setAuth }) {
       if (imageFile && createdEstateId) {
         await uploadEstateImage(createdEstateId, imageFile);
       }
-
       setShowImageModal(false);
-
-      window.dispatchEvent(new Event('estateImagesAdded'));
+      fetchEstatesData();
     } catch (err) {
       alert(err.message);
     }
@@ -82,20 +90,19 @@ export default function Header({ auth, setAuth }) {
       >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Box display="flex" alignItems="center">
-            {/* <img src={logo} alt="Real Estate Logo" height={50} style={{ marginRight: 16 }} /> */}
             <Typography variant="h6">
               👧 Budvanka Real Estate Agency 🌏 Montenegro
             </Typography>
           </Box>
 
           <Box display="flex" alignItems="center" gap={2}>
-            {['Admin', 'Agent'].includes(auth.role) && (
+            {['Admin', 'Agent'].includes(role) && (
               <Button
                 variant="contained"
                 onClick={() => setShowCreate(true)}
                 sx={{ backgroundColor: '#6dbbf2', color: 'darkblue' }}
               >
-                💾 Create Estate
+                💾 Create Estate
               </Button>
             )}
 
@@ -103,13 +110,13 @@ export default function Header({ auth, setAuth }) {
               Search Estates
             </Button>
             <Button color="inherit" component={Link} to="/about-us">
-              About Us
+              About Us
             </Button>
 
-            {auth.isLoggedIn ? (
+            {isLoggedIn ? (
               <>
                 <Typography variant="body2">
-                  You are logged in as: {auth.username} ({auth.role})
+                  You are logged in as: {username} ({role})
                 </Typography>
                 <Button color="inherit" onClick={handleLogout}>
                   Logout
@@ -122,8 +129,8 @@ export default function Header({ auth, setAuth }) {
                   variant="standard"
                   size="small"
                   placeholder="Username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={usernameInput}
+                  onChange={(e) => setUsernameInput(e.target.value)}
                 />
                 <TextField
                   sx={{ background: 'white' }}
