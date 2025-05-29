@@ -120,7 +120,7 @@ Navigate to: `https://localhost:7209/swagger`
  The main frontend functionality is complete. Minor enhancements and polishing are still in progress and will be added soon.
 
 **Tech Stack:**  
-React (Vite) + React Router + Material UI + JWT authentication (via HttpOnly cookies)
+React (Vite) + React Router + Zustand (global state management) + Material UI + JWT authentication (via HttpOnly cookies)
 
 This is the frontend for the Real Estate platform. It connects to the ASP.NET Core backend and enables users to browse, search, filter, and manage property listings.
 
@@ -128,6 +128,7 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 
 ### ✅ Completed Frontend Features
 
+- ✅ Global state management using **Zustand** (e.g., user session, filters...)
 - ✅ **List Estates** with pagination, sorting, and search
 - ✅ **Filter real estate listings** by price, size, city, and estate type
 
