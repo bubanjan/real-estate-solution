@@ -57,6 +57,19 @@ export default function EstateGrid() {
     orderBy,
   ]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [
+    searchTerm,
+    city,
+    estateType,
+    minPrice,
+    maxPrice,
+    minSize,
+    maxSize,
+    orderBy,
+  ]);
+
   const confirmDelete = (id) => {
     setEstateIdToDelete(id);
     setConfirmDeleteOpen(true);
