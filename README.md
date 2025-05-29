@@ -29,6 +29,7 @@ Authorization via JWT + HttpOnly Cookies
 
 - ✅ Custom DTO-to-Entity mapping
 - ✅ Entity Framework Core + SQL DB
+- ✅ Unit & Integration Tests using xUnit + EF Core InMemory + WebApplicationFactory
 - ✅ Role-based Authorization (JWT tokens in HttpOnly cookies)
 - ✅ Admin & Agent roles with access control on endpoints
 - ✅ Create, Read, Update, Delete for Real Estates, Tags, and Photos
@@ -38,7 +39,6 @@ Authorization via JWT + HttpOnly Cookies
 - ✅ API Documentation via Swagger
 - ✅ Test users seeded for easy local testing
 - ✅ Images upload with check of size and file type
-- ✅ Unit & Integration Tests using xUnit + EF Core InMemory + WebApplicationFactory
 
 ---
 
@@ -129,22 +129,21 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 ### ✅ Completed Frontend Features
 
 - ✅ Global state management using **Zustand** (e.g., user session, filters...)
+- ✅ GUI built with Material UI
+- ✅ Client-side navigation using React Router
 - ✅ **List Estates** with pagination, sorting, and search
 - ✅ **Filter real estate listings** by price, size, city, and estate type
-
 - ✅ **Frontend form validation** (e.g., required fields, max text length)
-- ✅ **Modal confirmation dialogs** for estate deletion
 - ✅ **Create/Edit/Delete Estate** with dynamic tag selection (multi-select)
 - ✅👥 **Role-based access**:
   - ✅ Admin and Agent can create/edit estates and and see/edit seller contact info for every estate
   - ✅ Only Admin can delete estate
   - ✅ Public (unauthenticated) users can search and browse, see estate data, but not modify data and they can not see seller data
-- ✅ GUI built with Material UI
-- ✅ Client-side navigation using React Router
 - ✅ Real-time validation and error messages in form fields
 - ✅ Handles JWT login via HttpOnly cookies (secure session management)
 - ✅ Images upload with check of size and file type, in create and edit modal
 - ✅ Images are visible as image gallery in estate detail view
+- ✅ **Modal confirmation dialogs**
 
 ---
 
