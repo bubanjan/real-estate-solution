@@ -1,4 +1,4 @@
-// This code is not in use.  Saved for comparison between fetch API and axios.
+// This code is not in use. Saved for comparison between fetch API and axios.
 
 export async function fetchEstates({
   pageNumber = 1,
