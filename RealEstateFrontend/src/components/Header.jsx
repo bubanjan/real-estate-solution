@@ -161,7 +161,10 @@ export default function Header() {
                   Login
                 </Button>
                 {loginError && (
-                  <Typography color="error" variant="caption">
+                  <Typography
+                    sx={{ color: '#f59542', fontSize: '14px' }}
+                    variant="caption"
+                  >
                     {loginError}
                   </Typography>
                 )}
