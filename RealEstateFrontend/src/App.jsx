@@ -14,10 +14,20 @@ export default function App() {
   useEffect(() => {
     checkUser()
       .then((data) => {
-        setAuth({ isLoggedIn: true, role: data.role, username: data.username });
+        setAuth({
+          isLoggedIn: true,
+          role: data.role,
+          username: data.username,
+          userId: Number(data.id),
+        });
       })
       .catch(() => {
-        setAuth({ isLoggedIn: false, role: null, username: null });
+        setAuth({
+          isLoggedIn: false,
+          role: null,
+          username: null,
+          userId: null,
+        });
       });
   }, []);
 
