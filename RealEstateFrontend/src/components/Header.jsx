@@ -7,7 +7,7 @@ import {
   Box,
   TextField,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   login,
   logout,
@@ -29,6 +29,7 @@ export default function Header() {
     logout: clearAuth,
   } = useAuthStore();
 
+  const navigate = useNavigate();
   const fetchEstatesData = useEstateStore((state) => state.fetchEstatesData);
 
   const [usernameInput, setUsernameInput] = useState('');
@@ -42,13 +43,21 @@ export default function Header() {
     try {
       await login(usernameInput, password);
       const data = await checkUser();
-      setAuth({ isLoggedIn: true, role: data.role, username: data.username });
+
+      console.log('checkUser response:', data);
+
+      setAuth({
+        isLoggedIn: true,
+        role: data.role,
+        username: data.username,
+        userId: Number(data.id),
+      });
       setUsernameInput('');
       setPassword('');
       setLoginError('');
       fetchEstatesData();
     } catch {
-      setLoginError('Login failed');
+      setLoginError('Login failed. Try another username and password.');
     }
   };
 
@@ -56,6 +65,7 @@ export default function Header() {
     await logout();
     clearAuth();
     fetchEstatesData();
+    navigate('/');
   };
 
   const handleSubmitEstate = async (formData) => {
@@ -112,6 +122,12 @@ export default function Header() {
             <Button color="inherit" component={Link} to="/about-us">
               About Us
             </Button>
+
+            {role === 'Admin' && (
+              <Button color="inherit" component={Link} to="/admin/users">
+                ⚙️ Manage Users
+              </Button>
+            )}
 
             {isLoggedIn ? (
               <>

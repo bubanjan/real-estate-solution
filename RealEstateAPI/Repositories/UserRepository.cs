@@ -36,9 +36,24 @@ namespace RealEstateAPI.Repositories
             _context.Users.Add(user);
         }
 
+        public async Task<List<User>> GetAllUsersAsync()
+        {
+            return await _context.Users.ToListAsync();
+        }
+
+        public void DeleteUser(User user)
+        {
+            if (user.Id == 9 || user.Id == 10)
+            {
+                throw new InvalidOperationException("Cannot delete test admin or test agent users.");
+            }
+
+            _context.Users.Remove(user);
+        }
+
         public async Task SaveChangesAsync()
         {
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import AboutUs from './pages/AboutUs';
 import { checkUser } from './api/realEstateApi';
 import { useAuthStore } from './store/useAuthStore';
+import AdminUsersPage from './pages/AdminUsersPage';
 
 export default function App() {
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -28,6 +29,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/admin/users" element={<AdminUsersPage />} />
         </Routes>
       </Box>
     </>

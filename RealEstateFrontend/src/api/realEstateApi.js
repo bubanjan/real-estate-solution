@@ -139,3 +139,32 @@ export async function uploadEstateImage(estateId, file) {
     handleAxiosError(error, 'Failed to upload estate image.');
   }
 }
+
+export async function fetchUsers() {
+  try {
+    const response = await axiosInstance.get('/api/users');
+    return response.data;
+  } catch (error) {
+    handleAxiosError(error, 'Failed to fetch users.');
+  }
+}
+
+export async function createUser(userData) {
+  try {
+    const response = await axiosInstance.post(
+      '/api/authentication/register',
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    handleAxiosError(error, 'Failed to create user.');
+  }
+}
+
+export async function deleteUser(userId) {
+  try {
+    await axiosInstance.delete(`/api/users/${userId}`);
+  } catch (error) {
+    handleAxiosError(error, 'Failed to delete user.');
+  }
+}

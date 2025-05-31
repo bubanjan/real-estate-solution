@@ -1,4 +1,4 @@
-import { Modal, Box, Typography, Stack, Button } from '@mui/material'
+import { Modal, Box, Typography, Stack, Button } from '@mui/material';
 
 export default function DeleteConfirmationModal({ open, onClose, onConfirm }) {
   return (
@@ -21,7 +21,7 @@ export default function DeleteConfirmationModal({ open, onClose, onConfirm }) {
           Confirm Deletion
         </Typography>
         <Typography variant="body2" mb={3}>
-          Are you sure you want to delete this estate?
+          Are you sure you want to delete?
         </Typography>
         <Stack direction="row" spacing={2} justifyContent="center">
           <Button variant="outlined" onClick={onClose}>
@@ -33,5 +33,5 @@ export default function DeleteConfirmationModal({ open, onClose, onConfirm }) {
         </Stack>
       </Box>
     </Modal>
-  )
+  );
 }

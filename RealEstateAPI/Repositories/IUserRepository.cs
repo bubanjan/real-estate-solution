@@ -13,5 +13,10 @@ namespace RealEstateAPI.Repositories
         void AddUser(User user);
 
         Task SaveChangesAsync();
+
+        Task<List<User>> GetAllUsersAsync();
+
+        void DeleteUser(User user);
+
     }
 }

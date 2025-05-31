@@ -13,7 +13,8 @@ namespace RealEstateAPI.Models
 
         [Required]
         public string Password { get; set; }
+
         [Required]
-        public string Role { get; set; } = "Seller";
+        public string Role { get; set; } = "Agent";
     }
 }

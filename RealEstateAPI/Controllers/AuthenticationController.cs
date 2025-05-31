@@ -109,6 +109,7 @@ namespace RealEstateAPI.Controllers
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var username = identity?.FindFirst("username")?.Value;
             var role = identity?.FindFirst(ClaimTypes.Role)?.Value;
+            var id = identity?.FindFirst("id")?.Value;
 
             if (username == null)
             {
@@ -117,7 +118,7 @@ namespace RealEstateAPI.Controllers
             }
 
             _logger.LogInformation("User info retrieved for: {UserName}", username);
-            return Ok(new { username, role });
+            return Ok(new { username, role, id });
         }
 
         [Authorize(Roles = "Admin")]
