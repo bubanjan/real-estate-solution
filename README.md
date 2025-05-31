@@ -5,7 +5,7 @@ _A real estate web platform built with ASP.NET Core and React_
 ### 🖼️ App Screenshot
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/bubanjan/real-estate-solution/main/RealEstateFrontend/src/assets/scshot1.png" width="800" alt="App Screenshot" />
+  <img src="https://raw.githubusercontent.com/bubanjan/real-estate-solution/main/RealEstateFrontend/src/assets/sc7.png" width="800" alt="App Screenshot" />
 </p>
 
 - 🚧 This is a **full-stack** real estate application.
