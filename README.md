@@ -33,6 +33,7 @@ Authorization via JWT + HttpOnly Cookies
 - ✅ Role-based Authorization (JWT tokens in HttpOnly cookies)
 - ✅ Admin & Agent roles with access control on endpoints
 - ✅ Create, Read, Update, Delete for Real Estates, Tags, and Photos
+- ✅ Create, Read, Delete for Users data
 - ✅ Pagination, Sorting, Filtering, and Text Search
 - ✅ Many-to-Many (Tags), One-to-Many (Photos) relationships
 - ✅ Logging using Serilog
@@ -136,6 +137,7 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 - ✅ **Filter real estate listings** by price, size, city, and estate type
 - ✅ **Frontend form validation** (e.g., required fields, max text length)
 - ✅ **Create/Edit/Delete Estate** with dynamic tag selection (multi-select)
+- ✅ UI where admin can see, add, edit and remove users
 - ✅👥 **Role-based access**:
   - ✅ Admin and Agent can create/edit estates and and see/edit seller contact info for every estate
   - ✅ Only Admin can delete estate
@@ -152,7 +154,6 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 
 - [ ] Posibility to delete images for each estate, add multiple images at once in edit modal
 - [ ] Final UI/UX design polish (colors, photos, logo, backgrounds, dark/other theme, responsive layout for mobile phones, login menu as dropdown)
-- [ ] UI where admin can see, add, edit and remove users
 
 ---
 
