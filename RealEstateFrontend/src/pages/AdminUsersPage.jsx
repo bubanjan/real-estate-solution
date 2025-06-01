@@ -119,8 +119,14 @@ export default function AdminUsersPage() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((user) => (
-            <TableRow key={user.id}>
+          {users.map((user, index) => (
+            <TableRow
+              key={user.id}
+              sx={{
+                backgroundColor:
+                  index % 2 === 1 ? 'rgba(0, 0, 0, 0.05)' : 'white',
+              }}
+            >
               <TableCell>{user.userName}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.role}</TableCell>
