@@ -119,14 +119,31 @@ namespace RealEstateAPI.Repositories
 
         public async Task<bool> DeleteEstateAsync(int estateId)
         {
-            var estate = await _context.Estates.FirstOrDefaultAsync(e => e.Id == estateId);
+            var estate = await _context.Estates
+                .Include(e => e.ImageLinks)
+                .FirstOrDefaultAsync(e => e.Id == estateId);
+
             if (estate == null)
             {
                 return false;
-            };
+            }
+
+            foreach (var image in estate.ImageLinks)
+            {
+                if (!string.IsNullOrEmpty(image.Url))
+                {
+                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", image.Url.TrimStart('/'));
+                    if (File.Exists(imagePath))
+                    {
+                        File.Delete(imagePath);
+                    }
+                }
+            }
+
             _context.Estates.Remove(estate);
             return true;
         }
+
 
         public async Task SaveChangesAsync()
         {
