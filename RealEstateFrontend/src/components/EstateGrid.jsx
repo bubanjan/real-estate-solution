@@ -93,10 +93,10 @@ export default function EstateGrid() {
   const handleSubmitEstate = async (formData, imageFile) => {
     try {
       if (editingEstate?.id) {
+        setShowModal(false);
+        setEditingEstate(null);
         await updateEstateById(editingEstate.id, formData, imageFile);
       }
-      setShowModal(false);
-      setEditingEstate(null);
     } catch (err) {
       alert(err.message);
     }
