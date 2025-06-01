@@ -94,6 +94,12 @@ export default function EstateGrid() {
 
   return (
     <>
+      {!loading && !error && estates.length === 0 && (
+        <Typography sx={{ fontSize: '20px', ml: 2 }}>
+          There are no estates for your search...
+        </Typography>
+      )}
+
       <Box
         sx={{
           display: 'grid',
@@ -101,7 +107,7 @@ export default function EstateGrid() {
           gap: 3,
         }}
       >
-        {estates.map((estate) => (
+        {estates?.map((estate) => (
           <EstateCard
             key={estate.id}
             estate={estate}
