@@ -1,21 +1,50 @@
+import { useEstateStore } from './useEstateStore';
 import { create } from 'zustand';
 
-export const useFilterStore = create((set) => ({
-  searchTerm: '',
-  city: '',
-  estateType: '',
-  minPrice: '',
-  maxPrice: '',
-  minSize: '',
-  maxSize: '',
-  orderBy: '',
+export const useFilterStore = create((set) => {
+  const resetPage = () => useEstateStore.getState().setPage(1);
 
-  setSearchTerm: (v) => set({ searchTerm: v }),
-  setCity: (v) => set({ city: v }),
-  setEstateType: (v) => set({ estateType: v }),
-  setMinPrice: (v) => set({ minPrice: v }),
-  setMaxPrice: (v) => set({ maxPrice: v }),
-  setMinSize: (v) => set({ minSize: v }),
-  setMaxSize: (v) => set({ maxSize: v }),
-  setOrderBy: (v) => set({ orderBy: v }),
-}));
+  return {
+    searchTerm: '',
+    city: '',
+    estateType: '',
+    minPrice: '',
+    maxPrice: '',
+    minSize: '',
+    maxSize: '',
+    orderBy: '',
+
+    setSearchTerm: (v) => {
+      resetPage();
+      set({ searchTerm: v });
+    },
+    setCity: (v) => {
+      resetPage();
+      set({ city: v });
+    },
+    setEstateType: (v) => {
+      resetPage();
+      set({ estateType: v });
+    },
+    setMinPrice: (v) => {
+      resetPage();
+      set({ minPrice: v });
+    },
+    setMaxPrice: (v) => {
+      resetPage();
+      set({ maxPrice: v });
+    },
+    setMinSize: (v) => {
+      resetPage();
+      set({ minSize: v });
+    },
+    setMaxSize: (v) => {
+      resetPage();
+      set({ maxSize: v });
+    },
+    setOrderBy: (v) => {
+      resetPage();
+      set({ orderBy: v });
+    },
+  };
+});
