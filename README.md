@@ -10,7 +10,7 @@ _A real estate web platform built with ASP.NET Core and React_
 
 - 🚧 This is a **full-stack** real estate application.
 - ✅ The **backend is fully implemented and ready for use**. 📁 Folder: RealEstateAPI
-- 🛠️ The **frontend (React) is functionally complete — minor visual and UX improvements are in progress.** 📁 Folder: RealEstateFrontend
+- 🛠️ The **frontend (React) is fully implemented and ready for use — minor visual and UX improvements are in progress.** 📁 Folder: RealEstateFrontend
 - 🧪 **Automated unit & integration tests included**. 📁 Folder: RealEstateAPI.Tests
 
 ---
@@ -32,7 +32,8 @@ Authorization via JWT + HttpOnly Cookies
 - ✅ Unit & Integration Tests using xUnit + EF Core InMemory + WebApplicationFactory
 - ✅ Role-based Authorization (JWT tokens in HttpOnly cookies)
 - ✅ Admin & Agent roles with access control on endpoints
-- ✅ Create, Read, Update, Delete for Real Estates, Tags, and Photos
+- ✅ Create, Read, Update, Delete for Real Estates and Tags
+- ✅ Add, Delete real estate image files
 - ✅ Create, Read, Delete for Users data (Admin permission role)
 - ✅ Pagination, Sorting, Filtering, and Text Search
 - ✅ Many-to-Many (Tags), One-to-Many (Photos) relationships
@@ -118,7 +119,7 @@ Navigate to: `https://localhost:7209/swagger`
 # 🖥️ Real Estate App – Frontend (React)
 
 🚧 **NOTE:**  
- The main frontend functionality is complete. Minor enhancements and polishing are still in progress and will be added soon.
+ Frontend is fully implemented and ready for use — minor visual and UX improvements are in progress and will be added soon.
 
 **Tech Stack:**  
 React (Vite) + React Router + Zustand (global state management) + Material UI + **Axios** + JWT authentication (via HttpOnly cookies) + yet-another-react-lightbox
@@ -147,14 +148,14 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 - ✅ Handles JWT login via HttpOnly cookies (secure session management)
 - ✅ Images upload with check of size and file type, in create and edit modal
 - ✅ Images are visible as image gallery in estate detail view
+- ✅ Images can be deleted in image gallery in estate detail view
 - ✅ **Modal confirmation dialogs**
 
 ---
 
 ### 🚧 TODO · Not finished tasks, Work In Progress
 
-- [ ] Posibility to delete images for each estate, add multiple images at once in edit modal
-- [ ] Final UI/UX design polish (colors, photos, logo, backgrounds, dark/other theme, responsive layout for mobile phones, login menu as dropdown)
+- [ ] Final UI/UX design polish (responsive layout for mobile phones, login menu as dropdown)
 
 ---
 
