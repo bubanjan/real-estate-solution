@@ -8,6 +8,7 @@ using RealEstateAPI.Models;
 using RealEstateAPI.Repositories;
 using System.Text.Json;
 
+
 namespace RealEstateAPI.Controllers
 {
     [Route("api/estates")]
@@ -248,6 +249,30 @@ namespace RealEstateAPI.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Admin,Agent")]
+        [HttpDelete("{estateId}/images")]
+        public async Task<IActionResult> DeleteEstateImage(int estateId, [FromQuery] string imageUrl)
+        {
+            if (string.IsNullOrEmpty(imageUrl))
+                return BadRequest("Image URL is required.");
+
+            var estate = await _realEstateRepository.GetEstateEntityAsync(estateId);
+            if (estate == null)
+                return NotFound("Estate not found.");
+
+            var image = estate.ImageLinks.FirstOrDefault(i => i.Url == imageUrl);
+            if (image == null)
+                return NotFound("Image not found for this estate.");
+
+            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imageUrl.TrimStart('/'));
+            if (System.IO.File.Exists(imagePath))
+                System.IO.File.Delete(imagePath);
+
+            estate.ImageLinks.Remove(image);
+            await _realEstateRepository.SaveChangesAsync();
+
+            return NoContent();
+        }
 
     }
 }

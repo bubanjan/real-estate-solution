@@ -113,6 +113,7 @@ namespace RealEstateAPI.Repositories
         public async Task<Estate?> GetEstateEntityAsync(int estateId)
         {
             return await _context.Estates
+                          .Include(e => e.ImageLinks)
                           .Where(x => x.Id == estateId)
                           .FirstOrDefaultAsync();
         }

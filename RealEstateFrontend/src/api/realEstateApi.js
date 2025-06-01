@@ -168,3 +168,13 @@ export async function deleteUser(userId) {
     handleAxiosError(error, 'Failed to delete user.');
   }
 }
+
+export async function deleteEstateImage(estateId, imageUrl) {
+  try {
+    await axiosInstance.delete(`/api/estates/${estateId}/images`, {
+      params: { imageUrl },
+    });
+  } catch (error) {
+    handleAxiosError(error, 'Failed to delete estate image.');
+  }
+}

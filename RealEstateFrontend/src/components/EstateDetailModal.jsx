@@ -8,21 +8,49 @@ import {
   Chip,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Lightbox from 'yet-another-react-lightbox';
 import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails';
 import 'yet-another-react-lightbox/styles.css';
 import 'yet-another-react-lightbox/plugins/thumbnails.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { deleteEstateImage } from '../api/realEstateApi';
+import { useAuthStore } from '../store/useAuthStore';
 
 export default function EstateDetailModal({ open, onClose, estate }) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [images, setImages] = useState([]);
+  const { role } = useAuthStore();
+
+  useEffect(() => {
+    if (estate?.imageLinks) {
+      setImages(
+        estate.imageLinks.map((img) => ({
+          src: `${import.meta.env.VITE_API_URL}${img.url}`,
+          url: img.url,
+        }))
+      );
+    }
+  }, [estate]);
 
   if (!estate) return null;
 
-  const images = (estate.imageLinks || []).map((img) => ({
-    src: `${import.meta.env.VITE_API_URL}${img.url}`,
-  }));
+  const handleDeleteImage = async (imageUrl) => {
+    try {
+      await deleteEstateImage(estate.id, imageUrl);
+
+      setImages((prev) => prev.filter((img) => img.url !== imageUrl));
+
+      if (estate.imageLinks) {
+        const updated = estate.imageLinks.filter((img) => img.url !== imageUrl);
+        estate.imageLinks.length = 0;
+        estate.imageLinks.push(...updated);
+      }
+    } catch (err) {
+      alert('Failed to delete image.');
+    }
+  };
 
   return (
     <>
@@ -95,28 +123,50 @@ export default function EstateDetailModal({ open, onClose, estate }) {
               </Typography>
               <Box display="flex" flexWrap="wrap" gap={1.5}>
                 {images.map((img, i) => (
-                  <Box
-                    key={i}
-                    component="img"
-                    src={img.src}
-                    alt={`Estate Image ${i + 1}`}
-                    width={120}
-                    height={90}
-                    onClick={() => {
-                      setLightboxIndex(i);
-                      setLightboxOpen(true);
-                    }}
-                    sx={{
-                      objectFit: 'cover',
-                      borderRadius: 2,
-                      boxShadow: 1,
-                      transition: 'transform 0.2s',
-                      cursor: 'pointer',
-                      '&:hover': {
-                        transform: 'scale(1.05)',
-                      },
-                    }}
-                  />
+                  <Box position="relative" key={i}>
+                    <Box
+                      component="img"
+                      src={img.src}
+                      alt={`Estate Image ${i + 1}`}
+                      width={120}
+                      height={90}
+                      onClick={() => {
+                        setLightboxIndex(i);
+                        setLightboxOpen(true);
+                      }}
+                      sx={{
+                        objectFit: 'cover',
+                        borderRadius: 2,
+                        boxShadow: 1,
+                        transition: 'transform 0.2s',
+                        cursor: 'pointer',
+                        '&:hover': {
+                          transform: 'scale(1.05)',
+                        },
+                      }}
+                    />
+                    {(role === 'Admin' || role === 'Agent') && (
+                      <IconButton
+                        size="small"
+                        sx={{
+                          position: 'absolute',
+                          top: 2,
+                          right: 2,
+                          backgroundColor: 'rgba(0,0,0,0.6)',
+                          color: 'white',
+                          '&:hover': {
+                            backgroundColor: 'rgba(255,0,0,0.8)',
+                          },
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteImage(img.url);
+                        }}
+                      >
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    )}
+                  </Box>
                 ))}
               </Box>
               <Typography variant="caption" color="text.secondary" mt={1}>
@@ -130,7 +180,7 @@ export default function EstateDetailModal({ open, onClose, estate }) {
       <Lightbox
         open={lightboxOpen}
         close={() => setLightboxOpen(false)}
-        slides={images}
+        slides={images.map((img) => ({ src: img.src }))}
         index={lightboxIndex}
         plugins={[Thumbnails]}
       />
