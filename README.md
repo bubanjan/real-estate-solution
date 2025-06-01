@@ -10,7 +10,7 @@ _A real estate web platform built with ASP.NET Core and React_
 
 - 🚧 This is a **full-stack** real estate application.
 - ✅ The **backend is fully implemented and ready for use**. 📁 Folder: RealEstateAPI
-- 🛠️ The **frontend (React) is fully implemented and ready for use — minor visual and UX improvements are in progress.** 📁 Folder: RealEstateFrontend
+- ✅ The **frontend (React) is fully implemented and ready for use — minor visual and UX improvements are in progress.** 📁 Folder: RealEstateFrontend
 - 🧪 **Automated unit & integration tests included**. 📁 Folder: RealEstateAPI.Tests
 
 ---
