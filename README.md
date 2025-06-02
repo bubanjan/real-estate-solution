@@ -18,7 +18,7 @@ _A real estate web platform built with ASP.NET Core and React_
 # 🏣 Real Estate App – Backend
 
 **Tech Stack:**  
-C# ASP.NET Core Web API + Entity Framework Core + SQLite (will later be migrated to SQL Server)  
+C# ASP.NET Core Web API + Entity Framework Core + SQLite
 Authorization via JWT + HttpOnly Cookies
 
 - This is the backend part of a full-stack real estate application. It includes unit and integration tests to ensure robustness and reliability. The frontend is in the same solution, in a separate folder.
@@ -190,6 +190,6 @@ These demo users are seeded in the database you can log in with:
 
 ### 📌 Future Tasks (TODO)
 
-- [ ] Change database from SQLite to SQL Server
 - [ ] Deploy backend, frontend, and database to Azure  
        (Azure App Service, Azure SQL Database, Azure Static Web Apps – or Netlify for frontend)
+      In deployed version SQL server will be used as database
