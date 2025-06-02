@@ -10,7 +10,7 @@ _A real estate web platform built with ASP.NET Core and React_
 
 - 🚧 This is a **full-stack** real estate application.
 - ✅ The **backend is fully implemented and ready for use**. 📁 Folder: RealEstateAPI
-- ✅ The **frontend (React) is fully implemented and ready for use — minor visual and UX improvements are in progress.** 📁 Folder: RealEstateFrontend
+- ✅ The **frontend (React) is fully implemented and ready for use** 📁 Folder: RealEstateFrontend
 - 🧪 **Automated unit & integration tests included**. 📁 Folder: RealEstateAPI.Tests
 
 ---
@@ -118,9 +118,6 @@ Navigate to: `https://localhost:7209/swagger`
 
 # 🖥️ Real Estate App – Frontend (React)
 
-🚧 **NOTE:**  
- Frontend is fully implemented and ready for use — minor visual and UX improvements are in progress and will be added soon.
-
 **Tech Stack:**  
 React (Vite) + React Router + Zustand (global state management) + Material UI + **Axios** + JWT authentication (via HttpOnly cookies) + yet-another-react-lightbox
 
@@ -132,6 +129,7 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 
 - ✅ Global state management using **Zustand** (e.g., user session, filters...)
 - ✅ GUI built with Material UI
+- ✅ Responsive design for mobile phones, tablets, laptops, and desktops using Material UI breakpoints
 - ✅ Axios is now used for all frontend API calls, replacing the native `fetch` API for better error handling and cleaner syntax
 - ✅ Client-side navigation using React Router
 - ✅ **List Estates** with pagination, sorting, and search
@@ -152,10 +150,6 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 - ✅ **Modal confirmation dialogs**
 
 ---
-
-### 🚧 TODO · Not finished tasks, Work In Progress
-
-- [ ] Final UI/UX design polish (responsive layout for mobile phones, login menu as dropdown)
 
 ---
 
