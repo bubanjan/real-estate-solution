@@ -19,10 +19,14 @@ export default function AboutUs() {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
+          flexDirection: {
+            xs: 'column',
+            md: 'row',
+          },
+          justifyContent: 'center',
+          alignItems: 'center',
           gap: 4,
-          flexWrap: 'nowrap',
+          flexWrap: 'wrap',
         }}
       >
         <Card
@@ -79,7 +83,7 @@ export default function AboutUs() {
           <CardMedia
             component="img"
             image={adminImg}
-            alt="Chef Andjela"
+            alt="Chef Anđela"
             sx={{ height: 300, objectFit: 'contain', marginBottom: '3rem' }}
           />
           <CardContent>

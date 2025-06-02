@@ -111,33 +111,58 @@ export default function Header() {
         position="sticky"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Box display="flex" alignItems="center">
-            <Typography variant="h6">
+        <Toolbar sx={{ flexWrap: 'wrap', justifyContent: 'space-between' }}>
+          <Box display="flex" alignItems="center" mb={{ xs: 1, sm: 0 }}>
+            <Typography
+              variant="h6"
+              sx={{
+                fontSize: { xs: '0.9rem', sm: '1.1rem', md: '1.25rem' },
+                textAlign: { xs: 'center', sm: 'left' },
+              }}
+            >
               👧 Budvanka Real Estate Agency 🌏 Montenegro
             </Typography>
           </Box>
 
-          <Box display="flex" alignItems="center" gap={2}>
+          <Box display="flex" alignItems="center" flexWrap="wrap" gap={1.5}>
             {['Admin', 'Agent'].includes(role) && (
               <Button
                 variant="contained"
                 onClick={() => setShowCreate(true)}
-                sx={{ backgroundColor: '#6dbbf2', color: 'darkblue' }}
+                sx={{
+                  backgroundColor: '#6dbbf2',
+                  color: 'darkblue',
+                  fontSize: { xs: '0.7rem', sm: '0.8rem' },
+                }}
               >
                 💾 Create Estate
               </Button>
             )}
 
-            <Button color="inherit" component={Link} to="/">
+            <Button
+              color="inherit"
+              component={Link}
+              to="/"
+              sx={{ fontSize: { xs: '0.7rem', sm: '0.8rem' } }}
+            >
               Search Estates
             </Button>
-            <Button color="inherit" component={Link} to="/about-us">
+            <Button
+              color="inherit"
+              component={Link}
+              to="/about-us"
+              sx={{ fontSize: { xs: '0.7rem', sm: '0.8rem' } }}
+            >
               About Us
             </Button>
 
             {role === 'Admin' && (
-              <Button color="inherit" component={Link} to="/admin/users">
+              <Button
+                color="inherit"
+                component={Link}
+                to="/admin/users"
+                sx={{ fontSize: { xs: '0.7rem', sm: '0.8rem' } }}
+              >
                 ⚙️ Manage Users
               </Button>
             )}

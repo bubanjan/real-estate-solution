@@ -37,12 +37,14 @@ export default function SearchBar() {
       alignItems="center"
       mb={2}
       gap={2}
-      sx={{ backgroundColor: '#f0f7fc', padding: 2 }}
+      sx={{ backgroundColor: '#f0f7fc', px: { xs: 1, sm: 2, md: 3 }, py: 2 }}
     >
       <Stack
         direction="row"
         spacing={2}
-        sx={{ flexWrap: 'wrap', width: '100%', justifyContent: 'center' }}
+        useFlexGap
+        flexWrap="wrap"
+        justifyContent="center"
       >
         <TextField
           size="small"
@@ -103,7 +105,10 @@ export default function SearchBar() {
       <Stack
         direction="row"
         spacing={2}
-        sx={{ flexWrap: 'wrap', width: '100%', justifyContent: 'center' }}
+        useFlexGap
+        flexWrap="wrap"
+        justifyContent="center"
+        rowGap={2}
       >
         <TextField
           size="small"
@@ -112,7 +117,7 @@ export default function SearchBar() {
           onChange={(e) => setMinPrice(e.target.value)}
           sx={{
             flex: 1,
-            minWidth: 150,
+            minWidth: 140,
             maxWidth: 150,
             '& .MuiOutlinedInput-root': { borderRadius: 2 },
           }}
@@ -124,7 +129,7 @@ export default function SearchBar() {
           onChange={(e) => setMaxPrice(e.target.value)}
           sx={{
             flex: 1,
-            minWidth: 150,
+            minWidth: 140,
             maxWidth: 150,
             '& .MuiOutlinedInput-root': { borderRadius: 2 },
           }}
@@ -136,7 +141,7 @@ export default function SearchBar() {
           onChange={(e) => setMinSize(e.target.value)}
           sx={{
             flex: 1,
-            minWidth: 150,
+            minWidth: 140,
             maxWidth: 150,
             '& .MuiOutlinedInput-root': { borderRadius: 2 },
           }}
@@ -148,7 +153,7 @@ export default function SearchBar() {
           onChange={(e) => setMaxSize(e.target.value)}
           sx={{
             flex: 1,
-            minWidth: 150,
+            minWidth: 140,
             maxWidth: 150,
             '& .MuiOutlinedInput-root': { borderRadius: 2 },
           }}
@@ -161,7 +166,7 @@ export default function SearchBar() {
           defaultValue=""
           sx={{
             flex: 1,
-            minWidth: 200,
+            minWidth: 180,
             maxWidth: 200,
             '& .MuiOutlinedInput-root': { borderRadius: 2 },
           }}
