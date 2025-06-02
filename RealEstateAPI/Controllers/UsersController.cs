@@ -23,16 +23,24 @@ namespace RealEstateAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
-            var users = await _userRepository.GetAllUsersAsync();
-            var userDtos = users.Select(u => new UserDto
+            try
             {
-                Id = u.Id,
-                UserName = u.UserName,
-                Email = u.Email,
-                Role = u.Role
-            }).ToList();
+                var users = await _userRepository.GetAllUsersAsync();
+                var userDtos = users.Select(u => new UserDto
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    Email = u.Email,
+                    Role = u.Role
+                }).ToList();
 
-            return Ok(userDtos);
+                return Ok(userDtos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving users.");
+                return StatusCode(500, "An error occurred while retrieving users.");
+            }
         }
 
         [HttpDelete("{id}")]
@@ -64,7 +72,11 @@ namespace RealEstateAPI.Controllers
                 _logger.LogWarning(ex, "Deletion prevented for user ID: {UserId}", id);
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error occurred while deleting user with ID: {UserId}", id);
+                return StatusCode(500, "An unexpected error occurred while deleting the user.");
+            }
         }
-
     }
 }

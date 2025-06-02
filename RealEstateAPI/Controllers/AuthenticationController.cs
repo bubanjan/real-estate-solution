@@ -93,75 +93,99 @@ namespace RealEstateAPI.Controllers
         [HttpPost("logout")]
         public IActionResult Logout()
         {
-            Response.Cookies.Delete("jwt215ho", new CookieOptions
+            try
             {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.None
-            });
-            return Ok(new { message = "Logged out successfully" });
+                Response.Cookies.Delete("jwt215ho", new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None
+                });
+                return Ok(new { message = "Logged out successfully" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during logout.");
+                return StatusCode(500, "An error occurred during logout.");
+            }
         }
 
         [Authorize]
         [HttpGet("check-user")]
         public IActionResult GetUserInfo()
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            var username = identity?.FindFirst("username")?.Value;
-            var role = identity?.FindFirst(ClaimTypes.Role)?.Value;
-            var id = identity?.FindFirst("id")?.Value;
-
-            if (username == null)
+            try
             {
-                _logger.LogWarning("Attempt to access user info without a valid username claim.");
-                return Unauthorized(new { message = "Not authenticated" });
-            }
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                var username = identity?.FindFirst("username")?.Value;
+                var role = identity?.FindFirst(ClaimTypes.Role)?.Value;
+                var id = identity?.FindFirst("id")?.Value;
 
-            _logger.LogInformation("User info retrieved for: {UserName}", username);
-            return Ok(new { username, role, id });
+                if (username == null)
+                {
+                    _logger.LogWarning("Attempt to access user info without a valid username claim.");
+                    return Unauthorized(new { message = "Not authenticated" });
+                }
+
+                _logger.LogInformation("User info retrieved for: {UserName}", username);
+                return Ok(new { username, role, id });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while retrieving user info.");
+                return StatusCode(500, "An error occurred while retrieving user info.");
+            }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost("register")]
         public async Task<ActionResult> RegisterUser(UserForCreationDto createUserModel)
         {
-            if (ModelState.IsValid == false)
+            try
             {
-                _logger.LogWarning("Registration failed - invalid model state.");
-                return BadRequest(ModelState);
+                if (ModelState.IsValid == false)
+                {
+                    _logger.LogWarning("Registration failed - invalid model state.");
+                    return BadRequest(ModelState);
+                }
+
+                var existingUserByUsername = await _userRepository.GetUserByUsernameAsync(createUserModel.UserName);
+                if (existingUserByUsername != null)
+                {
+                    _logger.LogWarning("Registration failed - username already exists: {UserName}", createUserModel.UserName);
+                    return BadRequest("Username already exists.");
+                }
+
+                var existingUserByEmail = await _userRepository.GetUserByEmailAsync(createUserModel.Email);
+                if (existingUserByEmail != null)
+                {
+                    _logger.LogWarning("Registration failed - email already exists: {Email}", createUserModel.Email);
+                    return BadRequest("Email already exists.");
+                }
+
+                string passwordSalt = BCrypt.Net.BCrypt.GenerateSalt();
+                string passwordHash = BCrypt.Net.BCrypt.HashPassword(createUserModel.Password, passwordSalt);
+
+                var newUser = new User
+                {
+                    UserName = createUserModel.UserName,
+                    Email = createUserModel.Email,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt,
+                    Role = createUserModel.Role ?? "Agent"
+                };
+
+                _userRepository.AddUser(newUser);
+                await _userRepository.SaveChangesAsync();
+
+                _logger.LogInformation("User registered successfully: {UserName}", createUserModel.UserName);
+                return Ok("User created successfully.");
             }
-
-            var existingUserByUsername = await _userRepository.GetUserByUsernameAsync(createUserModel.UserName);
-            if (existingUserByUsername != null)
+            catch (Exception ex)
             {
-                _logger.LogWarning("Registration failed - username already exists: {UserName}", createUserModel.UserName);
-                return BadRequest("Username already exists.");
+                _logger.LogError(ex, "Error during user registration for {UserName}", createUserModel.UserName);
+                return StatusCode(500, "An error occurred during user registration.");
             }
-
-            var existingUserByEmail = await _userRepository.GetUserByEmailAsync(createUserModel.Email);
-            if (existingUserByEmail != null)
-            {
-                _logger.LogWarning("Registration failed - email already exists: {Email}", createUserModel.Email);
-                return BadRequest("Email already exists.");
-            }
-
-            string passwordSalt = BCrypt.Net.BCrypt.GenerateSalt();
-            string passwordHash = BCrypt.Net.BCrypt.HashPassword(createUserModel.Password, passwordSalt);
-
-            var newUser = new User
-            {
-                UserName = createUserModel.UserName,
-                Email = createUserModel.Email,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt,
-                Role = createUserModel.Role ?? "Agent"
-            };
-
-            _userRepository.AddUser(newUser);
-            await _userRepository.SaveChangesAsync();
-
-            _logger.LogInformation("User registered successfully: {UserName}", createUserModel.UserName);
-            return Ok("User created successfully.");
         }
 
         private async Task<UserDto?> ValidateUserCredentials(string? userName, string? password)

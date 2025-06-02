@@ -8,7 +8,6 @@ using RealEstateAPI.Models;
 using RealEstateAPI.Repositories;
 using System.Text.Json;
 
-
 namespace RealEstateAPI.Controllers
 {
     [Route("api/estates")]
@@ -203,76 +202,91 @@ namespace RealEstateAPI.Controllers
         [HttpPost("{id}/images")]
         public async Task<ActionResult> UploadEstateImages(int id, [FromForm] List<IFormFile> files)
         {
-            if (files == null || files.Count == 0)
-                return BadRequest("No files uploaded.");
-
-            var estate = await _realEstateRepository.GetEstateEntityAsync(id);
-            if (estate == null)
-                return NotFound("Estate not found.");
-
-            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
-            const long maxFileSize = 4 * 1024 * 1024;
-
-            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "estates");
-            if (!Directory.Exists(uploadPath))
-                Directory.CreateDirectory(uploadPath);
-
-            foreach (var file in files)
+            try
             {
-                var fileExt = Path.GetExtension(file.FileName).ToLower();
+                if (files == null || files.Count == 0)
+                    return BadRequest("No files uploaded.");
 
-                if (!allowedExtensions.Contains(fileExt))
-                    return BadRequest("Only JPG, PNG, GIF, or WebP image files are allowed.");
+                var estate = await _realEstateRepository.GetEstateEntityAsync(id);
+                if (estate == null)
+                    return NotFound("Estate not found.");
 
-                if (file.Length > maxFileSize)
-                    return BadRequest("File size must be less than 4MB.");
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+                const long maxFileSize = 4 * 1024 * 1024;
 
-                var fileName = $"estate_{id}_{Guid.NewGuid()}{fileExt}";
-                var fullPath = Path.Combine(uploadPath, fileName);
-                var relativeUrl = $"/images/estates/{fileName}";
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "estates");
+                if (!Directory.Exists(uploadPath))
+                    Directory.CreateDirectory(uploadPath);
 
-                using (var stream = new FileStream(fullPath, FileMode.Create))
+                foreach (var file in files)
                 {
-                    await file.CopyToAsync(stream);
+                    var fileExt = Path.GetExtension(file.FileName).ToLower();
+
+                    if (!allowedExtensions.Contains(fileExt))
+                        return BadRequest("Only JPG, PNG, GIF, or WebP image files are allowed.");
+
+                    if (file.Length > maxFileSize)
+                        return BadRequest("File size must be less than 4MB.");
+
+                    var fileName = $"estate_{id}_{Guid.NewGuid()}{fileExt}";
+                    var fullPath = Path.Combine(uploadPath, fileName);
+                    var relativeUrl = $"/images/estates/{fileName}";
+
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    var link = new ImageLink
+                    {
+                        Url = relativeUrl,
+                        EstateId = id
+                    };
+
+                    estate.ImageLinks.Add(link);
                 }
 
-                var link = new ImageLink
-                {
-                    Url = relativeUrl,
-                    EstateId = id
-                };
-
-                estate.ImageLinks.Add(link);
+                await _realEstateRepository.SaveChangesAsync();
+                return Ok();
             }
-
-            await _realEstateRepository.SaveChangesAsync();
-            return Ok();
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in UploadEstateImages for Estate ID {EstateId}", id);
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+            }
         }
 
         [Authorize(Roles = "Admin,Agent")]
         [HttpDelete("{estateId}/images")]
         public async Task<IActionResult> DeleteEstateImage(int estateId, [FromQuery] string imageUrl)
         {
-            if (string.IsNullOrEmpty(imageUrl))
-                return BadRequest("Image URL is required.");
+            try
+            {
+                if (string.IsNullOrEmpty(imageUrl))
+                    return BadRequest("Image URL is required.");
 
-            var estate = await _realEstateRepository.GetEstateEntityAsync(estateId);
-            if (estate == null)
-                return NotFound("Estate not found.");
+                var estate = await _realEstateRepository.GetEstateEntityAsync(estateId);
+                if (estate == null)
+                    return NotFound("Estate not found.");
 
-            var image = estate.ImageLinks.FirstOrDefault(i => i.Url == imageUrl);
-            if (image == null)
-                return NotFound("Image not found for this estate.");
+                var image = estate.ImageLinks.FirstOrDefault(i => i.Url == imageUrl);
+                if (image == null)
+                    return NotFound("Image not found for this estate.");
 
-            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imageUrl.TrimStart('/'));
-            if (System.IO.File.Exists(imagePath))
-                System.IO.File.Delete(imagePath);
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imageUrl.TrimStart('/'));
+                if (System.IO.File.Exists(imagePath))
+                    System.IO.File.Delete(imagePath);
 
-            estate.ImageLinks.Remove(image);
-            await _realEstateRepository.SaveChangesAsync();
+                estate.ImageLinks.Remove(image);
+                await _realEstateRepository.SaveChangesAsync();
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in DeleteEstateImage for Estate ID {EstateId} and URL {ImageUrl}", estateId, imageUrl);
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+            }
         }
-
     }
 }
