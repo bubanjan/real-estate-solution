@@ -52,9 +52,9 @@ These demo users are seeded in the database and ready to use:
 
 ```json
 {
-  "userName": "Admin4",
-  "email": "admin4@example.com",
-  "password": "admin4@@@",
+  "userName": "Admin1",
+  "email": "admin1@gmail.com",
+  "password": "matematika978",
   "role": "Admin"
 }
 ```
@@ -83,7 +83,7 @@ API will be available at: `https://localhost:7209/api/estates`
 
 Navigate to: `https://localhost:7209/swagger`
 
-- Use the login endpoint with the test credentials (username: Admin4, password: admin4@@@) or (Agent4, agent4@@@)
+- Use the login endpoint with the test credentials (username: Admin1, password: matematika978) or (Agent4, agent4@@@)
 - JWT token is stored in an **HttpOnly cookie** after login
 - You can now test protected routes directly from Swagger
 
@@ -180,8 +180,8 @@ These demo users are seeded in the database you can log in with:
 
 ```json
 {
-  "userName": "Admin4",
-  "password": "admin4@@@"
+  "userName": "Admin1",
+  "password": "matematika978"
 }
 ```
 

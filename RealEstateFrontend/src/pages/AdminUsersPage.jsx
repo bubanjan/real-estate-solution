@@ -135,7 +135,7 @@ export default function AdminUsersPage() {
                   <Typography variant="body2" color="textSecondary">
                     👤 You
                   </Typography>
-                ) : ![9, 10].includes(user.id) ? (
+                ) : ![20, 10].includes(user.id) ? (
                   <Button
                     color="error"
                     onClick={() => handleRequestDelete(user.id)}

@@ -43,7 +43,7 @@ namespace RealEstateAPI.Repositories
 
         public void DeleteUser(User user)
         {
-            if (user.Id == 9 || user.Id == 10)
+            if (user.Id == 20 || user.Id == 10)
             {
                 throw new InvalidOperationException("Cannot delete test admin or test agent users.");
             }
