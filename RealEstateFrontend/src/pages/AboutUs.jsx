@@ -5,6 +5,7 @@ import {
   CardMedia,
   CardContent,
   Container,
+  useMediaQuery,
   useTheme,
 } from '@mui/material';
 
@@ -13,6 +14,7 @@ import agentImg from '../assets/agent2.png';
 
 export default function AboutUs() {
   const theme = useTheme();
+  const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
     <Container maxWidth="lg" sx={{ py: 6 }}>
@@ -23,19 +25,19 @@ export default function AboutUs() {
             xs: 'column',
             md: 'row',
           },
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: 'space-between',
+          alignItems: 'stretch',
           gap: 4,
-          flexWrap: 'wrap',
+          flexWrap: 'nowrap',
         }}
       >
         <Card
           sx={{
-            width: '100%',
-            maxWidth: 400,
+            flex: isMdUp ? '1' : 'unset',
             backgroundColor: '#f0f7fc',
             color: 'grey',
-            flexShrink: 0,
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <CardContent>
@@ -75,16 +77,16 @@ export default function AboutUs() {
 
         <Card
           sx={{
-            width: '100%',
-            maxWidth: 400,
-            flexShrink: 0,
+            flex: isMdUp ? '1' : 'unset',
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <CardMedia
             component="img"
             image={adminImg}
             alt="Chef Anđela"
-            sx={{ height: 300, objectFit: 'contain', marginBottom: '3rem' }}
+            sx={{ height: 300, objectFit: 'contain', mb: 3 }}
           />
           <CardContent>
             <Typography variant="h6">Chef Anđela</Typography>
@@ -99,16 +101,16 @@ export default function AboutUs() {
 
         <Card
           sx={{
-            width: '100%',
-            maxWidth: 400,
-            flexShrink: 0,
+            flex: isMdUp ? '1' : 'unset',
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <CardMedia
             component="img"
             image={agentImg}
             alt="Agent Stefan"
-            sx={{ height: 300, objectFit: 'contain', marginBottom: '3rem' }}
+            sx={{ height: 300, objectFit: 'contain', mb: 3 }}
           />
           <CardContent>
             <Typography variant="h6">Agent Stefan</Typography>
