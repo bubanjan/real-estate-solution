@@ -6,8 +6,14 @@ import {
   Button,
   Box,
   TextField,
+  IconButton,
+  Popover,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 import {
   login,
   logout,
@@ -35,6 +41,12 @@ export default function Header() {
   const [usernameInput, setUsernameInput] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openMenu = Boolean(anchorEl);
+  const handleMenuClick = (event) => setAnchorEl(event.currentTarget);
+  const handleMenuClose = () => setAnchorEl(null);
+
   const [showCreate, setShowCreate] = useState(false);
   const [createdEstateId, setCreatedEstateId] = useState(null);
   const [showImageModal, setShowImageModal] = useState(false);
@@ -44,17 +56,17 @@ export default function Header() {
       await login(usernameInput, password);
       const data = await checkUser();
 
-      console.log('checkUser response:', data);
-
       setAuth({
         isLoggedIn: true,
         role: data.role,
         username: data.username,
         userId: Number(data.id),
       });
+
       setUsernameInput('');
       setPassword('');
       setLoginError('');
+      handleMenuClose();
       fetchEstatesData();
     } catch {
       setLoginError('Login failed. Try another username and password.');
@@ -64,6 +76,7 @@ export default function Header() {
   const handleLogout = async () => {
     await logout();
     clearAuth();
+    handleMenuClose();
     fetchEstatesData();
     navigate('/');
   };
@@ -129,47 +142,82 @@ export default function Header() {
               </Button>
             )}
 
-            {isLoggedIn ? (
-              <>
-                <Typography variant="body2">
-                  You are logged in as: {username} ({role})
-                </Typography>
-                <Button color="inherit" onClick={handleLogout}>
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <Box display="flex" gap={1} alignItems="center">
-                <TextField
-                  sx={{ background: 'white' }}
-                  variant="standard"
-                  size="small"
-                  placeholder="Username"
-                  value={usernameInput}
-                  onChange={(e) => setUsernameInput(e.target.value)}
-                />
-                <TextField
-                  sx={{ background: 'white' }}
-                  variant="standard"
-                  size="small"
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <Button color="inherit" onClick={handleLogin}>
-                  Login
-                </Button>
-                {loginError && (
-                  <Typography
-                    sx={{ color: '#f59542', fontSize: '14px' }}
-                    variant="caption"
+            <Box>
+              {isLoggedIn ? (
+                <>
+                  <IconButton onClick={handleMenuClick} color="inherit">
+                    <AccountCircleIcon />
+                  </IconButton>
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={openMenu}
+                    onClose={handleMenuClose}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                    transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                   >
-                    {loginError}
-                  </Typography>
-                )}
-              </Box>
-            )}
+                    <MenuItem disabled>
+                      Signed in as{' '}
+                      <strong style={{ marginLeft: 4 }}>{username}</strong>
+                    </MenuItem>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                  </Menu>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={handleMenuClick}
+                    color="inherit"
+                    variant="contained"
+                    sx={{ backgroundColor: '#6dbbf2', color: 'darkblue' }}
+                  >
+                    Log in
+                  </Button>
+                  <Popover
+                    open={openMenu}
+                    anchorEl={anchorEl}
+                    onClose={handleMenuClose}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                    transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  >
+                    <Box sx={{ p: 2, width: '250px' }}>
+                      <TextField
+                        label="Username"
+                        fullWidth
+                        variant="standard"
+                        value={usernameInput}
+                        onChange={(e) => setUsernameInput(e.target.value)}
+                        autoFocus
+                      />
+                      <TextField
+                        label="Password"
+                        fullWidth
+                        variant="standard"
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        sx={{ mt: 2 }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') handleLogin();
+                        }}
+                      />
+                      {loginError && (
+                        <Typography variant="caption" sx={{ color: '#f59542' }}>
+                          {loginError}
+                        </Typography>
+                      )}
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 2 }}
+                        onClick={handleLogin}
+                      >
+                        Login
+                      </Button>
+                    </Box>
+                  </Popover>
+                </>
+              )}
+            </Box>
           </Box>
         </Toolbar>
       </AppBar>
