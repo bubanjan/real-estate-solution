@@ -155,16 +155,33 @@ This is the frontend for the Real Estate platform. It connects to the ASP.NET Co
 
 ### 🧪 How to Run the Frontend
 
-- Open backend project (RealEstateAPI) in Visual Studio and run it using the Debug (F5) button, make sure the **backend is running** locally at `https://localhost:7209`.
+1. Open the **RealEstateSolution** in Visual Studio.
 
-Then:
+2. Run the **RealEstateAPI** project. (Press **Debug (F5)** button)
+   Make sure the backend is running locally at:  
+   `https://localhost:7209`
 
-```bash
-cd RealEstateFrontend
-npm install
-npm run dev
+3. Open a terminal and navigate to the frontend folder with the command:
 
-```
+   ```bash
+   cd RealEstateFrontend
+
+   ```
+
+4. Install the dependencies: with the command:
+
+   ```bash
+   npm install
+
+   ```
+
+5. Start the development server with the command:
+
+   ```bash
+   npm run dev
+   ```
+
+6. The app will be running on http://localhost:5173/
 
 ## Test Users
 
