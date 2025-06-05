@@ -52,6 +52,7 @@ export default function EstateCard({ estate, onDelete, onEdit, onView }) {
         <Typography variant="body2" color="text.secondary">
           {trimDescription(estate.description)}
         </Typography>
+        <Typography mt={1}>Category: {estate.estateCategory}</Typography>
         <Typography mt={1}>Location: {estate.city}</Typography>
         <Typography mt={1}>Price: {estate.price} EUR</Typography>
         <Typography>Size: {estate.size} m²</Typography>

@@ -89,6 +89,7 @@ export default function EstateDetailModal({ open, onClose, estate }) {
           </Typography>
 
           <Box display="flex" flexWrap="wrap" gap={2} mb={2}>
+            <Chip label={`📁 ${estate.estateCategory}`} variant="outlined" />
             <Chip label={`📍 ${estate.city}`} variant="outlined" />
             <Chip
               label={`💶 ${estate.price} EUR`}
