@@ -16,6 +16,7 @@ import 'yet-another-react-lightbox/plugins/thumbnails.css';
 import { useState, useEffect } from 'react';
 import { deleteEstateImage } from '../api/realEstateApi';
 import { useAuthStore } from '../store/useAuthStore';
+import { tagLabelMap } from '../constants/enums';
 
 export default function EstateDetailModal({ open, onClose, estate }) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -39,9 +40,7 @@ export default function EstateDetailModal({ open, onClose, estate }) {
   const handleDeleteImage = async (imageUrl) => {
     try {
       await deleteEstateImage(estate.id, imageUrl);
-
       setImages((prev) => prev.filter((img) => img.url !== imageUrl));
-
       if (estate.imageLinks) {
         const updated = estate.imageLinks.filter((img) => img.url !== imageUrl);
         estate.imageLinks.length = 0;
@@ -107,7 +106,7 @@ export default function EstateDetailModal({ open, onClose, estate }) {
               {estate.tags.map((tag) => (
                 <Chip
                   key={tag.id}
-                  label={tag.name}
+                  label={tagLabelMap[tag.name] || tag.name}
                   size="small"
                   sx={{ backgroundColor: '#e0f7e9' }}
                 />

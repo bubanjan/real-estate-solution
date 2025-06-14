@@ -14,7 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { cities, estateTypes } from '../constants/enums';
+import { cities, estateTypes, tagLabelMap } from '../constants/enums';
 import { fetchTags } from '../api/realEstateApi';
 
 export default function EstateFormModal({
@@ -150,8 +150,8 @@ export default function EstateFormModal({
               !form.description || form.description.trim().length === 0
                 ? 'Description is required'
                 : form.description.length > 2500
-                ? 'Description must be 2500 characters or less.'
-                : ''
+                  ? 'Description must be 2500 characters or less.'
+                  : ''
             }
           />
 
@@ -235,18 +235,20 @@ export default function EstateFormModal({
                 selected
                   .map((id) => {
                     const tag = availableTags.find((t) => t.id === id);
-                    return tag?.name || id;
+                    const name = tag?.name || id;
+                    return tagLabelMap[name] || name;
                   })
                   .join(', ')
               }
             >
               {availableTags.map((tag) => (
                 <MenuItem key={tag.id} value={tag.id}>
-                  {tag.name}
+                  {tagLabelMap[tag.name] || tag.name}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
+
 
           <TextField
             size="small"

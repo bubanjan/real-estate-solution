@@ -21,3 +21,9 @@ export const roles = [
   { label: 'Admin', value: 'Admin' },
   { label: 'Agent', value: 'Agent' },
 ];
+
+export const tagLabelMap = {
+  SeaView: 'Sea view',
+  NewBuild: 'New build',
+  HasParking: 'Has parking',
+};

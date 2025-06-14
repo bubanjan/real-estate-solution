@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import noImage from '../assets/noImage4.png';
 import { useAuthStore } from '../store/useAuthStore';
+import { tagLabelMap } from '../constants/enums';
 
 export default function EstateCard({ estate, onDelete, onEdit, onView }) {
   const { role } = useAuthStore();
@@ -31,9 +32,8 @@ export default function EstateCard({ estate, onDelete, onEdit, onView }) {
         height="200"
         image={
           estate.imageLinks && estate.imageLinks.length > 0
-            ? `${import.meta.env.VITE_API_URL}${
-                estate.imageLinks[estate.imageLinks.length - 1].url
-              }`
+            ? `${import.meta.env.VITE_API_URL}${estate.imageLinks[estate.imageLinks.length - 1].url
+            }`
             : noImage
         }
         alt={estate.title || 'No Image Available'}
@@ -62,7 +62,7 @@ export default function EstateCard({ estate, onDelete, onEdit, onView }) {
 
         {estate.tags?.length > 0 && (
           <Box mt={1} display="flex" flexWrap="wrap" gap={1}>
-            {estate.tags.map((tag) => (
+            {estate.tags.map((tag) =>
               <Box
                 key={tag.id}
                 px={1.5}
@@ -73,11 +73,12 @@ export default function EstateCard({ estate, onDelete, onEdit, onView }) {
                   fontSize: '0.75rem',
                 }}
               >
-                {tag.name}
+                {tagLabelMap[tag.name] || tag.name}
               </Box>
-            ))}
+            )}
           </Box>
         )}
+
       </CardContent>
 
       {(role === 'Admin' || role === 'Agent') && (
